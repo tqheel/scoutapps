@@ -7,8 +7,11 @@ var sheetService = require('../services/spreadsheets.js');
 router.get('/', function(req, res) {
 	var viewName = 'signup';
 	sheetService.getSpreadsheet(viewName, function(sheet){
-			sheetService.writeSignUp(sheet, function(){
-					res.render(viewName, {} );
+			req.body.scoutNames = 'Sam Smith, Bill Smith';
+			req.body.registeredEmail = 'tqualls@gmail.com';
+			req.body.additionalEmails = 'troop212bot@gmail.com';
+			sheetService.writeSignUp(sheet, req.body, function(){
+					res.render(viewName, {result: 'row written to spreadsheet.'});
 			});
 
 	});

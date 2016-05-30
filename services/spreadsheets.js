@@ -1,14 +1,23 @@
 var fs = require('fs');
 var secretFile = '../secrets/spreadsheets.json';
+var authFile = '../secrets/scout_balance-48af87a012b6.json'
 var Spreadsheet = require ('google-spreadsheet');
 var mailService = require('../services/mailer.js');
 var spreadsheets;
+var auth;
 
 fs.readFile(secretFile, 'utf8', function(err, data) {
 		if(err){
 			throw err;
 		}
 		spreadsheets = JSON.parse(data);
+});
+
+fs.readFile(authFile, 'utf8', function(err, data) {
+		if(err){
+			throw err;
+		}
+		auth = JSON.parse(data);
 });
 
 function getSpreadsheetInfo(spreadsheetName){
@@ -18,13 +27,47 @@ function getSpreadsheetInfo(spreadsheetName){
 	return sheetInfo;
 }
 
-function writeSignUp(sheet, next){
-	console.log('it worked!');
+function writeSignUp(sheet, signupData, next){
+	var signUp = new SignUp(signupData.scoutNames, signupData.registeredEmail, signupData.additionalEmails);
+	console.log('Writing spreadsheet data for ' + signUp.scoutnames);
+	sheet.getRows(1, function(err, rowData){
+	if(err){
+		console.log(err);
+	}
+	else{
+		console.log('Got: ' + rowData.length + ' rows.' );
+		// for(var i=0;i<rowData.length;i++){
+		// 	var row = rowData[i];
+		// 	//console.log(row.name);
+		// 	//console.log('Name: ' + row.email + ', Balance: ' + row.balance);
+		// 	var matchedRow = (row.email=='sam@sam.com')? row : null;
+		// 	if(matchedRow){
+		// 		console.log('=============');
+		// 		console.log(matchedRow.name+"'s balance is $"+matchedRow.balance+'.');
+		// 	}
+		// }
+
+
+
+		}
+	});
+	sheet.addRow(
+		1,
+		signUp,
+		function(err){
+			if(err){
+				console.log(err);
+			}
+			else{
+				console.log('Write to spreadsheet complete!');
+			}
+
+		}
+	);
 	next();
 }
 
 function processBalanceRequest(email, sheet, next){
-	//var sheet = new Spreadsheet('1L_5YVL2PxqXlULW1AwKK8pbw2RR7f9NKsVvF-ZoogCQ');
 
 	sheet.getRows(1, function(err, rowData){
 		if(err){
@@ -62,8 +105,23 @@ function processBalanceRequest(email, sheet, next){
 function getSpreadsheet(spreadsheetName, next){
 	var sheetInfo = getSpreadsheetInfo(spreadsheetName);
 	var sheet = new Spreadsheet(sheetInfo[0].key);
+	if(sheetInfo.accessMode=='public'){
+		next(sheet);
+	}
+	else{
+    sheet.useServiceAccountAuth(auth, function(){
+			next(sheet);
+		});
 
-	next(sheet);
+	}
+}
+
+function SignUp (scoutNames, registeredEmail, additionalEmails) {
+	this.scoutnames = scoutNames;
+	this.registeredemail = registeredEmail;
+	this.additionalemails = additionalEmails;
+	this.submittime = Date.now();
+	this.isLinked = false;
 }
 
 module.exports = {
