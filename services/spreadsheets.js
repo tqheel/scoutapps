@@ -28,7 +28,7 @@ function getSpreadsheetInfo(spreadsheetName){
 }
 
 function writeSignUp(sheet, signupData, next){
-	var signUp = new SignUp(signupData.scoutNames, signupData.registeredEmail, signupData.additionalEmails);
+	var signUp = new SignUp(signupData.scoutName, signupData.registeredEmail, signupData.additionalEmails);
 	console.log('Writing spreadsheet data for ' + signUp.scoutnames);
 	sheet.getRows(1, function(err, rowData){
 	if(err){
@@ -116,12 +116,13 @@ function getSpreadsheet(spreadsheetName, next){
 	}
 }
 
-function SignUp (scoutNames, registeredEmail, additionalEmails) {
-	this.scoutnames = scoutNames;
+function SignUp (scoutName, registeredEmail, additionalEmails) {
+	this.scoutname = scoutName;
 	this.registeredemail = registeredEmail;
 	this.additionalemails = additionalEmails;
 	this.submittime = Date.now();
 	this.isLinked = false;
+	this.confsent = false;
 }
 
 module.exports = {

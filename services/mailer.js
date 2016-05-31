@@ -39,7 +39,7 @@ function sendEmail(emailAddress, message){
 	        return console.log(error);
 	    }
 	    console.log('Message sent: ' + info.response);
-
+			
 	});
 
 }

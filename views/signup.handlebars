@@ -1,5 +1,29 @@
-hello
-
-<p>
-  The result is: {{result}}
-</p>
+<h1>{{title }}</h1>
+<div class="">
+  <form class="" action="/signup" method="post">
+    <div class="">
+      <label for="scoutName">Scout Name:</label>
+      <input type="text" name="scoutName" value="">
+    </div>
+    <div>
+      <label for="registeredEmail">Registered Scout Email Address:</label>
+      <input type="text" name="email" id="registeredEmail" placeholder="name@something.org" value="">
+    </div>
+    <div class="">
+      <label for="additionalEmails">Additional Email Addresses:</label>
+      <input type="text" name="additionalEmails" value=""><span>
+        <br>(Separate with commas. These addresses will also receive the account balance.)</span>
+    </div>
+    <br>
+    <button type="submit" name="register">Register</button>
+  </form>
+</div>
+<script type="text/javascript">
+//prevent user from submitting the form when pressing enter key
+  function checkEnter(e){
+    e = e || event;
+    var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+    return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
+  }
+  document.querySelector('form').onkeypress = checkEnter;
+</script>
