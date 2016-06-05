@@ -12,3 +12,8 @@ node_js:
   - "0.8"
   - "0.6"
   - "iojs"
+deploy:
+  provider: azure_web_apps
+  on:
+   branch: release
+  skip_cleanup: true
