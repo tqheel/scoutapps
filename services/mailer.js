@@ -2,7 +2,7 @@
 var nodemailer = require('nodemailer');
 var fs = require('fs');
 
-var secretFile = '../tq-temp-email.json'
+var secretFile = 'secrets/tq-temp-email.json'
 
 var emailSecrets;
 
@@ -39,7 +39,7 @@ function sendEmail(emailAddress, message){
 	        return console.log(error);
 	    }
 	    console.log('Message sent: ' + info.response);
-			
+
 	});
 
 }

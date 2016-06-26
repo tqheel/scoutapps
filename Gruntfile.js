@@ -11,6 +11,7 @@ module.exports = function (grunt) {
   var reloadPort = 35729, files;
 
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -22,11 +23,14 @@ module.exports = function (grunt) {
     copy: {
       files: {
         cwd: '.',  // set working folder / root to copy
-        src: ['**/*', '!**/.git/**', '!**/node_modules/**'],           // copy all files and subfolders
+        src: ['**/*', '!**/.git/**', '!**/node_modules/**', '!**/.gitignore'],           // copy all files and subfolders
         dest: 'dist',    // destination folder
         expand: true,          // required when using cwd
         dot: true,
       }
+    },
+    clean: {
+      contents: ['dist/*']
     },
     watch: {
       options: {
