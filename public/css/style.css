@@ -1,8 +1,52 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #551a8b;/*This is from Troop 212 website*/
+}
+
+.scoutYellow {
+  color: #996633;
+}
+
+.scoutBrown {
+  color: #FFCC00;
+}
+
+.scoutBlue {
+  color: #003F87;
+}
+
+.scoutRed {
+  color: #CE1126;
+}
+
+.header-nav {
+  overflow: hidden;
+  margin-left: 1px;
+  padding: 5px 5px 0px;
+  text-align: left;
+}
+
+div.header-nav ul {
+  margin: 0;
+  padding: 0;
+}
+
+div.header-nav li {
+  display: inline-block;
+  list-style-type: none;
+  list-style-image: none;
+  padding: 2px 7px;
+  margin: 5px 3px;
+  border-radius: 2px;
+  box-shadow: 0 0 1px #555;
+  color: #ffffff;
+}
+
+
+div.header-nav li {
+  background-color: #0089c9;
 }
