@@ -1,9 +1,10 @@
 # For documentation see https://github.com/tjanczuk/iisnode/blob/master/src/samples/configuration/iisnode.yml
 
-# loggingEnabled: false
+loggingEnabled: true
+logDirectory: iisnode
 # debuggingEnabled: false
 # devErrorsEnabled: false
-# node_env: production
+node_env: production
 # nodeProcessCountPerApplication: 1
 # maxConcurrentRequestsPerProcess: 1024
 # maxNamedPipeConnectionRetry: 24
@@ -24,4 +25,4 @@
 # logFileFlushInterval: 5000
 # flushResponse: false
 # enableXFF: false
-# promoteServerVars:  
+# promoteServerVars:
