@@ -5,7 +5,7 @@ var sheetService = require('../services/spreadsheets.js');
 var viewName = 'signup';
 
 router.get('/', function(req, res) {
-	res.render(viewName, {title: 'Register for Account Balance Retrieval'});
+	res.render(viewName, {title: 'Register for Scout Account Balance Retrieval Via Email'});
 });
 
 router.post('/', function(req, res){

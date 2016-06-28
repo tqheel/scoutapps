@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Scout Account Balance Retrieval Bot' });
+  res.render('index', { title: 'Troop 212 Web Apps' });
 });
 
 module.exports = router;

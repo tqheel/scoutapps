@@ -4,7 +4,7 @@ body {
 }
 
 a {
-  color: #551a8b;/*This is from Troop 212 website*/
+  color: #003F87;
 }
 
 .scoutYellow {
@@ -49,4 +49,18 @@ div.header-nav li {
 
 div.header-nav li {
   background-color: #0089c9;
+}
+
+li.formItem {
+  list-style-type: none;
+  padding-bottom: 20px;
+}
+
+.formItem label {
+  display: block;
+  font-weight: bold;
+}
+
+.info{
+  font-size: smaller;
 }

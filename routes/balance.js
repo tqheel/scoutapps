@@ -4,7 +4,7 @@ var https = require('https');
 var sheetService = require('../services/spreadsheets.js');
 
 router.get('/', function(req,res){
-	res.send('balance route works!');
+	res.render('balance', { title: 'Request Scout Account Balance Via Registered Email Address' });
 });
 
 router.post('/', function(req,res){
