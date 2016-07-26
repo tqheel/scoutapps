@@ -8,7 +8,6 @@
   {{#if ENV_DEVELOPMENT}}
     <script src="http://localhost:35729/livereload.js"></script>
   {{/if}}
-
 </head>
 <body>
 <img src="/img/t212-header.jpg" alt="BSA Troop 212, Cary, NC" />
@@ -26,7 +25,15 @@
   </ul>
 </div> -->
   {{{body}}}
-
-
+    
+  <script type="text/javascript">
+//prevent user from submitting the form when pressing enter key
+  function checkEnter(e){
+    e = e || event;
+    var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+    return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
+  }
+  document.querySelector('form').onkeypress = checkEnter;
+</script>
   </body>
 </html>
