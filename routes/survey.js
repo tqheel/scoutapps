@@ -9,11 +9,13 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res){
+	//todo: issue #4
 	sheetService.getSpreadsheet(viewName, function(sheet){
 			// req.body.scoutName = 'Sam Smith';
 			// req.body.registeredEmail = 'tqualls@gmail.com';
 			// req.body.additionalEmails = 'troop212bot@gmail.com';
 			sheetService.writeSignUp(sheet, req.body, function(){
+				//todo: issue #11
 					res.render('signup-success', {result: 'Registration for ' + req.body.scoutName +' has been submitted.'});
 			});
 
