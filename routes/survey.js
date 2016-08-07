@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var https = require('https');
 var sheetService = require('../services/spreadsheets.js');
+var docName = 'scout_apps';
 var viewName = 'survey';
 
 router.get('/', function(req, res) {
@@ -10,7 +11,7 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res){
 	//todo: issue #4
-	sheetService.getSpreadsheet(viewName, function(sheet){
+	sheetService.getSpreadsheet(viewName, docName, function(sheet){
 			// req.body.scoutName = 'Sam Smith';
 			// req.body.registeredEmail = 'tqualls@gmail.com';
 			// req.body.additionalEmails = 'troop212bot@gmail.com';

@@ -20,9 +20,9 @@ fs.readFile(authFile, 'utf8', function(err, data) {
 		auth = JSON.parse(data);
 });
 
-function getSpreadsheetInfo(spreadsheetName){
+function getSpreadsheetInfo(docName){
 	var sheetInfo = spreadsheets.filter(function(item){
-			return item.name == spreadsheetName;
+			return item.name == docName;
 	});
 	return sheetInfo;
 }
@@ -102,9 +102,20 @@ function processBalanceRequest(email, sheet, next){
 	});
 }
 
-function getSpreadsheet(spreadsheetName, next){
-	var sheetInfo = getSpreadsheetInfo(spreadsheetName);
-	var sheet = new Spreadsheet(sheetInfo[0].key);
+function getSpreadsheet(sheetName, docName, next){
+	var sheetInfo = getSpreadsheetInfo(docName);
+
+	var sheetNum;
+
+	switch(sheetName){
+		case 'signup': 
+			sheetNum = 0;
+			break;
+		case 'tech_survey':
+			sheetNum = 1;
+	}
+
+	var sheet = new Spreadsheet(sheetInfo[sheetNum].key);
 	if(sheetInfo.accessMode=='public'){
 		next(sheet);
 	}
