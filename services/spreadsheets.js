@@ -67,10 +67,6 @@ function writeSignUp(sheet, signupData, next){
 	next();
 }
 
-function writeSurvey(sheet, surveyData, next){
-	console.log('Pretend data was written to spreadsheet...')
-}
-
 function processBalanceRequest(email, sheet, next){
 
 	sheet.getRows(1, function(err, rowData){
@@ -117,6 +113,7 @@ function getSpreadsheet(sheetName, docName, next){
 			break;
 		case 'tech_survey':
 			sheetNum = 1;
+			break;
 	}
 
 	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
@@ -124,21 +121,36 @@ function getSpreadsheet(sheetName, docName, next){
 	if(spreadsheetObject.accessMode!=='public'){
 		spreadsheetDoc.useServiceAccountAuth(auth, function(){
 			console.log('Successfully authenticated to target spreadsheet doc.');
+			getTargetSheet(spreadsheetDoc, sheetNum, next);
 		});
-	}    
+	}
+	else{
+		//does not need to be authenticated, so just run the callback
+		getTargetSheet(spreadsheetDoc, sheetNum, next);	
+	}  
+	
+}
 
+function getTargetSheet(spreadsheetDoc, sheetNum, next){
 	var sheet;
-
+	console.log(spreadsheetDoc);
 	spreadsheetDoc.getInfo(function(err, info){
-		console.log('Loaded doc ' + info.title + ', by ' + info.author.email);
-		sheet = info.worksheets[sheetNum];
-		console.log('Got sheet "' + sheet.title + '".');
-		next(sheet);
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log('Loaded doc ' + info.title + ', by ' + info.author.email);
+			sheet = info.worksheets[sheetNum];
+			console.log('Got sheet "' + sheet.title + '".');
+			next(sheet);
+		}		
 	});
 
-	
+}
 
-	}
+function writeSurvey(sheet, surveyData, next){
+	console.log('Pretend data was written to spreadsheet...');
+	next();
 }
 
 function SignUp (scoutName, registeredEmail, additionalEmails) {
@@ -153,5 +165,6 @@ function SignUp (scoutName, registeredEmail, additionalEmails) {
 module.exports = {
 		getSpreadsheet: getSpreadsheet,
 		writeSignUp: writeSignUp,
-		processBalanceRequest: processBalanceRequest
+		processBalanceRequest: processBalanceRequest,
+		writeSurvey: writeSurvey
 };
