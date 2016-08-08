@@ -15,9 +15,10 @@ router.post('/', function(req, res){
 			// req.body.scoutName = 'Sam Smith';
 			// req.body.registeredEmail = 'tqualls@gmail.com';
 			// req.body.additionalEmails = 'troop212bot@gmail.com';
-			sheetService.writeSignUp(sheet, req.body, function(){
+			sheetService.writeSurvey(sheet, req.body, function(){
 				//todo: issue #11
-					res.render('signup-success', {result: 'Registration for ' + req.body.scoutName +' has been submitted.'});
+				//res.render('signup-success', {result: 'Registration for ' + req.body.scoutName +' has been submitted.'});
+				res.render('Survey data written to spreadsheet.');
 			});
 
 	});

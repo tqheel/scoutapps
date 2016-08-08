@@ -67,6 +67,10 @@ function writeSignUp(sheet, signupData, next){
 	next();
 }
 
+function writeSurvey(sheet, surveyData, next){
+	console.log('Pretend data was written to spreadsheet...')
+}
+
 function processBalanceRequest(email, sheet, next){
 
 	sheet.getRows(1, function(err, rowData){
@@ -103,7 +107,7 @@ function processBalanceRequest(email, sheet, next){
 }
 
 function getSpreadsheet(sheetName, docName, next){
-	var sheetInfo = getSpreadsheetInfo(docName);
+	var spreadsheetObject = getSpreadsheetInfo(docName);
 
 	var sheetNum;
 
@@ -115,14 +119,24 @@ function getSpreadsheet(sheetName, docName, next){
 			sheetNum = 1;
 	}
 
-	var sheet = new Spreadsheet(sheetInfo[sheetNum].key);
-	if(sheetInfo.accessMode=='public'){
-		next(sheet);
-	}
-	else{
-    sheet.useServiceAccountAuth(auth, function(){
-			next(sheet);
+	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
+
+	if(spreadsheetObject.accessMode!=='public'){
+		spreadsheetDoc.useServiceAccountAuth(auth, function(){
+			console.log('Successfully authenticated to target spreadsheet doc.');
 		});
+	}    
+
+	var sheet;
+
+	spreadsheetDoc.getInfo(function(err, info){
+		console.log('Loaded doc ' + info.title + ', by ' + info.author.email);
+		sheet = info.worksheets[sheetNum];
+		console.log('Got sheet "' + sheet.title + '".');
+		next(sheet);
+	});
+
+	
 
 	}
 }
