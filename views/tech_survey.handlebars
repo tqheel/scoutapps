@@ -69,7 +69,15 @@
           <label for="what-else">
             What else would you like to share about the troop's current or future electronic device usage policy?</label>
             <p><textarea name="what-else" id="" cols="30" rows="10"></textarea></p>
-          </li>                
+        </li>   
+        <li class="formItem">
+          <label for="contact">Would you like to be contacted to discuss the troop's electronic device usage policy?</label>
+          <input onchange="onContactChanged()" type="radio" name="contact" value="yes">Yes
+          <input onchange="onContactChanged()" type="radio" name="contact" value="no" checked>No
+          <div style="display:none" id="emailContainer">
+            <input type="text" name="email" placeholder="you@domain.com">
+          </div>
+        </li>
           <li class="formItem">
             <button type="submit" name="surveySubmit">Submit</button>
           </li>
@@ -77,3 +85,19 @@
       </fieldset>
     </form>
   </div>
+  <script>
+  function  onContactChanged(element){
+    var radios = document.getElementsByName('contact');
+    for (var i = 0, length = radios.length; i < length; i++) {
+      if(radios[i].checked){
+        var email = document.getElementById('emailContainer');
+        if(radios[i].value==='yes'){          
+          email.style.display = 'block';
+        }
+        else{
+          email.style.display = 'none';
+        }
+      }
+    }
+  }
+  </script>
