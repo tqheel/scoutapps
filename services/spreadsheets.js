@@ -3,6 +3,7 @@ var secretFile = 'secrets/spreadsheets.json';
 var authFile = 'secrets/scout_balance-48af87a012b6.json'
 var Spreadsheet = require ('google-spreadsheet');
 var mailService = require('../services/mailer.js');
+var getUniqueId = require('uid');
 var spreadsheets;
 var auth;
 
@@ -151,6 +152,20 @@ function getTargetSheet(spreadsheetDoc, sheetNum, next){
 function writeSurvey(sheet, surveyData, next){
 	console.log('Pretend data was written to spreadsheet...');
 	next();
+}
+
+function TechSurvey (surveyData) {
+	this.uid = getUniqueId(10);
+	this.name = surveyData.name;
+	this.type = surveyData.type;
+	this.enhance1 = surveyData.enhance1;
+	this.enhance2 = surveyData.enhance2;
+	this.enhance3 = surveyData.enhance3;
+	this.distract1 = surveyData.distract1;
+	this.distract2 = surveyData.distract2;
+	this.distract3 = surveyData.distract3;
+	this.what_else = surveyData.whatElse;
+	//TODO: finish this prototype
 }
 
 function SignUp (scoutName, registeredEmail, additionalEmails) {

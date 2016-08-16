@@ -13,7 +13,6 @@ router.post('/', function(req, res){
 	//todo: issue #4
 	sheetService.getSpreadsheet(viewName, docName, function(sheet){
 			sheetService.writeSurvey(sheet, req.body, function(){
-				//todo: issue #11
 				res.render('tech-survey-success', {result: 'Your survey submission has been recorded.'});
 			});
 
