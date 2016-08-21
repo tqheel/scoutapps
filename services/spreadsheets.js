@@ -29,8 +29,15 @@ function getSpreadsheetInfo(docName){
 }
 
 function writeSignUp(sheet, signupData, next){
+	debugger;
 	var signUp = new SignUp(signupData.scoutName, signupData.registeredEmail, signupData.additionalEmails);
-	console.log('Writing spreadsheet data for ' + signUp.scoutnames);
+	console.log('Writing spreadsheet data for ' + signUp.scoutname);
+	writeGenericRows(sheet, signUp);
+	next();
+}
+
+function writeGenericRows(sheet, data) {
+	debugger;
 	sheet.getRows(1, function(err, rowData){
 	if(err){
 		console.log(err);
@@ -47,14 +54,11 @@ function writeSignUp(sheet, signupData, next){
 		// 		console.log(matchedRow.name+"'s balance is $"+matchedRow.balance+'.');
 		// 	}
 		// }
-
-
-
 		}
 	});
 	sheet.addRow(
 		1,
-		signUp,
+		data,
 		function(err){
 			if(err){
 				console.log(err);
@@ -65,7 +69,6 @@ function writeSignUp(sheet, signupData, next){
 
 		}
 	);
-	next();
 }
 
 function processBalanceRequest(email, sheet, next){
@@ -105,7 +108,7 @@ function processBalanceRequest(email, sheet, next){
 
 function getSpreadsheet(sheetName, docName, next){
 	var spreadsheetObject = getSpreadsheetInfo(docName);
-
+	debugger;
 	var sheetNum;
 
 	switch(sheetName){
@@ -119,8 +122,9 @@ function getSpreadsheet(sheetName, docName, next){
 
 	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
 
-	if(spreadsheetObject.accessMode!=='public'){
+	if(spreadsheetObject[0].accessMode!=='public'){
 		spreadsheetDoc.useServiceAccountAuth(auth, function(){
+			debugger;
 			console.log('Successfully authenticated to target spreadsheet doc.');
 			getTargetSheet(spreadsheetDoc, sheetNum, next);
 		});
@@ -133,9 +137,11 @@ function getSpreadsheet(sheetName, docName, next){
 }
 
 function getTargetSheet(spreadsheetDoc, sheetNum, next){
+	debugger;
 	var sheet;
 	console.log(spreadsheetDoc);
 	spreadsheetDoc.getInfo(function(err, info){
+		debugger;
 		if(err){
 			console.log(err);
 		}
@@ -150,7 +156,10 @@ function getTargetSheet(spreadsheetDoc, sheetNum, next){
 }
 
 function writeSurvey(sheet, surveyData, next){
-	console.log('Pretend data was written to spreadsheet...');
+	debugger;
+	var survey = new TechSurvey(surveyData);
+	console.log('Survey data is ' + survey.name);
+	writeGenericRows(sheet, survey);
 	next();
 }
 
@@ -165,7 +174,9 @@ function TechSurvey (surveyData) {
 	this.distract2 = surveyData.distract2;
 	this.distract3 = surveyData.distract3;
 	this.what_else = surveyData.whatElse;
-	//TODO: finish this prototype
+	this.contact = surveyData.contact;
+	this.email = (surveyData.email && surveyData.email != '') 
+		? surveyData.email : '';
 }
 
 function SignUp (scoutName, registeredEmail, additionalEmails) {
@@ -173,7 +184,7 @@ function SignUp (scoutName, registeredEmail, additionalEmails) {
 	this.registeredemail = registeredEmail;
 	this.additionalemails = additionalEmails;
 	this.submittime = Date.now();
-	this.isLinked = false;
+	this.islinked = false;
 	this.confsent = false;
 }
 

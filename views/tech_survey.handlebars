@@ -72,8 +72,8 @@
         </li>   
         <li class="formItem">
           <label for="contact">Would you like to be contacted to discuss the troop's electronic device usage policy?</label>
-          <input onchange="onContactChanged()" type="radio" name="contact" value="1">Yes
-          <input onchange="onContactChanged()" type="radio" name="contact" value="0" checked>No
+          <input onchange="onContactChanged()" type="radio" name="contact" value="yes">Yes
+          <input onchange="onContactChanged()" type="radio" name="contact" value="no" checked>No
           <div style="display:none" id="emailContainer">
             <input type="text" name="email" placeholder="you@domain.com">
           </div>
@@ -91,7 +91,7 @@
     for (var i = 0, length = radios.length; i < length; i++) {
       if(radios[i].checked){
         var email = document.getElementById('emailContainer');
-        if(radios[i].value==='yes'){          
+        if(radios[i].value === 'yes'){          
           email.style.display = 'block';
         }
         else{
