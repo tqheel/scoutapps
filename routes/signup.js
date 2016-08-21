@@ -15,7 +15,6 @@ router.post('/', function(req, res){
 			// req.body.registeredEmail = 'tqualls@gmail.com';
 			// req.body.additionalEmails = 'troop212bot@gmail.com';
 			sheetService.writeSignUp(sheet, req.body, function(){
-					debugger;
 					res.render('signup-success', {result: 'Registration for ' + req.body.scoutName +' has been submitted.'});
 			});
 
