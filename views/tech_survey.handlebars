@@ -1,6 +1,6 @@
 <h1>{{title }}</h1>
 <div class="">
-  <form class="" action="/survey" method="post">
+  <form class="" action="/survey" method="post" onsubmit="return validateOnSubmit()">
     <fieldset>
       <legend>Technology Survey</legend>
       <ul>
@@ -37,13 +37,13 @@
           </label>
           <ul>
             <li class="formItem">
-              <input type="text" name="enhance1">
+              <input type="text" name="enhance1" id="enhance1">
             </li>
             <li class="formItem">
-              <input type="text" name="enhance2">
+              <input type="text" name="enhance2" id="enhance2">
             </li>
             <li class="formItem">
-              <input type="text" name="enhance3">
+              <input type="text" name="enhance3" id="enhance3">
             </li>
           </ul>
         </li>
@@ -55,13 +55,13 @@
           </label>
           <ul>
             <li class="formItem">
-              <input type="text" name="distract1">
+              <input type="text" name="distract1" id="distract1">
             </li>
             <li class="formItem">
-              <input type="text" name="distract2">
+              <input type="text" name="distract2" id="distract2">
             </li>
             <li class="formItem">
-              <input type="text" name="distract3">
+              <input type="text" name="distract3" id="distract3">
             </li>
           </ul>
         </li>
@@ -86,18 +86,38 @@
     </form>
   </div>
   <script>
-  function  onContactChanged(element){
-    var radios = document.getElementsByName('contact');
-    for (var i = 0, length = radios.length; i < length; i++) {
-      if(radios[i].checked){
-        var email = document.getElementById('emailContainer');
-        if(radios[i].value === 'yes'){          
-          email.style.display = 'block';
-        }
-        else{
-          email.style.display = 'none';
+    function  onContactChanged(element){
+      var radios = document.getElementsByName('contact');
+      for (var i = 0, length = radios.length; i < length; i++) {
+        if(radios[i].checked){
+          var email = document.getElementById('emailContainer');
+          if(radios[i].value === 'yes'){          
+            email.style.display = 'block';
+          }
+          else{
+            email.style.display = 'none';
+          }
         }
       }
     }
-  }
+
+    function validateOnSubmit () {
+      var roleType = $('#type').val();
+      if (roleType == 0){
+        alert('role == 0!');
+        return false;
+      }
+      var i = 0;
+      var currentItem;
+      var counter = 0;
+      for (i = 0; i <= 3; i++) {
+        currentItem = $('#' + 'enhance' + (i + 1)).val();
+        counter = (currentItem === '') ? counter : counter + 1; 
+      }
+      if (counter < 3) {
+        alert('You must enter 3 "enhancements".');
+        return false;
+      }
+    }
+
   </script>
