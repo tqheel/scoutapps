@@ -15,7 +15,11 @@
             <option value="Scout">Scout</option>
             <option value="Parent">Parent (not in leadership role)</option>
             <option value="AdultLeader">Adult Leader</option>
-          </select>
+          </select>         
+          &nbsp;<span class="required">*</span>
+           <div id="roleTypeError" class="validationErrorHidden">
+            <span>You must indicate what role you play in the troop.</span>
+          </div>
         </li>
         <li class="formItem">
           <div>
@@ -38,12 +42,15 @@
           <ul>
             <li class="formItem">
               <input type="text" name="enhance1" id="enhance1">
+                &nbsp;<span class="required">*</span>
             </li>
             <li class="formItem">
               <input type="text" name="enhance2" id="enhance2">
+                &nbsp;<span class="required">*</span>
             </li>
             <li class="formItem">
               <input type="text" name="enhance3" id="enhance3">
+                &nbsp;<span class="required">*</span>
             </li>
           </ul>
         </li>
@@ -56,18 +63,23 @@
           <ul>
             <li class="formItem">
               <input type="text" name="distract1" id="distract1">
+              &nbsp;<span class="required">*</span>
             </li>
             <li class="formItem">
               <input type="text" name="distract2" id="distract2">
+              &nbsp;<span class="required">*</span>
             </li>
             <li class="formItem">
               <input type="text" name="distract3" id="distract3">
+              &nbsp;<span class="required">*</span>
             </li>
           </ul>
         </li>
         <li class="formItem">
           <label for="what-else">
-            What else would you like to share about the troop's current or future electronic device usage policy?</label>
+            What else would you like to share about the troop's current or future electronic device usage policy?
+            <br>(ideas, suggestions, concerns, etc.)
+          </label>
             <p><textarea name="whatElse" id="" cols="30" rows="10"></textarea></p>
         </li>   
         <li class="formItem">
@@ -75,7 +87,8 @@
           <input onchange="onContactChanged()" type="radio" name="contact" value="yes">Yes
           <input onchange="onContactChanged()" type="radio" name="contact" value="no" checked>No
           <div style="display:none" id="emailContainer">
-            <input type="text" name="email" placeholder="you@domain.com">
+            <input type="text" name="email" id="email" placeholder="you@domain.com">
+            &nbsp;<span class="required">*</span>
           </div>
         </li>
           <li class="formItem">
@@ -96,16 +109,21 @@
           }
           else{
             email.style.display = 'none';
+            $('#email').val('');
           }
         }
       }
     }
 
     function validateOnSubmit () {
+      $('.validationError').each(function(index, el) {
+        el.style.display = 'none';
+      });
       var roleType = $('#type').val();
+      var isValid = true;
       if (roleType == 0){
-        alert('role == 0!');
-        return false;
+        $('#roleTypeError').removeClass('validationErrorHidden').addClass('validationError');
+        isValid = false;
       }
       var i = 0;
       var currentItem;
@@ -115,9 +133,20 @@
         counter = (currentItem === '') ? counter : counter + 1; 
       }
       if (counter < 3) {
-        alert('You must enter 3 "enhancements".');
-        return false;
+        //alert('You must enter 3 "enhancements".');
+        isValid = false;
       }
+      counter = 0;
+      for (i = 0; i <= 3; i++) {
+        currentItem = $('#' + 'distract' + (i + 1)).val();
+        counter = (currentItem === '') ? counter : counter + 1; 
+      }
+      if (counter < 3) {
+        //alert('You must enter 3 "distractions".');
+        isValid = false;
+      } 
+
+      return isValid;
     }
 
   </script>

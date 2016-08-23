@@ -68,3 +68,18 @@ ul  > li.formItem:first-child {
 .info{
   font-size: smaller;
 }
+
+.required {
+  color: red;
+  font-weight: bold;
+}
+
+.validationError {
+  color: red;
+  font-weight: bold;
+  display: block;
+}
+
+.validationErrorHidden {
+  display: none;
+}
