@@ -39,7 +39,7 @@
             used during troop meetings and activities
             to enhance the Scouting experience.
           </label>
-          <ul>
+          <ul class="surveySubBullets">
             <li class="formItem">
               <input type="text" name="enhance1" id="enhance1">
                 &nbsp;<span class="required">*</span>
@@ -52,6 +52,9 @@
               <input type="text" name="enhance3" id="enhance3">
                 &nbsp;<span class="required">*</span>
             </li>
+            <li id="enhanceError" class="validationErrorHidden">
+              <span>You must list three enhancements.</span>
+            </li>
           </ul>
         </li>
         <li class="formItem">
@@ -60,7 +63,7 @@
             a distraction from the intended Scouting
             experience during troop meetings and activities.
           </label>
-          <ul>
+          <ul class="surveySubBullets">
             <li class="formItem">
               <input type="text" name="distract1" id="distract1">
               &nbsp;<span class="required">*</span>
@@ -72,6 +75,9 @@
             <li class="formItem">
               <input type="text" name="distract3" id="distract3">
               &nbsp;<span class="required">*</span>
+            </li>
+            <li id="distractError" class="validationErrorHidden">
+              <span>You must list three distractions.</span>
             </li>
           </ul>
         </li>
@@ -116,9 +122,9 @@
     }
 
     function validateOnSubmit () {
-      $('.validationError').each(function(index, el) {
-        el.style.display = 'none';
-      });
+      // $('.validationError').each(function(index, el) {
+      //   el.style.display = 'none';
+      // });
       var roleType = $('#type').val();
       var isValid = true;
       if (roleType == 0){
@@ -133,7 +139,7 @@
         counter = (currentItem === '') ? counter : counter + 1; 
       }
       if (counter < 3) {
-        //alert('You must enter 3 "enhancements".');
+        $('#enhanceError').removeClass('validationErrorHidden').addClass('validationError');
         isValid = false;
       }
       counter = 0;
@@ -142,7 +148,7 @@
         counter = (currentItem === '') ? counter : counter + 1; 
       }
       if (counter < 3) {
-        //alert('You must enter 3 "distractions".');
+        $('#distractError').removeClass('validationErrorHidden').addClass('validationError');
         isValid = false;
       } 
 

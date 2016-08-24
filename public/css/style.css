@@ -83,3 +83,11 @@ ul  > li.formItem:first-child {
 .validationErrorHidden {
   display: none;
 }
+
+ul.surveySubBullets {
+  padding-left: 0;
+}
+
+ul.surveySubBullets li input {
+  width: 233px;
+}
