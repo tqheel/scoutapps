@@ -1,3 +1,4 @@
+'use strict';
 
 var nodemailer = require('nodemailer');
 const EmailInfo = require('../types/EmailInfo');
@@ -17,30 +18,22 @@ fs.readFile(secretFile, 'utf8', function(err, data) {
 
 function getDefaultSystemEmailInfos(next) {
 	var defaultSysEmails = emailSecrets.filter(function(item){
-		var emailInfo = item.default === true;
-		return emailInfo;
+		return item.isDefault === true;
 	});
-	
 	next(defaultSysEmails);
 }
 
 function getSystemSenderEmailInfo(next) {
-	var sysEmailInfo = emailSecrets.filter(function(email){
-		return email.id === 1;
-	})[0];
+	var sysEmailInfo = emailSecrets.find(function(email){
+		return email.id === 1 ;
+	});
 	next(sysEmailInfo);
 }
 
-function sendSystemEmail(toEmailAddresses, subject, message){
-
-	getSystemSenderEmailInfo(function (sysSenderInfo) {
-		if (Array.isArray(toEmailAddresses)) {
-			let su = new StringUtils(toEmailAddresses);
-			toEmailAddresses = su.createCommaDelimitedStringFromArray();
-		}
-
-		var mailOptions = {
-		    from: sysSenderInfo.email + ' (Troop 212 Apps)', // sender address
+function constructAndSendMessage(senderInfo, toEmailAddresses, subject, message) {
+	console.log('Sending email to : ' + toEmailAddresses);
+	var mailOptions = {
+		    from: senderInfo.email + ' (Troop 212 Apps)', // sender address
 		    to: toEmailAddresses, // list of receivers
 		    subject: subject, // Subject line
 		    text: message, // plaintext body
@@ -53,8 +46,8 @@ function sendSystemEmail(toEmailAddresses, subject, message){
 		var transporter = nodemailer.createTransport({
 		    service: 'Gmail',
 		    auth: {
-		        user: sysSenderInfo.email,
-		        pass: sysSenderInfo.password
+		        user: senderInfo.email,
+		        pass: senderInfo.password
 		    }
 		});
 
@@ -66,6 +59,32 @@ function sendSystemEmail(toEmailAddresses, subject, message){
 		    console.log('Message sent: ' + info.response);
 
 		});
+}
+
+function sendSystemEmail(emailInfos, subject, message){
+	getSystemSenderEmailInfo(function (sysSenderInfo) {
+		/*
+		if (Array.isArray(toEmailAddresses)) {
+			debugger;
+			let su = new StringUtils();
+			su.createCommaDelimitedStringFromArray(toEmailAddresses, function(toEmailAddressStrings) {
+				constructAndSendMessage(sysSenderInfo, toEmailAddressStrings, subject, message);
+			});
+			
+		}
+		else{
+			constructAndSendMessage(sysSenderInfo, toEmailAddresses, subject, message);
+
+		}	
+		*/
+		var toEmailAddresses = [];
+		for (let i = 0; i < emailInfos.length; i++) {
+			toEmailAddresses.push(emailInfos[i].email);
+		}
+		let su = new StringUtils();
+		su.createCommaDelimitedStringFromArray(toEmailAddresses, function(toEmailAddressStrings) {
+			constructAndSendMessage(sysSenderInfo, toEmailAddressStrings, subject, message);
+		});	
 	});
 }
 

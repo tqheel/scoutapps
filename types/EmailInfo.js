@@ -1,3 +1,5 @@
+'use strict';
+
 class EmailInfo {
 	constructor(id, email, password, isDefault) {
 		this.id = id;

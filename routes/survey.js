@@ -14,15 +14,10 @@ router.post('/', function(req, res){
 	sheetService.getSpreadsheet(viewName, docName, function(sheet){
 			sheetService.writeSurvey(sheet, req.body, function(){
 				res.render('tech-survey-success', {result: 'Your survey submission has been recorded.'});
-				
-			});
-			mailer.getDefaultSystemEmailInfos(function (emailInfos) {
-				var addressArray = emailInfos.forEach(function (info) {
-					return info.email;
+				mailer.getDefaultSystemEmailInfos(function (emailInfos) {
+					mailer.sendSystemEmail(emailInfos, 'New Tech Survey Submitted', 'A new tech survey has been added to the spreadsheet.');
 				});
-				mailer.sendSystemEmail(addressArray, 'New Tech Survey Submitted', 'A new tech survey has been added to the spreadsheet.');
 			});
-
 	});
 });
 
