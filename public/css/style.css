@@ -96,3 +96,9 @@ ul.surveySubBullets {
 ul.surveySubBullets li input {
   width: 233px;
 }
+
+.not-active {
+   pointer-events: none;
+   cursor: default;
+   color: grey;
+}
