@@ -3,6 +3,7 @@ var secretFile = 'secrets/spreadsheets.json';
 var authFile = 'secrets/scout_balance-48af87a012b6.json'
 var Spreadsheet = require ('google-spreadsheet');
 var mailService = require('../services/mailer.js');
+var getUniqueId = require('uid');
 var spreadsheets;
 var auth;
 
@@ -20,51 +21,34 @@ fs.readFile(authFile, 'utf8', function(err, data) {
 		auth = JSON.parse(data);
 });
 
-function getSpreadsheetInfo(spreadsheetName){
+function getSpreadsheetInfo(docName){
 	var sheetInfo = spreadsheets.filter(function(item){
-			return item.name == spreadsheetName;
+			return item.name == docName;
 	});
 	return sheetInfo;
 }
 
 function writeSignUp(sheet, signupData, next){
+	
 	var signUp = new SignUp(signupData.scoutName, signupData.registeredEmail, signupData.additionalEmails);
-	console.log('Writing spreadsheet data for ' + signUp.scoutnames);
-	sheet.getRows(1, function(err, rowData){
-	if(err){
-		console.log(err);
-	}
-	else{
-		console.log('Got: ' + rowData.length + ' rows.' );
-		// for(var i=0;i<rowData.length;i++){
-		// 	var row = rowData[i];
-		// 	//console.log(row.name);
-		// 	//console.log('Name: ' + row.email + ', Balance: ' + row.balance);
-		// 	var matchedRow = (row.email=='sam@sam.com')? row : null;
-		// 	if(matchedRow){
-		// 		console.log('=============');
-		// 		console.log(matchedRow.name+"'s balance is $"+matchedRow.balance+'.');
-		// 	}
-		// }
+	console.log('Writing spreadsheet data for ' + signUp.scoutname);
+	writeGenericRows(sheet, signUp, next);	
+}
 
+function writeGenericRows(sheet, data, next) {
+	
+	sheet.getRows({
+      offset: 1
+    }, function( err, rows ){
+      console.log('Read '+rows.length+' rows');
+ 
+    });
 
-
-		}
-	});
-	sheet.addRow(
-		1,
-		signUp,
-		function(err){
-			if(err){
-				console.log(err);
-			}
-			else{
-				console.log('Write to spreadsheet complete!');
-			}
-
-		}
-	);
-	next();
+    sheet.addRow(
+    	data, function(){
+		console.log('New row added to spreadsheet.');
+    	next();
+    });
 }
 
 function processBalanceRequest(email, sheet, next){
@@ -102,18 +86,75 @@ function processBalanceRequest(email, sheet, next){
 	});
 }
 
-function getSpreadsheet(spreadsheetName, next){
-	var sheetInfo = getSpreadsheetInfo(spreadsheetName);
-	var sheet = new Spreadsheet(sheetInfo[0].key);
-	if(sheetInfo.accessMode=='public'){
-		next(sheet);
+function getSpreadsheet(sheetName, docName, next){
+	var spreadsheetObject = getSpreadsheetInfo(docName);
+	
+	var sheetNum;
+
+	switch(sheetName){
+		case 'signup': 
+			sheetNum = 0;
+			break;
+		case 'tech_survey':
+			sheetNum = 1;
+			break;
+	}
+
+	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
+
+	if(spreadsheetObject[0].accessMode!=='public'){
+		spreadsheetDoc.useServiceAccountAuth(auth, function(){
+			
+			console.log('Successfully authenticated to target spreadsheet doc.');
+			getTargetSheet(spreadsheetDoc, sheetNum, next);
+		});
 	}
 	else{
-    sheet.useServiceAccountAuth(auth, function(){
-			next(sheet);
-		});
+		//does not need to be authenticated, so just run the callback
+		getTargetSheet(spreadsheetDoc, sheetNum, next);	
+	}  
+	
+}
 
-	}
+function getTargetSheet(spreadsheetDoc, sheetNum, next){
+	
+	var sheet;
+	console.log(spreadsheetDoc);
+	spreadsheetDoc.getInfo(function(err, info){
+		
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log('Loaded doc ' + info.title + ', by ' + info.author.email);
+			sheet = info.worksheets[sheetNum];
+			console.log('Got sheet "' + sheet.title + '".');
+			next(sheet);
+		}		
+	});
+
+}
+
+function writeSurvey(sheet, surveyData, next){
+	var survey = new TechSurvey(surveyData);
+	console.log('Survey data is ' + survey.name);
+	writeGenericRows(sheet, survey, next);	
+}
+
+function TechSurvey (surveyData) {
+	this.uid = getUniqueId(10);
+	this.name = surveyData.name;
+	this.type = surveyData.type;
+	this.enhance1 = surveyData.enhance1;
+	this.enhance2 = surveyData.enhance2;
+	this.enhance3 = surveyData.enhance3;
+	this.distract1 = surveyData.distract1;
+	this.distract2 = surveyData.distract2;
+	this.distract3 = surveyData.distract3;
+	this.what_else = surveyData.whatElse;
+	this.contact = surveyData.contact;
+	this.email = (surveyData.email && surveyData.email != '') 
+		? surveyData.email : '';
 }
 
 function SignUp (scoutName, registeredEmail, additionalEmails) {
@@ -121,12 +162,13 @@ function SignUp (scoutName, registeredEmail, additionalEmails) {
 	this.registeredemail = registeredEmail;
 	this.additionalemails = additionalEmails;
 	this.submittime = Date.now();
-	this.isLinked = false;
+	this.islinked = false;
 	this.confsent = false;
 }
 
 module.exports = {
 		getSpreadsheet: getSpreadsheet,
 		writeSignUp: writeSignUp,
-		processBalanceRequest: processBalanceRequest
+		processBalanceRequest: processBalanceRequest,
+		writeSurvey: writeSurvey
 };

@@ -1,0 +1,180 @@
+<h1>{{title }}</h1>
+<div class="">
+  <form class="" action="/survey" method="post" onsubmit="return validateOnSubmit()">
+    <fieldset>
+      <legend>Technology Survey</legend>
+      <ul>
+        <span class="info required">* indicates a required field</span>
+        <li class="formItem">
+          <label for="name">
+            Your Name:
+            <span class="info">(optional, but preferred for potential follow-up purposes)</span>
+          </label>
+          <input type="text" name="name" value="">  
+        </li>
+        <li class="formItem">
+          <label for="type">I am a...</label>
+          <select name="type" id="type">
+            <option value="0">Choose...</option>
+            <option value="Scout">Scout</option>
+            <option value="Parent">Parent (not in leadership role)</option>
+            <option value="AdultLeader">Adult Leader</option>
+          </select>         
+          &nbsp;<span class="required">*</span>
+           <div id="roleTypeError" class="validationErrorHidden">
+            <span>You must indicate what role you play in the troop.</span>
+          </div>
+        </li>
+        <li class="formItem">
+          <div>
+            <p>The Internet and electronic devices have evolved rapidly over the past 
+              20 years, enabling us to communicate with our friends, family, and work
+              colleagues much more effectively and efficiently. At the same time, these same technologies provide a multitude of distractions in our daily social interactions, preventing us from getting essential tasks and work done.
+            </p>
+            <p>
+              The contemporary Scouting experience is at a crossroads on many fronts. The integration of technology into the Scouting experience is one of those fronts. As Scouting leaders, it is our responsibility to develop and adjust policies to be not only consistent with the core values of Scouting, but to also be forward looking as the BSA plans for the future.
+            </p>
+            <p>
+              With the above thinking in mind, Troop 212 is considering changes to the current electronic device usage policy. The general idea would be to allow certain devices at approved times during troop meetings, travel, and outdoor activities. As a participant or stakeholder in our troop, we are interested in your ideas and insights. Please consider the following and submit your input. Thank you in advance for your participation.
+            </p>
+          </div>
+          <label>
+            List three ways that technology could be
+            used during troop meetings and activities
+            to enhance the Scouting experience.
+          </label>
+          <ul class="surveySubBullets">
+            <li class="formItem">
+              <input type="text" name="enhance1" id="enhance1">
+                &nbsp;<span class="required">*</span>
+            </li>
+            <li class="formItem">
+              <input type="text" name="enhance2" id="enhance2">
+                &nbsp;<span class="required">*</span>
+            </li>
+            <li class="formItem">
+              <input type="text" name="enhance3" id="enhance3">
+                &nbsp;<span class="required">*</span>
+            </li>
+            <li id="enhanceError" class="validationErrorHidden">
+              <span>You must list three enhancements.</span>
+            </li>
+          </ul>
+        </li>
+        <li class="formItem">
+          <label>
+            List three ways that technology might be
+            a distraction from the intended Scouting
+            experience during troop meetings and activities.
+          </label>
+          <ul class="surveySubBullets">
+            <li class="formItem">
+              <input type="text" name="distract1" id="distract1">
+              &nbsp;<span class="required">*</span>
+            </li>
+            <li class="formItem">
+              <input type="text" name="distract2" id="distract2">
+              &nbsp;<span class="required">*</span>
+            </li>
+            <li class="formItem">
+              <input type="text" name="distract3" id="distract3">
+              &nbsp;<span class="required">*</span>
+            </li>
+            <li id="distractError" class="validationErrorHidden">
+              <span>You must list three distractions.</span>
+            </li>
+          </ul>
+        </li>
+        <li class="formItem">
+          <label for="what-else">
+            What else would you like to share about the troop's current or future electronic device usage policy?
+            <br>(ideas, suggestions, concerns, etc.)
+          </label>
+            <p><textarea name="whatElse" id="" cols="30" rows="10"></textarea></p>
+        </li>   
+        <li class="formItem">
+          <label for="contact">Would you like to be contacted to discuss the troop's electronic device usage policy?</label>
+          <input onchange="onContactChanged()" type="radio" name="contact" value="yes">Yes
+          <input onchange="onContactChanged()" type="radio" name="contact" value="no" checked>No
+          <div style="display:none" id="emailContainer">
+            <input type="text" name="email" id="email" placeholder="you@domain.com">
+            &nbsp;<span class="required">*</span>
+            <div id="emailError" class="validationErrorHidden">
+              If you would like to be contacted, you must enter a valid email address.
+            </div>
+          </div>
+        </li>
+          <li class="formItem">            
+            <button type="submit" name="surveySubmit">Submit</button>
+            <span id="submitErrorNotice" class="validationErrorHidden">
+              Please correct the errors marked above.
+            </span>
+          </li>
+        </ul>
+      </fieldset>
+    </form>
+  </div>
+  <script>
+    function  onContactChanged(element){
+      var radios = document.getElementsByName('contact');
+      for (var i = 0, length = radios.length; i < length; i++) {
+        if(radios[i].checked){
+          var email = document.getElementById('emailContainer');
+          if(radios[i].value === 'yes'){          
+            email.style.display = 'block';
+          }
+          else{
+            email.style.display = 'none';
+            $('#email').val('');
+          }
+        }
+      }
+    }
+
+    function validateOnSubmit () {
+      $('.validationError').each(function(index, el) {
+       $(el).removeClass('validationError').addClass('validationErrorHidden');
+      });
+      var roleType = $('#type').val();
+      var isValid = true;
+      if (roleType == 0){
+        $('#roleTypeError').removeClass('validationErrorHidden').addClass('validationError');
+        isValid = false;
+      }
+      var i = 0;
+      var currentItem;
+      var counter = 0;
+      for (i = 0; i < 3; i++) {
+        currentItem = $('#' + 'enhance' + (i + 1)).val().trim();
+        counter = (currentItem === '') ? counter : counter + 1; 
+      }
+      if (counter < 3) {
+        $('#enhanceError').removeClass('validationErrorHidden').addClass('validationError');
+        isValid = false;
+      }
+      counter = 0;
+      for (i = 0; i < 3; i++) {
+        currentItem = $('#' + 'distract' + (i + 1)).val();
+        counter = (currentItem === '') ? counter : counter + 1;
+      }
+      if (counter < 3) {
+        $('#distractError').removeClass('validationErrorHidden').addClass('validationError');
+        isValid = false;
+      } 
+      var wantContact = $("input[name='contact']:checked").val();
+      if (wantContact === 'yes') {
+        var email = $('#email').val().trim();
+        var emailFilter = /^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/;
+        if (!emailFilter.test(email)) {
+          $('#emailError').removeClass('validationErrorHidden').addClass('validationError');
+          isValid = false;
+        }
+      }
+      if (!isValid) {
+        $('#submitErrorNotice').removeClass('validationErrorHidden').addClass('validationError');
+      }
+
+      return isValid;
+    }
+
+  </script>

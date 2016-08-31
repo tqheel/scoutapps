@@ -1,3 +1,8 @@
+#logo {
+max-width: 100%;
+height: auto !important;
+}
+
 body {
   padding: 50px;
   font: 14px Helvetica, Arial, sans-serif;
@@ -56,6 +61,10 @@ li.formItem {
   padding-bottom: 20px;
 }
 
+ul  > li.formItem:first-child {
+  padding-top: 10px;
+}
+
 .formItem label {
   display: block;
   font-weight: bold;
@@ -63,4 +72,33 @@ li.formItem {
 
 .info{
   font-size: smaller;
+}
+
+.required {
+  color: red;
+  font-weight: bold;
+}
+
+.validationError {
+  color: red;
+  font-weight: bold;
+  display: block;
+}
+
+.validationErrorHidden {
+  display: none;
+}
+
+ul.surveySubBullets {
+  padding-left: 0;
+}
+
+ul.surveySubBullets li input {
+  width: 233px;
+}
+
+.not-active {
+   pointer-events: none;
+   cursor: default;
+   color: grey;
 }

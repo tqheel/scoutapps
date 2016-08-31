@@ -30,7 +30,7 @@ module.exports = function (grunt) {
       }
     },
     clean: {
-      contents: ['dist/*', '!dist/server.js']
+      contents: ['dist/*', '!dist/server.js', '!dist/deploy.cmd']
     },
     watch: {
       options: {
