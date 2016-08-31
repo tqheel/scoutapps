@@ -1,6 +1,6 @@
 {
-  "name": "balance",
-  "version": "0.0.1",
+  "name": "scout_apps",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
