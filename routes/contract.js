@@ -3,11 +3,11 @@ var router = express.Router();
 var https = require('https');
 var sheetService = require('../services/spreadsheets.js');
 var docName = 'scout_apps';
-var docName = 'scout_apps';
 var viewName = 'tech_contract';
 var mailer = require('../services/mailer.js');
+
 router.get('/', function(req, res) {
-	res.render(viewName, {title: 'Troop 212 "Cyber Chip" Certification'});
+	res.render(viewName+'/'+viewName, {title: 'Troop 212 "Cyber Chip" Certification'});
 });
 
 router.post('/', function(req, res){
@@ -19,7 +19,7 @@ router.post('/', function(req, res){
 	// 	});
 	// });
 	console.log('Data received from form for ' + viewName);
-	res.render('tech-contract-success', { result: 'Contract accepted!'});
+	res.render(viewName+'/tech_contract_success', { result: 'Contract accepted!'});
 	});
 });
 
