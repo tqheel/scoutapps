@@ -5,37 +5,37 @@ var mailService = require('../services/mailer.js');
 var getUniqueId = require('uid');
 var async = require('async');
 
-function getRows(sheet) {
+function createScoutId (scoutRow, next) {
+	scoutRow.scoutId = getUniqueId(50);
+	next();
+}
+
+function saveNewScoutIdToSheet(sheet) {
 	sheet.getRows({
       offset: 2
     }, function( err, rows ){
-    	var writeOutput = function(row) {
-    		console.log('New ID '+ row.scoutid + ' assigned to ' + row.scoutname );
-    	};
+    	
       	console.log('Read '+rows.length+' rows');
-		// for (let i = 0; i < rows.length; i++) {
-		// 	console.log(rows[i].scoutname);
-		// 	rows[i].scoutid = getUniqueId(50);
-		// 	rows[i].save();
-		// } 
 		async.each(rows, 
 			function (row) {
-				
-				// row.save(function(scout){
-				row.scoutid = getUniqueId(50);
-				writeOutput(scout);
-				// });
-
-				
+				createScoutId(row, function () {
+					row.save();
+					console.log('New ID '+ row.scoutid + ' assigned to ' + row.scoutname );
+				});				
 			},
 			function(err) {
-			
-			console.log('All Scout IDs written to spreadsheet');
+				if (!err) {
+					console.log('All Scout IDs written to spreadsheet');
+				} else {
+					console.log(err);
+				}
 			}
 		);
     });
 }
 
+
+
 module.exports = {
-	getRows: getRows
+	saveNewScoutIdToSheet: saveNewScoutIdToSheet
 };
