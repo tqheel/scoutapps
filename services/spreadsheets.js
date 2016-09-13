@@ -23,7 +23,7 @@ fs.readFile(authFile, 'utf8', function(err, data) {
 
 function getSpreadsheetInfo(docName){
 	var sheetInfo = spreadsheets.filter(function(item){
-			return item.name == docName;
+		return item.name == docName;
 	});
 	return sheetInfo;
 }
@@ -98,6 +98,12 @@ function getSpreadsheet(sheetName, docName, next){
 		case 'tech_survey':
 			sheetNum = 1;
 			break;
+		//case '2016-17':
+			sheetNum = 0;
+		//	break;
+		case 'sandbox':
+			sheetNum = 1;
+			break;
 	}
 
 	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
@@ -129,6 +135,7 @@ function getTargetSheet(spreadsheetDoc, sheetNum, next){
 			console.log('Loaded doc ' + info.title + ', by ' + info.author.email);
 			sheet = info.worksheets[sheetNum];
 			console.log('Got sheet "' + sheet.title + '".');
+
 			next(sheet);
 		}		
 	});
