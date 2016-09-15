@@ -1,5 +1,3 @@
-
-'use strict';
 var Spreadsheet = require ('google-spreadsheet');
 var mailService = require('../services/mailer.js');
 var getUniqueId = require('uid');
@@ -10,9 +8,10 @@ function createScoutId (scoutRow, next) {
 	next();
 }
 
-function saveNewScoutIdToSheet(sheet) {
+function saveNewScoutIdsToSheet(sheet) {
 	sheet.getRows({
-      offset: 2
+      offset: 2,
+	  limit: 86
     }, function( err, rows ){
     	
       	console.log('Read '+rows.length+' rows');
@@ -37,5 +36,5 @@ function saveNewScoutIdToSheet(sheet) {
 
 
 module.exports = {
-	saveNewScoutIdToSheet: saveNewScoutIdToSheet
+	//saveNewScoutIdsToSheet: saveNewScoutIdsToSheet
 };
