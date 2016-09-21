@@ -5,15 +5,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Account = (function () {
-    function Account(scoutId, scoutName, startBalance, endBalance) {
+    function Account(scoutId, scoutName, balance) {
         this.scoutId = scoutId;
         this.scoutName = scoutName;
-        this.startBalance = startBalance;
-        this.endBalance = endBalance;
+        this.balance = balance;
         this._scoutId = scoutId;
         this._scoutName = scoutName;
-        this._startBalance = startBalance;
-        this._endBalance = endBalance;
+        this._endBalance = balance;
     }
     return Account;
 }());
