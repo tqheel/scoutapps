@@ -17,8 +17,29 @@ var Account = (function () {
 }());
 var Account1617 = (function (_super) {
     __extends(Account1617, _super);
-    function Account1617() {
-        _super.apply(this, arguments);
+    function Account1617(scoutid, scoutname, balance, rafting, backpacking, climbing, manatees, shooting, wwcenter, bootcamp, camporee, fortfisher, aquatics, durant, knob, recharter, fees, eagleprojects, northerntier, jambo) {
+        _super.call(this, scoutid, scoutname, balance);
+        this.scoutid = scoutid;
+        this.scoutname = scoutname;
+        this.balance = balance;
+        this.rafting = rafting;
+        this.backpacking = backpacking;
+        this.climbing = climbing;
+        this.manatees = manatees;
+        this.shooting = shooting;
+        this.wwcenter = wwcenter;
+        this.bootcamp = bootcamp;
+        this.camporee = camporee;
+        this.fortfisher = fortfisher;
+        this.aquatics = aquatics;
+        this.durant = durant;
+        this.knob = knob;
+        this.recharter = recharter;
+        this.fees = fees;
+        this.eagleprojects = eagleprojects;
+        this.northerntier = northerntier;
+        this.jambo = jambo;
     }
     return Account1617;
 }(Account));
+exports.Account = Account1617;

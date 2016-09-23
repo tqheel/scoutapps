@@ -11,7 +11,7 @@ class Account {
 		}
 }
 
-class Account1617 extends Account {
+class Account1617  extends Account {
 	_rafting: number;
 	_backpacking: number;
 	_fishing: number;
@@ -31,9 +31,14 @@ class Account1617 extends Account {
 	_northerntier: number;
 	_jambo: number;
 
-	constructor( public rafting: number, public backpacking: number, public climbing: number){
-
-	}	
+	constructor(public scoutid: string, public scoutname: string, public balance: number,
+		public rafting: number, public backpacking: number, public climbing: number, 
+		public manatees: number, public shooting: number, public wwcenter: number, 
+		public bootcamp: number, public camporee: number, public fortfisher: number,
+		public aquatics: number, public durant: number, public knob: number, public recharter: number,
+		public fees: number, public eagleprojects: number, public northerntier, public jambo
+		){super(scoutid, scoutname, balance)	}	
 }
+export {Account1617 as Account};
 
 
