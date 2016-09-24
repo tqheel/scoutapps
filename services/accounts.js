@@ -1,67 +1,61 @@
-var getUniqueId = require('uid');
-var async = require('async');
-var Account = require ('../types/Account.js');
+'use strict';
+//var getUniqueId = require('uid');
+//var async = require('async');
+//var Account = require ('../types/Account.js');
+var sheetService = require('../services/spreadsheets.js');
 
-function createScoutId (scoutRow, next) {
-	scoutRow.scoutId = getUniqueId(20);
-	next();
+function getAccountById (scoutId, next) {
+	var sheetName = 'sandbox';
+	var docName = 'accounts';
+	sheetService.getSpreadsheet(sheetName, docName, function(sheet){
+		getScoutAccounts(sheet, scoutId, function(accounts) {
+			// var matchedAccount = accounts.filter(function(account) {
+			// 	if (account.scoutid === scoutId) {
+			// 		console.log(account.scoutname);
+			// 	}
+			// 	account.scoutid === scoutId;
+			// });
+			var matchedAccount = null;
+			var message = '';
+			for(let i=0;i<accounts.length;i++){
+				let account = accounts[i];
+				//console.log(row.name);
+				//console.log('Name: ' + row.email + ', Balance: ' + row.balance);
+				matchedAccount = (account.scoutid === scoutId)? account : null;
+				if(matchedAccount){
+					console.log('=============');
+					message = matchedAccount.scoutname+"'s balance is "+ matchedAccount.balance +'.';
+					console.log(message);
+					//mailService.sendEmail(email, message);
+					//next(message);
+					break;
+				}
+
+			}
+			debugger;
+			next(matchedAccount);
+		});		
+	});	
 }
 
-function saveNewScoutIdsToSheet(sheet) {
+function getScoutAccounts(sheet, scoutId, next) {
 	sheet.getRows({
-      offset: 2,
-	  limit: 86
-    }, function( err, rows ){
-    	
-      	console.log('Read '+rows.length+' rows');
-		async.each(rows, 
-			function (row) {
-				createScoutId(row, function () {
-					row.save();
-					console.log('New ID '+ row.scoutid + ' assigned to ' + row.scoutname );
-				});				
-			},
-			function(err) {
-				if (!err) {
-					console.log('All Scout IDs written to spreadsheet');
-				} else {
-					console.log(err);
-				}
-			}
-		);
-    });
-}
-function createMissingIds(sheet) {
-	sheet.getRows({
-      offset: 2,
-	  limit: 86
-    }, function( err, rows ){
-    	
-      	console.log('Read '+rows.length+' rows');
-		async.each(rows, 
-			function (row) {
-				console.log(row.scoutname + ':' + row.scoutid);
-				// if (row.scoutid === '' ){
-				// 	createScoutId(row, function () {
-				// 		row.save();
-				// 		console.log('New ID '+ row.scoutid + ' assigned to ' + row.scoutname );
-				// 	});	
-				// }
-							
-			},
-			function(err) {
-				if (!err) {
-					console.log('All Scout IDs written to spreadsheet');
-				} else {
-					console.log(err);
-				}
-			}
-		);
+      offset: 2
+	  //limit: 86
+    }, 
+	function( err, rows ){    	
+		console.log('Read '+rows.length+' rows');
+		//filter rows to only ones with IDs
+		// rows = rows.filter(function(row) {
+		// 	row.scoutid !== '';
+		// });
+		// console.log('Filtered to ' + rows.length + ' rows with IDs.');
+
+		next(rows);	
     });
 }
 
 //potentially destuctive in current form...do not use
-// module.exports = {
-// 	saveNewScoutIdsToSheet: saveNewScoutIdsToSheet,
-// 	createMissingIds: createMissingIds
-// };
+module.exports = {
+	getAccountById: getAccountById
+};

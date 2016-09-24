@@ -1,9 +1,16 @@
 
 
   <h1>{{title }}</h1>
-  <div class="">
+  {{!--<div class="">
     <form class="" action="/balance" method="post">
       <label for="email">Registered Scout Email Address:</label>
       <input type="text" name="email" id="email" placeholder="name@something.org" value="">
+    </form>
+  </div>--}}
+  <div>
+    <form action="/balance" method="post">
+      <label for="scoutId">Enter Scout ID:</label>
+      <input type="text" name="scoutId" id="scoutId" value="">
+      <button type="submit">Submit</button>
     </form>
   </div>
