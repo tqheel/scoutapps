@@ -8,8 +8,13 @@
     </form>
   </div>--}}
   <div>
-    <form action="/balance" method="post">
+    <form action="/balance/id" method="post">
       <label for="scoutId">Enter Scout ID:</label>
+      <input type="text" name="scoutId" id="scoutId" value="">
+      <button type="submit">Submit</button>
+    </form>
+    <form action="/balance/email" method="post">
+      <label for="email">Enter Email Address:</label>
       <input type="text" name="scoutId" id="scoutId" value="">
       <button type="submit">Submit</button>
     </form>

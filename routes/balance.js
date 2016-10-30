@@ -4,37 +4,35 @@ var https = require('https');
 var viewName = 'balance';
 var accountService = require('../services/accounts.js');
 
-// router.get('/', function(req, res) {
-// 	res.render('unavailable', {title: 'Feature currently unavailable', featureName: 'Scout Account Balance Retrieval'});
-// });
-
-router.get('/', function(req,res){
-	res.render('balance', { title: 'Request Scout Account Balance Via Registered Email Address' });
-});
-
-router.post('/', function(req,res){
-	console.log(req.body.email);
-	
-	// sheetService.getSpreadsheet(sheetName, docName, function(sheet){
-	// 	// sheetService.processBalanceRequest(req.body.email, sheet, function(message){
-	// 	// //res.send(message+'<p><a href="/">Make Another Request</a>');
-	// 	// res.send('<p>The account balance email has been sent.</p><p><a href="/">Make Another Request</a>');
-
-	// 	// });
-		
-	// });
-	accountService.getAccountById(req.body.scoutId, function(account) {
+function getScoutAccountBalance(res, scoutId) {
+	accountService.getAccountById(scoutId, function(account) {
 		console.log('Found account balance of ' + account.balance + 
 				' for scout ' + account.scoutname + '.');
-		res.send('<p>The account balance email has been sent.</p><p><a href="/">Make Another Request</a>');
-	
+		res.send('<p>Found account balance of ' + account.balance + 
+				' for scout ' + account.scoutname + '.</p><p><a href="/">Make Another Request</a>');	
 	});
+}
+
+function lookupEmailAddress(req, res) {
+	console.log('Here is where we would look for a matching email address...');
+	res.send('lookup email address request received for ' + req.email);
+	
+}
+
+router.get('/', function(req,res){
+	res.render('balance', { title: 'Request Scout Account Balance' });
 });
 
+router.get('/:scoutId', function (req,res) {
+	getScoutAccountBalance(res, req.params.scoutId);
+});
 
+router.post('/id', function(req,res){
+	getScoutAccountBalance(res, req.body.scoutId);
+});
 
-
-
-
+router.post('/email', function(req, res) {
+	lookupEmailAddress(req, res);	
+}); 
 
 module.exports = router;

@@ -3,9 +3,12 @@
 //var async = require('async');
 //var Account = require ('../types/Account.js');
 var sheetService = require('../services/spreadsheets.js');
+var spreadsheetJsonFile = 'secrets/spreadsheets.json';
+var fs = require('fs');
+var spreadsheets;
 
 function getAccountById (scoutId, next) {
-	var sheetName = 'sandbox';
+	var sheetName = '2016-17';
 	var docName = 'accounts';
 	sheetService.getSpreadsheet(sheetName, docName, function(sheet){
 		getScoutAccounts(sheet, scoutId, function(accounts) {
@@ -32,7 +35,6 @@ function getAccountById (scoutId, next) {
 				}
 
 			}
-			debugger;
 			next(matchedAccount);
 		});		
 	});	
@@ -45,17 +47,10 @@ function getScoutAccounts(sheet, scoutId, next) {
     }, 
 	function( err, rows ){    	
 		console.log('Read '+rows.length+' rows');
-		//filter rows to only ones with IDs
-		// rows = rows.filter(function(row) {
-		// 	row.scoutid !== '';
-		// });
-		// console.log('Filtered to ' + rows.length + ' rows with IDs.');
-
 		next(rows);	
     });
 }
 
-//potentially destuctive in current form...do not use
 module.exports = {
 	getAccountById: getAccountById
 };

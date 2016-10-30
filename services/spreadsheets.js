@@ -98,9 +98,9 @@ function getSpreadsheet(sheetName, docName, next){
 		case 'tech_survey':
 			sheetNum = 1;
 			break;
-		//case '2016-17':
-		//	sheetNum = 0;
-		//	break;
+		case '2016-17':
+			sheetNum = 0;
+			break;
 		case 'sandbox':
 			sheetNum = 1;
 			break;
