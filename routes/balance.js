@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var https = require('https');
 var viewName = 'balance';
 var accountService = require('../services/accounts.js');
 
@@ -8,8 +7,18 @@ function getScoutAccountBalance(res, scoutId) {
 	accountService.getAccountById(scoutId, function(account) {
 		console.log('Found account balance of ' + account.balance + 
 				' for scout ' + account.scoutname + '.');
-		res.send('<p>Found account balance of ' + account.balance + 
-				' for scout ' + account.scoutname + '.</p><p><a href="/">Make Another Request</a>');	
+		// res.send('<p>Found account balance of ' + account.balance + 
+		// 		' for scout ' + account.scoutname + '.</p><p><a href="/">Make Another Request</a>');
+		res.render('balance_result', {
+			title: 'Scout Account Balance',
+			scoutName: account.scoutname,
+			starting: account.starting,
+			rafting: account.rafting,
+			backpacking: account.backpacking,
+			fishing: account.fishing,
+			climbing: account.climbing,
+			balance: account.balance
+		});	
 	});
 }
 
@@ -20,7 +29,7 @@ function lookupEmailAddress(req, res) {
 }
 
 router.get('/', function(req,res){
-	res.render('balance', { title: 'Request Scout Account Balance' });
+	res.render(viewName, { title: 'Request Scout Account Balance' });
 });
 
 router.get('/:scoutId', function (req,res) {
