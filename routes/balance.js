@@ -2,29 +2,62 @@ var express = require('express');
 var router = express.Router();
 var viewName = 'balance';
 var accountService = require('../services/accounts.js');
+var userService = require('../services/users.js');
+var mailService = require('../services/mailer.js');
 
-function getScoutAccountBalance(res, scoutId) {
+function getScoutAccountBalance(res, scoutId, deliverByEmail, next) {
 	accountService.getAccountById(scoutId, function(account) {
-		console.log('Found account balance of ' + account.balance + 
-				' for scout ' + account.scoutname + '.');
+		
 		// res.send('<p>Found account balance of ' + account.balance + 
 		// 		' for scout ' + account.scoutname + '.</p><p><a href="/">Make Another Request</a>');
-		res.render('balance_result', {
-			title: 'Scout Account Balance',
-			scoutName: account.scoutname,
-			starting: account.starting,
-			rafting: account.rafting,
-			backpacking: account.backpacking,
-			fishing: account.fishing,
-			climbing: account.climbing,
-			balance: account.balance
-		});	
+		if (!deliverByEmail) {
+			if (account) {
+				console.log('Found account balance of ' + account.balance + 
+					' for scout ' + account.scoutname + '.');
+				res.render('balance_result', {
+					success: true,
+					title: 'Scout Account Balance',
+					scoutName: account.scoutname,
+					starting: account.starting,
+					popcorn: account.popcorn,
+					popOnline: account.poponline,
+					campCard: account.campcard,
+					rafting: account.rafting,
+					backpacking: account.backpacking,
+					fishing: account.fishing,
+					climbing: account.climbing,
+					balance: account.balance
+				});	
+			}
+			else {
+				res.render('balance_result', {
+					success: false,
+					title: 'Invalid Request Error',
+					msg: 'Sorry the Scout ID in your request is not associated with a scout account.'
+				});	
+			}
+		}
+		else {
+
+		}
+		
 	});
 }
 
 function lookupEmailAddress(req, res) {
-	console.log('Here is where we would look for a matching email address...');
-	res.send('lookup email address request received for ' + req.email);
+	userService.lookupEmailAddress(req.body.email, function(scouts) {
+		var emailFound = (scouts.length > 0);
+		if (emailFound) {
+			//TODO: getAccountBalance and send below in as callback
+		}
+		res.render('balance_result_email',{
+			emailFound: emailFound,
+			success: "The account balance has been sent to the scout's registered email addresses.",
+			failure: "Sorry, no scout account was found to be associated with the submitted email address " + req.email +"."
+		});
+	});
+
+	
 	
 }
 
@@ -37,7 +70,12 @@ router.get('/:scoutId', function (req,res) {
 });
 
 router.post('/id', function(req,res){
-	getScoutAccountBalance(res, req.body.scoutId);
+	if (req.body.scoutId) {
+		getScoutAccountBalance(res, req.body.scoutId);
+	}
+	else {
+
+	}
 });
 
 router.post('/email', function(req, res) {

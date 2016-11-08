@@ -12,7 +12,7 @@ function getAccountById (scoutId, next) {
 		getScoutAccounts(sheet, scoutId, function(accounts) {
 			var matchedAccount = null;
 			var message = '';
-			for(let i=0;i < accounts.length; i++){
+			for(let i = 0; i < accounts.length; i++){
 				let account = accounts[i];
 				matchedAccount = (account.scoutid === scoutId)? account : null;
 				if (matchedAccount) {
@@ -33,7 +33,6 @@ function getAccountById (scoutId, next) {
 function getScoutAccounts(sheet, scoutId, next) {
 	sheet.getRows({
       offset: 2
-	  //limit: 86
     }, 
 	function( err, rows ){    	
 		console.log('Read '+rows.length+' rows');

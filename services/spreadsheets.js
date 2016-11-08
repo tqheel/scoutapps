@@ -63,8 +63,6 @@ function processBalanceRequest(email, sheet, next){
 			var message = '';
 			for(var i=0;i<rowData.length;i++){
 				var row = rowData[i];
-				//console.log(row.name);
-				//console.log('Name: ' + row.email + ', Balance: ' + row.balance);
 				matchedRow = (row.email==email)? row : null;
 				if(matchedRow){
 					console.log('=============');
@@ -104,6 +102,8 @@ function getSpreadsheet(sheetName, docName, next){
 		case 'sandbox':
 			sheetNum = 1;
 			break;
+		case 'user_data':
+			sheetNum = 3;
 	}
 
 	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
