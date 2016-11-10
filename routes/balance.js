@@ -37,7 +37,7 @@ function getScoutAccountBalance(res, scoutId, deliverByEmail, next) {
 					knob: account.knob,
 					recharter: account.recharter,
 					oaFees: account.oafees,
-					scoutProjects: account.eagleprojects,
+					eagleScoutProjects: account.eagleprojects,
 					northernTier: account.northerntier,
 					jambo: account.jambo,
 					balance: account.balance
