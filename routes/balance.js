@@ -26,6 +26,20 @@ function getScoutAccountBalance(res, scoutId, deliverByEmail, next) {
 					backpacking: account.backpacking,
 					fishing: account.fishing,
 					climbing: account.climbing,
+					manatees: account.manatees,
+					shooting: account.shooting,
+					wwCenter: account.wwcenter,
+					bootcamp: account.bootcamp,
+					camporee: account.camporee,
+					fortFisher: account.fortfisher,
+					aquatics: account.aquatics,
+					durant: account.durant,
+					knob: account.knob,
+					recharter: account.recharter,
+					oaFees: account.oafees,
+					scoutProjects: account.eagleprojects,
+					northernTier: account.northerntier,
+					jambo: account.jambo,
 					balance: account.balance
 				});	
 			}
