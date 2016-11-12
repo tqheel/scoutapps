@@ -1,5 +1,6 @@
 'use strict';
 var sheetService = require('../services/spreadsheets.js');
+var utils = require('../utils/common.js');
 
 function lookupEmailAddress(email, next) {
     sheetService.getSpreadsheet('userData', 'scout_apps', function(sheet) {
@@ -11,6 +12,20 @@ function lookupEmailAddress(email, next) {
                     matchedUsers.push(user);
                 }
             }
+            matchedUsers.forEach(function(user) {
+                user.emailAddresses = [];
+                if (!utils.isEmptyOrWhitespace(user.scoutemail)) {
+                    user.emailAddresses.push(user.scoutemail);
+                }
+                if (!utils.isEmptyOrWhitespace(user.parentemail1)) {
+                    user.emailAddresses.push(user.parentemail1);
+                }
+                if (!utils.isEmptyOrWhitespace(user.parentemail2)) {
+                    user.emailAddresses.push(user.parentemail2);
+                }
+            });
+            //now we need to de-dupe
+            
             // var matchedUsers = users.filter(function(user){
             //     return email === user.scoutemail || email === user.parentemail1 || email === user.parentemail2
             // });
