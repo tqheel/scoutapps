@@ -23,8 +23,12 @@ function lookupEmailAddress(email, next) {
                 if (!utils.isEmptyOrWhitespace(user.parentemail2)) {
                     user.emailAddresses.push(user.parentemail2);
                 }
+                //now we need to de-dupe
+                user.emailAddresses = function () {
+                    return Array.from(new Set(user.emailAddresses));
+                };
             });
-            //now we need to de-dupe
+            
             
             // var matchedUsers = users.filter(function(user){
             //     return email === user.scoutemail || email === user.parentemail1 || email === user.parentemail2
