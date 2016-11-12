@@ -3,7 +3,7 @@ var sheetService = require('../services/spreadsheets.js');
 var utils = require('../utils/common.js');
 
 function lookupEmailAddress(email, next) {
-    sheetService.getSpreadsheet('userData', 'scout_apps', function(sheet) {
+    sheetService.getSpreadsheet('user_data', 'scout_apps', function(sheet) {
         getUserData(sheet, email, function(users){
             var matchedUsers = [];
             for(let i = 0; i < users.length; i++) {
@@ -12,9 +12,10 @@ function lookupEmailAddress(email, next) {
                     matchedUsers.push(user);
                 }
             }
-            matchedUsers.forEach(function(user) {
+            for (let i = 0; i < matchedUsers.length; i++) {
+                let user = matchedUsers[i];
                 user.emailAddresses = [];
-                if (!utils.isEmptyOrWhitespace(user.scoutemail)) {
+                if (!utils.isEmptyOrWhitespace(matchedUsers[i].scoutemail)) {
                     user.emailAddresses.push(user.scoutemail);
                 }
                 if (!utils.isEmptyOrWhitespace(user.parentemail1)) {
@@ -23,17 +24,19 @@ function lookupEmailAddress(email, next) {
                 if (!utils.isEmptyOrWhitespace(user.parentemail2)) {
                     user.emailAddresses.push(user.parentemail2);
                 }
-                //now we need to de-dupe
-                user.emailAddresses = function () {
-                    return Array.from(new Set(user.emailAddresses));
-                };
-            });
-            
-            
-            // var matchedUsers = users.filter(function(user){
-            //     return email === user.scoutemail || email === user.parentemail1 || email === user.parentemail2
-            // });
-
+                //now we need to de-duplicate
+                console.log(user.emailAddresses);
+                user.emailAddresses = utils.deDuplicateArray(user.emailAddresses);
+                console.log(user.emailAddresses);
+            }
+            for (let i = 0; i < matchedUsers.length; i++) {
+                let user = matchedUsers[i];
+                console.log('The emails for ' + user.firstname + ' ' + user.lastname + ' are:');
+                for (let j = 0; j < user.emailAddresses.length; j++) {
+                    let address = user.emailAddresses[j];
+                    console.log(address);
+                }
+            }        
             next(matchedUsers);
         });
     });

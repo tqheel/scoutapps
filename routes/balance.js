@@ -63,11 +63,12 @@ function lookupEmailAddress(req, res) {
 		var emailFound = (scouts.length > 0);
 		if (emailFound) {
 			//TODO: getAccountBalance and send below in as callback
+			console.log('the scout email address was found.');
 		}
 		res.render('balance_result_email',{
 			emailFound: emailFound,
 			success: "The account balance has been sent to the scout's registered email addresses.",
-			failure: "Sorry, no scout account was found to be associated with the submitted email address " + req.email +"."
+			failure: "Sorry, no scout account was found to be associated with the submitted email address " + req.email + "."
 		});
 	});
 
@@ -93,6 +94,7 @@ router.post('/id', function(req,res){
 });
 
 router.post('/email', function(req, res) {
+	console.log('looking up email address from form data...');
 	lookupEmailAddress(req, res);	
 }); 
 
