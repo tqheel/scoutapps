@@ -1,9 +1,5 @@
 'use strict';
-//var getUniqueId = require('uid');
-//var async = require('async');
-//var Account = require ('../types/Account.js');
 var sheetService = require('../services/spreadsheets.js');
-var fs = require('fs');
 
 function getAccountById (scoutId, next) {
 	var sheetName = '2016-17';

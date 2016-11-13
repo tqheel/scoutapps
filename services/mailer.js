@@ -90,5 +90,6 @@ function sendSystemEmail(emailInfos, subject, message){
 
 module.exports = {
 	sendSystemEmail: sendSystemEmail,
-	getDefaultSystemEmailInfos: getDefaultSystemEmailInfos
+	getDefaultSystemEmailInfos: getDefaultSystemEmailInfos,
+	constructAndSendMessage: constructAndSendMessage
 }
