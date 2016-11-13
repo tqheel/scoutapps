@@ -15,8 +15,19 @@ function constructEmailRecipientsFromArrayOfStrings(addressArray, next) {
     next(recipients);
 }
 
+function buildHtmlBlockFromStringArray(arrayOfStrings, next) {
+    var htmlBlock = '';
+    var startPara = '<p>';
+    var endPara = '</p>';
+    for (let i = 0; i < arrayOfStrings.length; i++) {
+        htmlBlock = htmlBlock + startPara + arrayOfStrings[i] + endPara;
+    }
+    next(htmlBlock);
+}
+
 module.exports = {
     isEmptyOrWhitespace: isEmptyOrWhitespace,
     deDuplicateArray: deDuplicateArray,
-    constructEmailRecipientsFromArrayOfStrings: constructEmailRecipientsFromArrayOfStrings
+    constructEmailRecipientsFromArrayOfStrings: constructEmailRecipientsFromArrayOfStrings,
+    buildHtmlBlockFromStringArray: buildHtmlBlockFromStringArray
 };

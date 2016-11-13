@@ -5,6 +5,7 @@ var accountService = require('../services/accounts.js');
 var userService = require('../services/users.js');
 var mailService = require('../services/mailer.js');
 const StringUtils = require('../helpers/StringUtils.js');
+var utils = require('../utils/common.js');
 
 function getScoutAccountBalance(res, scoutId, deliverByEmail, next) {
 	accountService.getAccountById(scoutId, function(account) {
@@ -73,13 +74,19 @@ function lookupEmailAddress(req, res) {
 						scouts[i].account = account;
 
 						let su = new StringUtils();
-						su.createCommaDelimitedStringFromArray(scouts[i].emailAddresses, function(toEmailAddressStrings) {
-							//TODO: make mailService.getDefaultSystemEmail function private
-							//TODO: turn off Survey since this move is going to break the survey mail functionality
-							mailService.constructAndSendMessage(sysSenderInfo, toEmailAddressStrings, subject, message);
-						});	
-						
-						
+						let messageLines = [
+							'',
+							'',
+							'',
+							'',
+							'',
+						];
+						utils.buildHtmlBlockFromStringArray(messageLines, function(message) {
+							su.createCommaDelimitedStringFromArray(scouts[i].emailAddresses, function(toEmailAddressStrings) {
+								let subject = 'Scout Account Balance for ' + scouts[i].firstname + ' ' + scouts[i].lastname;
+								mailService.sendEmailToRecipients(toEmailAddressStrings, subject, message);
+							});	
+						});				
 					}
 				});
 
