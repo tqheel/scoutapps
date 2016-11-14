@@ -111,7 +111,7 @@ router.post('/email', function(req, res) {
 						utils.buildHtmlBlockFromStringArray(messageLines, function(message) {
 							su.createCommaDelimitedStringFromArray(scouts[i].emailAddresses, function(toEmailAddressStrings) {
 								let subject = 'Scout Account Balance for ' + scoutName;
-								mailService.sendEmailToRecipients(toEmailAddressStrings, subject, message, true);
+								mailService.sendEmailToRecipients(toEmailAddressStrings, subject, message, false);
 							});	
 						});				
 					}
