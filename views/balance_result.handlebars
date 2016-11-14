@@ -1,0 +1,76 @@
+<h1>{{title}}</h1>
+{{#if success}}
+    <h3>{{scoutName}}</h3>
+    <div class="row">
+        <div class="two columns">   
+            <span><strong>Starting Balance</strong></span>
+            <hr>
+            <span><strong>Fundraising</strong></span><br>     
+            <span>Popcorn Sales</span><br>
+            <span>Popcorn Online Sales</span><br>
+            <span>Camp Card Sales</span>
+            <hr>
+            <span><strong>Fees</strong></span><br>      
+            <span>Rafting</span><br>
+            <span>Backpacking</span><br>
+            <span>Fishing</span><br>
+            <span>Climbing</span><br>
+            <span>Manatees</span><br>
+            <span>Shooting</span><br>
+            <span>White Water Center</span><br>
+            <span>Bootcamp</span><br>
+            <span>Camporee</span><br>
+            <span>Fort Fisher</span><br>
+            <span>Aquatics</span><br>
+            <span>Durant Summer Camp</span><br>
+            <span>Ravens Knob Summer Camp</span>
+            <span>Recharter</span><br>
+            <span>OA Fees</span><br>
+            <span>Eagle Scout Projects</span><br>
+            <span>Northern Tier</span><br>
+            <span>Jamboree</span>
+            <hr>
+            <span><strong>Ending Balance</strong></span><br>
+            
+            
+        </div>
+        <div class="two columns">
+            <span>{{starting}}</span>
+            <hr>
+            <br>
+            <br>
+            <span>{{popcorn}}</span><br>
+            <span>{{popcornOnline}}</span><br>
+            <span>{{campCard}}</span>
+            <hr>
+            <br>
+            <span>{{rafting}}</span><br>
+            <span>{{backpacking}}</span><br>
+            <span>{{fishing}}</span><br>
+            <span>{{climbing}}</span><br>
+            <span>{{manatees}}</span><br>
+            <span>{{shooting}}</span><br>
+            <span>{{wwCenter}}</span><br>
+            <span>{{bootcamp}}</span><br>
+            <span>{{camporee}}</span><br>
+            <span>{{fortFisher}}</span><br>
+            <span>{{aquatics}}</span><br>
+            <span>{{durant}}</span><br>
+            <span>{{knob}}</span><br>
+            <span>{{recharter}}</span><br>
+            <span>{{oaFees}}</span><br>
+            <span>{{eagleScoutProjects}}</span><br>
+            <span>{{northernTier}}</span><br>
+            <span>{{jambo}}</span><br>
+            <hr>
+            <span><strong>{{balance}}</strong></span><br>
+        </div>
+    
+    </div>
+{{else}}
+    {{msg}}
+{{/if}}
+<div class="row">
+    <br>
+    <a href="/balance">Click here</a> to make another account balance request.
+</div>
