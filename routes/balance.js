@@ -1,3 +1,4 @@
+'use strict';
 var express = require('express');
 var router = express.Router();
 var viewName = 'balance';
@@ -60,52 +61,10 @@ function getScoutAccountBalance(res, scoutId, deliverByEmail, next) {
 	});
 }
 
-//TODO: add callback parameter 'next' and move everything after userService function call to calling 'post" function'
-function lookupEmailAddress(req, res) {
+function lookupEmailAddress(req, res, next) {
 	userService.lookupEmailAddress(req.body.email, function(scouts) {
-		var emailFound = (scouts.length > 0);
-		var atLeastOneAccountFound = false;
-		if (emailFound) {			
-			for (let i =0; i < scouts.length; i++) {
-				getScoutAccountBalance(res, scouts[i].id, true, function (account) {
-					if(account) {
-						atLeastOneAccountFound = true;
-						//create new account property on scout object
-						scouts[i].account = account;
-
-						let su = new StringUtils();
-						let messageLines = [
-							'',
-							'',
-							'',
-							'',
-							'',
-						];
-						utils.buildHtmlBlockFromStringArray(messageLines, function(message) {
-							su.createCommaDelimitedStringFromArray(scouts[i].emailAddresses, function(toEmailAddressStrings) {
-								let subject = 'Scout Account Balance for ' + scouts[i].firstname + ' ' + scouts[i].lastname;
-								mailService.sendEmailToRecipients(toEmailAddressStrings, subject, message);
-							});	
-						});				
-					}
-				});
-
-			}
-			if (atLeastOneAccountFound) {
-				res.render('balance_result_email',{
-					emailFound: emailFound,
-					accountFound: atLeastOneAccountFound,
-					success: "The account balance has been sent to the scout's registered email addresses.",
-					failure: "Sorry, no scout account was found to be associated with the submitted email address " + req.email + "."
-				});
-			}
-			
-		}
-		
-	});
-
-	
-	
+		next(scouts);		
+	});	
 }
 
 router.get('/', function(req,res){
@@ -121,13 +80,58 @@ router.post('/id', function(req,res){
 		getScoutAccountBalance(res, req.body.scoutId);
 	}
 	else {
-
+		res.render('balance_result', {
+			success: false,
+			title: 'Invalid Request Error',
+			msg: 'Sorry the Scout ID in your request is not associated with a scout account.'
+		});	
 	}
 });
 
 router.post('/email', function(req, res) {
 	console.log('looking up email address from form data...');
-	lookupEmailAddress(req, res);	
+	lookupEmailAddress(req, res, function(scouts) {
+		var emailFound = (scouts.length > 0);
+		var atLeastOneAccountFound = false;
+		if (emailFound) {			
+			for (let i =0; i < scouts.length; i++) {
+				let scoutName = scouts[i].firstname + ' ' + scouts[i].lastname;
+				getScoutAccountBalance(res, scouts[i].id, true, function (account) {
+					if(account) {
+						let accountUrl = req.protocol + '://' + req.get('host') + '/balance/' + scouts[i].id;
+						atLeastOneAccountFound = true;
+						let su = new StringUtils();
+						let messageLines = [
+							'The account balance for ' + scoutName + ' is ' + account.balance + '.',
+							'Pleae keep in mind that all fees used for recent trips may not have been deducted from this balance.',
+							'To view details on fundraising contributions and fee deductions from this account, follow the URL included below.',
+							'<a href="' + accountUrl + '">' + accountUrl + '</a>',
+							'This is an automated message. Please do not reply.',
+						];
+						utils.buildHtmlBlockFromStringArray(messageLines, function(message) {
+							su.createCommaDelimitedStringFromArray(scouts[i].emailAddresses, function(toEmailAddressStrings) {
+								let subject = 'Scout Account Balance for ' + scoutName;
+								mailService.sendEmailToRecipients(toEmailAddressStrings, subject, message, true);
+							});	
+						});				
+					}
+				});
+			}
+			res.render('balance_result_email',{
+				emailFound: emailFound,
+				accountFound: atLeastOneAccountFound,
+				success: "The account balance has been sent to the scout's registered email addresses.",
+				failure: "Sorry, no scout account was found to be associated with the submitted email address " + req.email + "."
+			});			
+		}
+		else {
+			res.render('balance_result_email',{
+				emailFound: false,
+				accountFound: false,
+				failure: "Sorry, the email address that was submitted was not found to be associated with a registered scout."
+			});
+		}
+	});	
 }); 
 
 module.exports = router;

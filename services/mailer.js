@@ -90,9 +90,16 @@ function sendSystemEmail(subject, message){
 	});
 }
 
-function sendEmailToRecipients(recipients, subject, message) {
+function sendEmailToRecipients(recipients, subject, message, isTestMode) {
+	if (isTestMode) {
+		message = message + 
+			'<p>' + 'This is a test but this message would have been sent to:<br>' +
+			recipients + '</p>';
+		recipients = 'tqualls@gmail.com, consulting@toddqualls.com';	
+	}
+	
 	getSystemSenderEmailInfo(function (sysSenderInfo) {
-		constructAndSendMessage(sysSenderInfo, toEmailAddressStrings, subject, message);
+		constructAndSendMessage(sysSenderInfo, recipients, subject, message);
 	});
 	
 }

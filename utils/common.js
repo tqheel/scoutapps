@@ -1,3 +1,5 @@
+'use strict';
+
 function isEmptyOrWhitespace(str){
     return str === null || str.match(/^ *$/) !== null;
 }
