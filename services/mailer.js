@@ -61,7 +61,7 @@ function constructAndSendMessage(senderInfo, toEmailAddresses, subject, message)
 		});
 }
 
-function sendSystemEmail(emailInfos, subject, message){
+function sendSystemEmail(subject, message){
 	getSystemSenderEmailInfo(function (sysSenderInfo) {
 		/*
 		if (Array.isArray(toEmailAddresses)) {
@@ -77,18 +77,35 @@ function sendSystemEmail(emailInfos, subject, message){
 
 		}	
 		*/
-		var toEmailAddresses = [];
-		for (let i = 0; i < emailInfos.length; i++) {
-			toEmailAddresses.push(emailInfos[i].email);
-		}
-		let su = new StringUtils();
-		su.createCommaDelimitedStringFromArray(toEmailAddresses, function(toEmailAddressStrings) {
-			constructAndSendMessage(sysSenderInfo, toEmailAddressStrings, subject, message);
-		});	
+		getDefaultSystemEmailInfos(function(emailInfos) {
+			var toEmailAddresses = [];
+			for (let i = 0; i < emailInfos.length; i++) {
+				toEmailAddresses.push(emailInfos[i].email);
+			}
+			let su = new StringUtils();
+			su.createCommaDelimitedStringFromArray(toEmailAddresses, function(toEmailAddressStrings) {
+				constructAndSendMessage(sysSenderInfo, toEmailAddressStrings, subject, message);
+			});	
+		});		
 	});
+}
+
+function sendEmailToRecipients(recipients, subject, message, isTestMode) {
+	if (isTestMode) {
+		message = message + 
+			'<p>' + 'This is a test but this message would have been sent to:<br>' +
+			recipients + '</p>';
+		recipients = 'tqualls@gmail.com, consulting@toddqualls.com';	
+	}
+	
+	getSystemSenderEmailInfo(function (sysSenderInfo) {
+		constructAndSendMessage(sysSenderInfo, recipients, subject, message);
+	});
+	
 }
 
 module.exports = {
 	sendSystemEmail: sendSystemEmail,
-	getDefaultSystemEmailInfos: getDefaultSystemEmailInfos
+	constructAndSendMessage: constructAndSendMessage,
+	sendEmailToRecipients: sendEmailToRecipients
 }

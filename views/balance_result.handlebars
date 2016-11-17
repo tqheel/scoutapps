@@ -1,0 +1,128 @@
+<h1>{{title}}</h1>
+{{#if success}}
+    <h3>{{scoutName}}</h3>
+    <div class="row">      
+
+        <table>
+            <tr>
+                <td><strong>Starting Balance</strong></td>
+                <td>{{starting}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Fundraising</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Popcorn Sales</td>
+                <td>{{popcorn}}</td>
+            </tr>
+            <tr>
+                <td>Popcorn Online Sales</td>
+                <td>{{popcornOnline}}</td>
+            </tr>
+            <tr>
+                <td>Camp Card Sales</td>
+                <td>{{campCard}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Fees</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Rafting</td>
+                <td>{{rafting}}</td>
+            </tr>
+            <tr>
+                <td>Backpacking</td>
+                <td>{{backpacking}}</td>
+            </tr>
+            <tr>
+                <td>Fishing</td>
+                <td>{{fishing}}</td>
+            </tr>
+            <tr>
+                <td>Climbing</td>
+                <td>{{climbing}}</td>
+            </tr>
+            <tr>
+                <td>Manatees</td>
+                <td>{{manatees}}</td>
+            </tr>
+            <tr>
+                <td>Shooting</td>
+                <td>{{shooting}}</td>
+            </tr>
+            <tr>
+                <td>White Water Center</td>
+                <td>{{wwCenter}}</td>
+            </tr>
+            <tr>
+                <td>Bootcamp</td>
+                <td>{{bootcamp}}</td>
+            </tr>
+            <tr>
+                <td>Camporee</td>
+                <td>{{camporee}}</td>
+            </tr>
+            <tr>
+                <td>Fort Fisher</td>
+                <td>{{fortFisher}}</td>
+            </tr>
+            <tr>
+                <td>Aquatics</td>
+                <td>{{aquatics}}</td>
+            </tr>
+            <tr>
+                <td>Durant Summer Camp</td>
+                <td>{{durant}}</td>
+            </tr>
+            <tr>
+                <td>Ravens Knob Summer Camp</td>
+                <td>{{knob}}</td>
+            </tr>
+            <tr>
+                <td>Recharter</td>
+                <td>{{recharter}}</td>
+            </tr>
+            <tr>
+                <td>OA Fees</td>
+                <td>{{oaFees}}</td>
+            </tr>
+            <tr>
+                <td>Eagle Scout Projects</td>
+                <td>{{eagleScoutProjects}}</td>
+            </tr>
+            <tr>
+                <td>Northern Tier</td>
+                <td>{{northernTier}}</td>
+            </tr>
+            <tr>
+                <td>Jamboree</td>
+                <td>{{jambo}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Ending Balance</strong></td>
+                <td>{{balance}}</td>
+            </tr>
+        </table>
+    
+    </div>
+{{else}}
+    {{msg}}
+{{/if}}
+<div class="row">
+    <br>
+    <a href="/balance">Click here</a> to make another account balance request.
+</div>

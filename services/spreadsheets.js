@@ -23,7 +23,7 @@ fs.readFile(authFile, 'utf8', function(err, data) {
 
 function getSpreadsheetInfo(docName){
 	var sheetInfo = spreadsheets.filter(function(item){
-			return item.name == docName;
+		return item.name == docName;
 	});
 	return sheetInfo;
 }
@@ -46,7 +46,7 @@ function writeGenericRows(sheet, data, next) {
 
     sheet.addRow(
     	data, function(){
-		console.log('New row added to spreadsheet.');
+		console.log('New row added to spreadsheet ' + sheet.title);
     	next();
     });
 }
@@ -63,8 +63,6 @@ function processBalanceRequest(email, sheet, next){
 			var message = '';
 			for(var i=0;i<rowData.length;i++){
 				var row = rowData[i];
-				//console.log(row.name);
-				//console.log('Name: ' + row.email + ', Balance: ' + row.balance);
 				matchedRow = (row.email==email)? row : null;
 				if(matchedRow){
 					console.log('=============');
@@ -98,6 +96,18 @@ function getSpreadsheet(sheetName, docName, next){
 		case 'tech_survey':
 			sheetNum = 1;
 			break;
+		case '2016-17':
+			sheetNum = 0;
+			break;
+		case 'sandbox':
+			sheetNum = 1;
+			break;
+		case 'user_data':
+			sheetNum = 3;
+			break;
+		case 'balance_log':
+			sheetNum = 5;
+			break;
 	}
 
 	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
@@ -129,6 +139,7 @@ function getTargetSheet(spreadsheetDoc, sheetNum, next){
 			console.log('Loaded doc ' + info.title + ', by ' + info.author.email);
 			sheet = info.worksheets[sheetNum];
 			console.log('Got sheet "' + sheet.title + '".');
+
 			next(sheet);
 		}		
 	});
@@ -166,9 +177,20 @@ function SignUp (scoutName, registeredEmail, additionalEmails) {
 	this.confsent = false;
 }
 
+function BalanceLog (scoutId, scoutName, emailSubmitted, balanceOnFile, msgSentTo) {
+	this.date = new Date();
+	this.scoutid = scoutId;
+	this.scoutname = scoutName;
+	this.emailsubmitted = emailSubmitted;
+	this.balanceonfile = balanceOnFile;
+	this.msgsentto = msgSentTo
+}
+
 module.exports = {
 		getSpreadsheet: getSpreadsheet,
 		writeSignUp: writeSignUp,
 		processBalanceRequest: processBalanceRequest,
-		writeSurvey: writeSurvey
+		writeSurvey: writeSurvey,
+		writeGenericRows: writeGenericRows,
+		BalanceLog: BalanceLog
 };
