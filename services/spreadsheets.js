@@ -46,7 +46,7 @@ function writeGenericRows(sheet, data, next) {
 
     sheet.addRow(
     	data, function(){
-		console.log('New row added to spreadsheet.');
+		console.log('New row added to spreadsheet ' + sheet.title);
     	next();
     });
 }
@@ -177,9 +177,20 @@ function SignUp (scoutName, registeredEmail, additionalEmails) {
 	this.confsent = false;
 }
 
+function BalanceLog (scoutId, scoutName, emailSubmitted, balanceOnFile, msgSentTo) {
+	this.date = new Date();
+	this.scoutid = scoutId;
+	this.scoutname = scoutName;
+	this.emailsubmitted = emailSubmitted;
+	this.balanceonfile = balanceOnFile;
+	this.msgsentto = msgSentTo
+}
+
 module.exports = {
 		getSpreadsheet: getSpreadsheet,
 		writeSignUp: writeSignUp,
 		processBalanceRequest: processBalanceRequest,
-		writeSurvey: writeSurvey
+		writeSurvey: writeSurvey,
+		writeGenericRows: writeGenericRows,
+		BalanceLog: BalanceLog
 };

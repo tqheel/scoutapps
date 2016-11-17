@@ -7,6 +7,7 @@ var userService = require('../services/users.js');
 var mailService = require('../services/mailer.js');
 const StringUtils = require('../helpers/StringUtils.js');
 var utils = require('../utils/common.js');
+var loggerService = require('../services/logger.js');
 
 function getScoutAccountBalance(res, scoutId, deliverByEmail, next) {
 	accountService.getAccountById(scoutId, function(account) {
@@ -111,6 +112,11 @@ router.post('/email', function(req, res) {
 						utils.buildHtmlBlockFromStringArray(messageLines, function(message) {
 							su.createCommaDelimitedStringFromArray(scouts[i].emailAddresses, function(toEmailAddressStrings) {
 								let subject = 'Scout Account Balance for ' + scoutName;
+								loggerService.logBalanceRequest(
+									scouts[i].id, scoutName, req.body.email, 
+									account.balance, toEmailAddressStrings, function() {
+									console.log('Balance request logged.');
+								});
 								mailService.sendEmailToRecipients(toEmailAddressStrings, subject, message, false);
 							});	
 						});				
