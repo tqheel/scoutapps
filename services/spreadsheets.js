@@ -104,6 +104,10 @@ function getSpreadsheet(sheetName, docName, next){
 			break;
 		case 'user_data':
 			sheetNum = 3;
+			break;
+		case 'balance_log':
+			sheetNum = 5;
+			break;
 	}
 
 	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
