@@ -6,8 +6,8 @@ class Trip {
     _tripmaster: string;
     _destination: string;
     _scoutseason: string;
-    _departuredate: Date;
-    _returndate: Date;
+    _departuretime: Date;
+    _returntime: Date;
     _youthfee: number;
     _adultfee: number;
     _permissionslip: boolean;
@@ -17,8 +17,8 @@ class Trip {
     _patrols: string[];
     _scouts: TripScout[];
     constructor(public tripid: number, public name: string, public tripmaster: string,
-        public destination: string, public scoutseason: string, public departuredate: Date,
-        public returndate: Date, public youthfee: number, public adultfee: number, 
+        public destination: string, public scoutseason: string, public departuretime: Date,
+        public returntime: Date, public youthfee: number, public adultfee: number, 
         public permissionslip: boolean, public healthform: boolean, public grubmaster: string,
         public grubfee: number, public patrols: string[], public scouts: TripScout[]) {
             this._tripid = tripid,
@@ -26,8 +26,8 @@ class Trip {
             this._tripmaster = tripmaster,
             this._destination = destination,
             this._scoutseason = scoutseason,
-            this._departuredate = departuredate,
-            this._returndate = returndate,
+            this._departuretime = departuretime,
+            this._returntime = returntime,
             this._youthfee = youthfee,
             this._adultfee = adultfee,
             this._permissionslip = permissionslip,
@@ -37,6 +37,9 @@ class Trip {
             this._patrols = patrols,
             this._scouts = scouts
         }
+        // add () {
+        //     console.log('new trip would be added to spreadsheet here...');
+        // }
 }
 
 class TripScout {

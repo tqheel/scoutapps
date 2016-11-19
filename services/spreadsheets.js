@@ -36,18 +36,22 @@ function writeSignUp(sheet, signupData, next){
 }
 
 function writeGenericRows(sheet, data, next) {
-	
-	sheet.getRows({
-      offset: 1
-    }, function( err, rows ){
-      console.log('Read '+rows.length+' rows');
- 
-    });
-
     sheet.addRow(
     	data, function(){
 		console.log('New row added to spreadsheet ' + sheet.title);
     	next();
+    });
+}
+
+function deleteRow(sheet, row, next) {
+	sheet.getRows({
+      offset: 1
+    }, function( err, rows ){
+      console.log('Read '+rows.length+' rows');
+	  let matchedRows = 
+	  for (let i = 0; i < rows.length; i++) {
+
+	  }
     });
 }
 
@@ -108,14 +112,15 @@ function getSpreadsheet(sheetName, docName, next){
 		case 'balance_log':
 			sheetNum = 5;
 			break;
+		case 'trips':
+			sheetNum = 6;
+			break;
 	}
 
 	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
 
 	if(spreadsheetObject[0].accessMode!=='public'){
-		spreadsheetDoc.useServiceAccountAuth(auth, function(){
-			
-			console.log('Successfully authenticated to target spreadsheet doc.');
+		spreadsheetDoc.useServiceAccountAuth(auth, function(){			
 			getTargetSheet(spreadsheetDoc, sheetNum, next);
 		});
 	}
@@ -129,7 +134,6 @@ function getSpreadsheet(sheetName, docName, next){
 function getTargetSheet(spreadsheetDoc, sheetNum, next){
 	
 	var sheet;
-	console.log(spreadsheetDoc);
 	spreadsheetDoc.getInfo(function(err, info){
 		
 		if(err){
