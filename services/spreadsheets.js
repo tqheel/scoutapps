@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 var secretFile = 'secrets/spreadsheets.json';
 var authFile = 'secrets/scout_balance-48af87a012b6.json'
@@ -43,15 +45,23 @@ function writeGenericRows(sheet, data, next) {
     });
 }
 
-function deleteRow(sheet, row, next) {
+function deleteRow(sheet, id, next) {
 	sheet.getRows({
       offset: 1
     }, function( err, rows ){
       console.log('Read '+rows.length+' rows');
-	  let matchedRows = 
+	  let matchedRows = [];
 	  for (let i = 0; i < rows.length; i++) {
-
+		  if (rows[i][0] === id) {
+			  matchedRows.push(rows[i]);
+		  }
 	  }
+	  for (let i =0; i < rows.length; i++) {
+		  rows[i].del(function() {
+			  console.log('row deleted from ' + sheet.title);
+		  });
+	  }
+	  next();
     });
 }
 
@@ -74,7 +84,7 @@ function processBalanceRequest(email, sheet, next){
 					console.log(message);
 					mailService.sendEmail(email, message);
 					next(message);
-					break;
+					break; 
 				}
 
 			}
@@ -196,5 +206,6 @@ module.exports = {
 		processBalanceRequest: processBalanceRequest,
 		writeSurvey: writeSurvey,
 		writeGenericRows: writeGenericRows,
-		BalanceLog: BalanceLog
+		BalanceLog: BalanceLog,
+		deleteRow: deleteRow
 };

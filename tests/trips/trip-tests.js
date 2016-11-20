@@ -13,15 +13,6 @@ describe('Trip()', function() {
     
 });
 
-describe('add()', () => {    
-    it('add() adds a new Trip to an array of trips', () => {
-        let trip = new Trip('test trip1', 'tripmaster name');
-        let trips = [];
-        trip.add(trips);
-        expect(trips.length).to.equal(1);
-    });
-});
-
 describe('Trip()', () => {
     it('Trip constructor sets all parameters properly, i.e., they are in corrent order and named correctly', () => {
         let patrols = [
@@ -46,7 +37,8 @@ describe('Trip()', () => {
             'i am he',
             45.67,
             patrols,
-            [scout1]
+            [scout1],
+            'this is my description'
         );
         expect(trip.tripid).to.equal(123);
         expect(trip.name).to.equal('name');
@@ -72,16 +64,16 @@ describe('Trip()', () => {
 });
 
 describe('create()', () => {
-    it('create() method creates a new Trip row in Google Sheet.', () => {
+    beforeEach((done) => {
         let patrols = [
-                'patrol 1', 'patrol 77'
+        'patrol 1', 'patrol 77'
         ];
         let scout1 = new TripScout(
             'bill',
             patrols[1]            
         );        
         let trip = new Trip(
-            123,
+            'sdfsdfsdf1234',
             'name',
             'tripmaster name',
             'destination',
@@ -98,10 +90,42 @@ describe('create()', () => {
             [scout1],
             'this is my description.'
         );
-        trip.create(function() {
-            
-        });
-        
-        
+        trip.create(done);
+          
     });
+    let matchedTrips = null;
+    beforeEach((done) => {
+        let trip = new Trip('sdfsdfsdf1234');        
+        trip.getByTripId(trip.tripid, function (trips) {
+            console.log('Returned ' + trips.length + ' trips.');
+            matchedTrips = trips; 
+            done();
+        });        
+    });
+    it('create() should add new Trip and getbyTripId should return the trips with the matching ID', () => {
+        expect(matchedTrips[0].departuretime).to.equal('Sat Nov 19 2016 14:50:27 GMT-0500 (Eastern Standard Time)');
+    });  
+});
+
+describe('delete()', () => {
+    let trip = new Trip('sdfsdfsdf1234');
+    let matchedTrips = [];
+    beforeEach((done) => {      
+        trip.getByTripId(trip.tripid, function (trips) {
+            console.log('Returned ' + trips.length + ' trips.');
+            done();
+        });   
+    });
+    beforeEach((done) => {
+        trip.delete(function() {
+            console.log('trip deleted by test');
+            done();            
+        });           
+    });
+    it('delete() should delete the rows with the matching IDs', () => {                       
+        trip.getByTripId(trip.tripid, function (trips) {
+            matchedTrips = trips;
+        });
+        expect(matchedTrips.length).to.equal(0);
+    });    
 });
