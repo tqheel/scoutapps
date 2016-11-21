@@ -14,32 +14,39 @@ describe('Trip()', function() {
 });
 
 describe('Trip()', () => {
+    let patrols = [
+        'patrol 1', 'patrol 77'
+    ];
+    let scout1 = new TripScout(
+        'bill',
+        patrols[1]            
+    );        
+    let trip = new Trip(
+        123,
+        'name',
+        'tripmaster name',
+        'destination',
+        '2016-2017',
+        '4:45',
+        'Sat Nov 19 2016 14:50:27 GMT-0500 (Eastern Standard Time)',
+        'Sat Nov 19 2016 14:56:22 GMT-0500 (Eastern Standard Time)',
+        5.25,
+        25.34,
+        true,
+        true,
+        'i am he',
+        45.67,
+        patrols,
+        [scout1],
+        'this is my description'
+    );
+    beforeEach((done) => {
+        //deserialize the scouts stringified object back to json
+        trip.scouts = JSON.parse(trip.scouts);
+        done();
+    });
     it('Trip constructor sets all parameters properly, i.e., they are in corrent order and named correctly', () => {
-        let patrols = [
-                'patrol 1', 'patrol 77'
-        ];
-        let scout1 = new TripScout(
-            'bill',
-            patrols[1]            
-        );        
-        let trip = new Trip(
-            123,
-            'name',
-            'tripmaster name',
-            'destination',
-            '2016-2017',
-            'Sat Nov 19 2016 14:50:27 GMT-0500 (Eastern Standard Time)',
-            'Sat Nov 19 2016 14:56:22 GMT-0500 (Eastern Standard Time)',
-            5.25,
-            25.34,
-            true,
-            true,
-            'i am he',
-            45.67,
-            patrols,
-            [scout1],
-            'this is my description'
-        );
+        
         expect(trip.tripid).to.equal(123);
         expect(trip.name).to.equal('name');
         expect(trip.tripmaster).to.equal('tripmaster name');
@@ -60,6 +67,7 @@ describe('Trip()', () => {
         expect(trip.scouts[0].name).to.deep.equal('bill');
         expect(trip.scouts[0].patrol).to.deep.equal('patrol 77');
         expect(trip.description).to.equal('this is my description');
+        expect(trip.mustertime).to.equal('4:45');
     });
 });
 
@@ -76,8 +84,9 @@ describe('create()', () => {
             'sdfsdfsdf1234',
             'name',
             'tripmaster name',
-            'destination',
+            'destination',            
             '2016-2017',
+            '4:45',
             'Sat Nov 19 2016 14:50:27 GMT-0500 (Eastern Standard Time)',
             'Sat Nov 19 2016 14:56:22 GMT-0500 (Eastern Standard Time)',
             5.25,

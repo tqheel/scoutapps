@@ -1,0 +1,35 @@
+<h1>{{mode}}</h1>
+<form action="/new_trip" method="POST">
+    <div class="row">
+        <div class="six columns">
+            <label for="name">
+                Name of Trip:
+            </label>
+            <input type="text" class="u-full-width" name="name" value="">
+            <label for="tripmaster">
+                Tripmaster:
+            </label>
+            <input type="text" class="u-full-width" name="tripmaster" value="">
+            <label for="destination">
+                Destination:
+            </label>
+            <input type="text" class="u-full-width" name="destination" value="">
+            <label for="scoutseason">
+                Scouting Season:
+            </label>
+            <input type="text" class="u-full-width" name="scoutseason" value="{{scoutingSeason}}">
+            <label for="departure_date">
+                Departure Date:
+            </label>
+            <input type="text" class="u-full-width" name="departure_date" value="">
+            <label for="muster_time">
+                Muster Time:
+            </label>
+            <input type="text" class="u-full-width" name="muster_time" value="">
+            <label for="departure_time">
+                Departure Time:
+            </label>
+            <input type="text" class="u-full-width" name="departure_time" value="">
+        </div>
+    </div>
+</form>

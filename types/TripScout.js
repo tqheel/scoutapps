@@ -11,5 +11,8 @@ class TripScout {
         this.medinstructions = medinstructions;
         this.usescoutaccount = usescoutaccount;
     }
+    serialize () {
+        
+    }
 }
 module.exports = TripScout;
