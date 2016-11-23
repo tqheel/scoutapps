@@ -30,6 +30,31 @@
                 Departure Time:
             </label>
             <input type="text" class="u-full-width" name="departure_time" value="">
+            
+            <label for="return_date">
+                Return Date:
+            </label>
+            <input type="text" class="u-full-width" name="return_date" value="">
+            <label for="return_time">
+                Return Time:
+            </label>
+            <input type="text" class="u-full-width" name="return_time" value="">
+
+            <label for="youthfee">
+                Youth Fee:
+            </label>
+            <input type="text" class="u-full-width" name="youthfee" value="">
+
+            <label for="adultfee">
+                Adult Fee:
+            </label>
+            <input type="text" class="u-full-width" name="adultfee" value="">
+
+            <label for="reqpermissionslip">
+                Requires Permission Slip:
+            </label>
+            {{!--need a select list here with a standard Yes/No with --}}
+            {{> yes-no-select-list}}
         </div>
     </div>
 </form>
