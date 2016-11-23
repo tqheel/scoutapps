@@ -34,6 +34,7 @@ describe('Trip()', () => {
         25.34,
         true,
         true,
+        false,
         'i am he',
         45.67,
         patrols,
@@ -68,6 +69,7 @@ describe('Trip()', () => {
         expect(trip.scouts[0].patrol).to.deep.equal('patrol 77');
         expect(trip.description).to.equal('this is my description');
         expect(trip.mustertime).to.equal('4:45');
+        expect(trip.reqwaiver).to.equal(false);
     });
 });
 
@@ -84,7 +86,7 @@ describe('create()', () => {
             'sdfsdfsdf1234',
             'name',
             'tripmaster name',
-            'destination',            
+            'destination',
             '2016-2017',
             '4:45',
             'Sat Nov 19 2016 14:50:27 GMT-0500 (Eastern Standard Time)',
@@ -93,11 +95,12 @@ describe('create()', () => {
             25.34,
             true,
             true,
+            false,
             'i am he',
             45.67,
-            patrols, 
+            patrols,
             [scout1],
-            'this is my description.'
+            'this is my description'
         );
         trip.create(done);
           
@@ -113,6 +116,7 @@ describe('create()', () => {
     });
     it('create() should add new Trip and getbyTripId should return the trips with the matching ID', () => {
         expect(matchedTrips[0].departuretime).to.equal('Sat Nov 19 2016 14:50:27 GMT-0500 (Eastern Standard Time)');
+        expect(matchedTrips[0].description).to.equal('this is my description');
     });  
 });
 

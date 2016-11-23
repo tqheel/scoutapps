@@ -4,7 +4,8 @@ var sheetService = require('../services/spreadsheets');
 
 class Trip {
     constructor(tripid, name, tripmaster, destination, scoutseason, 
-        mustertime, departuretime, returntime, youthfee, adultfee, reqpermissionslip, reqhealthform, 
+        mustertime, departuretime, returntime, youthfee, adultfee, reqpermissionslip, 
+        reqhealthform, reqwaiver,
         grubmaster, grubfee, patrols, scouts, description) {
         this.tripid = tripid;
         this.name = name;
@@ -18,6 +19,7 @@ class Trip {
         this.adultfee = adultfee;
         this.reqpermissionslip = reqpermissionslip;
         this.reqhealthform = reqhealthform;
+        this.reqwaiver = reqwaiver;
         this.grubmaster = grubmaster;
         this.grubfee = grubfee;
         this.patrols = patrols;

@@ -53,8 +53,22 @@
             <label for="reqpermissionslip">
                 Requires Permission Slip:
             </label>
-            {{!--need a select list here with a standard Yes/No with --}}
-            {{> yes-no-select-list}}
+            {{> yes-no-select-list name="reqpermissionslip"}}
+
+            <label for="reqhealthform">
+                Requires Health Form:
+            </label>
+            {{> yes-no-select-list name="reqhealthform"}}
+
+             <label for="grubmaster">
+                Adult Grubmaster:
+            </label>
+            <input type="text" class="u-full-width" name="grubmaster" value="">
+
+            <label for="grubfee">
+                Adult Grub Fee:
+            </label>
+            <input type="text" class="u-full-width" name="grubfee" value="">
         </div>
     </div>
 </form>
