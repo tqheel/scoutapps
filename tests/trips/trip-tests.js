@@ -3,6 +3,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var Trip = require('../../types/Trip');
 var TripScout = require('../../types/TripScout');
+var TripAdult = require('../../types/TripAdult');
 var sheetService = require('../../services/spreadsheets');
 
 describe('Trip()', function() {
@@ -20,9 +21,20 @@ describe('Trip()', () => {
     let scout1 = new TripScout(
         'bill',
         patrols[1]            
-    );        
+    );      
+    let adult1 = new TripAdult(
+        'Todd',
+        true,
+        3,
+        'Ford F-150'
+    );  
+    let adult2 = new TripAdult(
+        'Sam',
+        true,
+        6,
+        'Mazda 3'
+    );
     let trip = new Trip(
-        123,
         'name',
         'tripmaster name',
         'destination',
@@ -39,16 +51,18 @@ describe('Trip()', () => {
         45.67,
         patrols,
         [scout1],
+        [adult1, adult2],
         'this is my description'
     );
     beforeEach((done) => {
-        //deserialize the scouts stringified object back to json
+        //deserialize the scouts and adults stringified objects back to json
         trip.scouts = JSON.parse(trip.scouts);
+        trip.adults = JSON.parse(trip.adults);
         done();
     });
     it('Trip constructor sets all parameters properly, i.e., they are in corrent order and named correctly', () => {
         
-        expect(trip.tripid).to.equal(123);
+        expect(trip.tripid.length).to.equal(8);
         expect(trip.name).to.equal('name');
         expect(trip.tripmaster).to.equal('tripmaster name');
         expect(trip.destination).to.equal('destination');
@@ -67,6 +81,7 @@ describe('Trip()', () => {
         ]);        
         expect(trip.scouts[0].name).to.deep.equal('bill');
         expect(trip.scouts[0].patrol).to.deep.equal('patrol 77');
+        expect(trip.adults[1].carmakemodel).to.deep.equal('Mazda 3');
         expect(trip.description).to.equal('this is my description');
         expect(trip.mustertime).to.equal('4:45');
         expect(trip.reqwaiver).to.equal(false);
@@ -74,6 +89,7 @@ describe('Trip()', () => {
 });
 
 describe('create()', () => {
+    var tripId = null;
     beforeEach((done) => {
         let patrols = [
         'patrol 1', 'patrol 77'
@@ -81,9 +97,20 @@ describe('create()', () => {
         let scout1 = new TripScout(
             'bill',
             patrols[1]            
+        );
+        let adult1 = new TripAdult(
+            'Todd',
+            true,
+            3,
+            'Ford F-150'
+        );  
+        let adult2 = new TripAdult(
+            'Sam',
+            true,
+            6,
+            'Mazda 3'
         );        
         let trip = new Trip(
-            'sdfsdfsdf1234',
             'name',
             'tripmaster name',
             'destination',
@@ -100,16 +127,18 @@ describe('create()', () => {
             45.67,
             patrols,
             [scout1],
+            [adult1,adult2],
             'this is my description'
         );
+        tripId = trip.tripid;
         trip.create(done);
           
     });
     let matchedTrips = null;
     beforeEach((done) => {
-        let trip = new Trip('sdfsdfsdf1234');        
+        let trip = new Trip();
+        trip.tripid = tripId;        
         trip.getByTripId(trip.tripid, function (trips) {
-            console.log('Returned ' + trips.length + ' trips.');
             matchedTrips = trips; 
             done();
         });        
@@ -124,14 +153,12 @@ describe('delete()', () => {
     let trip = new Trip('sdfsdfsdf1234');
     let matchedTrips = [];
     beforeEach((done) => {      
-        trip.getByTripId(trip.tripid, function (trips) {
-            console.log('Returned ' + trips.length + ' trips.');
+        trip.getByTripId(trip.tripid, function () {
             done();
         });   
     });
     beforeEach((done) => {
         trip.delete(function() {
-            console.log('trip deleted by test');
             done();            
         });           
     });
@@ -141,4 +168,13 @@ describe('delete()', () => {
         });
         expect(matchedTrips.length).to.equal(0);
     });    
+});
+
+describe('Trip.tripId auto ID creation', () => {
+    let trip = new Trip(null);
+    it('null Trip.tripid in constructor should create an 8 char ID automatically', () => {
+        console.log(trip.tripid);
+        expect(trip.tripid).to.not.equal(null);
+        expect(trip.tripid.length).to.equal(8);
+    });
 });

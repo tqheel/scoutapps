@@ -40,7 +40,6 @@ function writeSignUp(sheet, signupData, next){
 function writeGenericRows(sheet, data, next) {
     sheet.addRow(
     	data, function(){
-		console.log('New row added to spreadsheet ' + sheet.title);
     	next();
     });
 }
@@ -49,7 +48,6 @@ function deleteRow(sheet, id, next) {
 	sheet.getRows({
       offset: 1
     }, function( err, rows ){
-      console.log('Read '+rows.length+' rows');
 	  let matchedRows = [];
 	  for (let i = 0; i < rows.length; i++) {
 		  if (rows[i][0] === id) {
@@ -57,9 +55,7 @@ function deleteRow(sheet, id, next) {
 		  }
 	  }
 	  for (let i =0; i < rows.length; i++) {
-		  rows[i].del(function() {
-			  console.log('row deleted from ' + sheet.title);
-		  });
+		  rows[i].del(function() {});
 	  }
 	  next();
     });
@@ -150,9 +146,7 @@ function getTargetSheet(spreadsheetDoc, sheetNum, next){
 			console.log(err);
 		}
 		else{
-			console.log('Loaded doc ' + info.title + ', by ' + info.author.email);
 			sheet = info.worksheets[sheetNum];
-			console.log('Got sheet "' + sheet.title + '".');
 
 			next(sheet);
 		}		

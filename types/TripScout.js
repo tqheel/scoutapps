@@ -1,18 +1,19 @@
 'use strict';
 
 class TripScout {
-    constructor(name, patrol, paid, permission, healthform, medication, medinstructions, usescoutaccount) {
+    constructor(name, patrol, paid, haspermission, hashealthform, 
+        reqmedication, medinstructions, usescoutaccount, haswaiversigned,
+        allergies) {
         this.name = name;
         this.patrol = patrol;
         this.paid = paid;
-        this.permission = permission;
-        this.healthform = healthform;
-        this.medication = medication;
+        this.haspermission = haspermission;
+        this.hashealthform = hashealthform;
+        this.reqmedication = reqmedication;
         this.medinstructions = medinstructions;
         this.usescoutaccount = usescoutaccount;
-    }
-    serialize () {
-        
+        this.haswaiversigned = haswaiversigned;
+        this.allergies = allergies;
     }
 }
 module.exports = TripScout;

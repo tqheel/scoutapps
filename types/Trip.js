@@ -1,13 +1,14 @@
 'use strict';
 const _docName = 'scout_apps', _sheetName = 'trips';
 var sheetService = require('../services/spreadsheets');
+var uid = require('uid');
 
 class Trip {
-    constructor(tripid, name, tripmaster, destination, scoutseason, 
+    constructor(name, tripmaster, destination, scoutseason, 
         mustertime, departuretime, returntime, youthfee, adultfee, reqpermissionslip, 
         reqhealthform, reqwaiver,
-        grubmaster, grubfee, patrols, scouts, description) {
-        this.tripid = tripid;
+        grubmaster, grubfee, patrols, scouts, adults, description) {
+        this.tripid = uid(8);
         this.name = name;
         this.tripmaster = tripmaster;
         this.destination = destination;
@@ -24,14 +25,13 @@ class Trip {
         this.grubfee = grubfee;
         this.patrols = patrols;
         this.scouts = JSON.stringify(scouts);
+        this.adults = JSON.stringify(adults);
         this.description = description;
     }    
     create (next) {
         let trip = this;
         sheetService.getSpreadsheet(_sheetName, _docName, function(sheet) {
-            sheetService.writeGenericRows(sheet, trip, function() {
-                console.log('row written to trips spreadsheet');
-            });
+            sheetService.writeGenericRows(sheet, trip, function() {});
             next();
         });        
     }
@@ -48,7 +48,6 @@ class Trip {
             sheet.getRows({
                 offset: 1
                 }, function( err, rows ){
-                console.log('Read '+rows.length+' rows');
                 let matchedRows = [];
                 for (let i = 0; i < rows.length; i++) {
                     if (rows[i].tripid === id) {
