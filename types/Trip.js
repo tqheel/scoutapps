@@ -6,8 +6,8 @@ var uid = require('uid');
 class Trip {
     constructor(name, tripmaster, destination, scoutseason, 
         mustertime, departuretime, returntime, youthfee, adultfee, reqpermissionslip, 
-        reqhealthform, reqwaiver,
-        grubmaster, grubfee, patrols, scouts, adults, description) {
+        reqhealthform, reqwaiver, grubmaster, grubfee, patrols, scouts, adults, links,
+        description) {
         this.tripid = uid(8);
         this.name = name;
         this.tripmaster = tripmaster;
@@ -26,6 +26,7 @@ class Trip {
         this.patrols = patrols;
         this.scouts = JSON.stringify(scouts);
         this.adults = JSON.stringify(adults);
+        this.links = JSON.stringify(links);
         this.description = description;
     }    
     create (next) {

@@ -23,7 +23,11 @@ module.exports = function (grunt) {
     copy: {
       files: {
         cwd: '.',  // set working folder / root to copy
-        src: ['**/*', '!**/.git/**', '!**/node_modules/**', '!**/.gitignore', '!**/dist/**'],           // copy all files and subfolders
+        src: ['**/*', '!**/.git/**', 
+              '!**/node_modules/**',
+               '!**/.gitignore', 
+               '!**/dist/**',
+               '!**/tests/**'], // copy all files and subfolders, except those marked !
         dest: 'dist',    // destination folder
         expand: true,          // required when using cwd
         dot: false,

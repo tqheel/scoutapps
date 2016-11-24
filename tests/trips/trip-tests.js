@@ -4,6 +4,7 @@ var expect = chai.expect;
 var Trip = require('../../types/Trip');
 var TripScout = require('../../types/TripScout');
 var TripAdult = require('../../types/TripAdult');
+var TripLink = require('../../types/TripLink');
 var sheetService = require('../../services/spreadsheets');
 
 describe('Trip()', function() {
@@ -34,6 +35,12 @@ describe('Trip()', () => {
         6,
         'Mazda 3'
     );
+    let tripLink1 = new TripLink(
+       'Permission Slip', 'http://stuff.com'
+    );
+    let tripLink2 = new TripLink(
+        'Some other waiver we need', 'http://morestuff.com'
+    );
     let trip = new Trip(
         'name',
         'tripmaster name',
@@ -52,12 +59,14 @@ describe('Trip()', () => {
         patrols,
         [scout1],
         [adult1, adult2],
+        [ tripLink1, tripLink2 ],
         'this is my description'
     );
     beforeEach((done) => {
         //deserialize the scouts and adults stringified objects back to json
         trip.scouts = JSON.parse(trip.scouts);
         trip.adults = JSON.parse(trip.adults);
+        trip.links = JSON.parse(trip.links);
         done();
     });
     it('Trip constructor sets all parameters properly, i.e., they are in corrent order and named correctly', () => {
@@ -85,6 +94,7 @@ describe('Trip()', () => {
         expect(trip.description).to.equal('this is my description');
         expect(trip.mustertime).to.equal('4:45');
         expect(trip.reqwaiver).to.equal(false);
+        expect(trip.links[1].url).to.deep.equal('http://morestuff.com');
     });
 });
 
@@ -109,6 +119,12 @@ describe('create()', () => {
             true,
             6,
             'Mazda 3'
+        );
+        let tripLink1 = new TripLink(
+            'Permission Slip', 'http://stuff.com'
+        );
+        let tripLink2 = new TripLink(
+            'Some other waiver we need', 'http://morestuff.com'
         );        
         let trip = new Trip(
             'name',
@@ -128,6 +144,7 @@ describe('create()', () => {
             patrols,
             [scout1],
             [adult1,adult2],
+            [tripLink1,tripLink2],
             'this is my description'
         );
         tripId = trip.tripid;
