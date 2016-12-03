@@ -1,11 +1,11 @@
 <h1>{{mode}}</h1>
-<form action="/trip" method="post">
+<form >
     <div class="row">
         <div class="six columns">
             <label for="name">
                 Name of Trip:
             </label>
-            <input type="text" class="u-full-width" name="name" value="">
+            <p>{{name}}</p>
             <label for="tripmaster">
                 Tripmaster:
             </label>
@@ -79,7 +79,6 @@
                 Trip Description:
             </label>
             <textarea class="u-full-width" name="description" id="" ></textarea>
-            <button class="button-primary" type="submit" name="new_trip">Create</button>
         </div>
     </div>
 </form>
