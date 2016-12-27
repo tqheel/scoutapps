@@ -4,6 +4,9 @@ var router = express.Router();
 var viewName = 'trip';
 var Trip = require('../types/Trip.js');
 var scoutingSeason = '2016-2017';
+var utils = require('../utils/common.js');
+
+
 
 router.get('/', function(req,res){
 	res.render(viewName, { 
@@ -37,7 +40,15 @@ router.post('/', function(req, res) {
                 res.render('trip_details', {
                         tripId: newTrip.tripid,
                         name: newTrip.name,
-                        description: newTrip.description
+                        tripMaster: newTrip.tripmaster,
+                        destination: newTrip.destination,
+                        departureTime: newTrip.departuretime,
+                        musterTime: newTrip.mustertime,
+                        returnTime: newTrip.returntime,
+                        youthFee: newTrip.youthfee,
+                        adultFee: newTrip.adultfee,
+                        reqPermissionSlip: utils.convertBoolToYesNo(newTrip),
+                        
                 });
         });
         

@@ -27,9 +27,14 @@ function buildHtmlBlockFromStringArray(arrayOfStrings, next) {
     next(htmlBlock);
 }
 
+function convertBoolToYesNo (value) {
+    return (value) ? 'Yes' : 'No';
+}
+
 module.exports = {
     isEmptyOrWhitespace: isEmptyOrWhitespace,
     deDuplicateArray: deDuplicateArray,
     constructEmailRecipientsFromArrayOfStrings: constructEmailRecipientsFromArrayOfStrings,
-    buildHtmlBlockFromStringArray: buildHtmlBlockFromStringArray
+    buildHtmlBlockFromStringArray: buildHtmlBlockFromStringArray,
+    convertBoolToYesNo: convertBoolToYesNo
 };

@@ -2,6 +2,10 @@
 <form >
     <div class="row">
         <div class="six columns">
+            <label for="trip_id">
+                Trip ID:
+            </label>
+            <p>{{tripId}}</p>
             <label for="name">
                 Name of Trip:
             </label>
@@ -9,19 +13,19 @@
             <label for="tripmaster">
                 Tripmaster:
             </label>
-            <input type="text" class="u-full-width" name="tripmaster" value="">
+            <p>{{tripmaster}}</p>
             <label for="destination">
                 Destination:
             </label>
-            <input type="text" class="u-full-width" name="destination" value="">
+            <p>{{destination}}</p>
             <label for="scoutseason">
                 Scouting Season:
             </label>
-            <input type="text" class="u-full-width" name="scoutseason" value="{{scoutingSeason}}">
+            <p>{{scoutSeason}}</p>
             <label for="departure_date">
                 Departure Date:
             </label>
-            <input type="text" class="u-full-width" name="departure_date" value="">
+            <p>{{departureTime}}</p>
             <label for="muster_time">
                 Muster Time:
             </label>
