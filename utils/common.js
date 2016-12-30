@@ -27,8 +27,9 @@ function buildHtmlBlockFromStringArray(arrayOfStrings, next) {
     next(htmlBlock);
 }
 
-function convertBoolToYesNo (value) {
-    return (value) ? 'Yes' : 'No';
+function convertBoolToYesNo (value, next) {
+    let returnVal = (value === true || value === 'true') ? 'Yes' : 'No';
+    next(returnVal);
 }
 
 module.exports = {

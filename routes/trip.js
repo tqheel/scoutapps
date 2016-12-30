@@ -6,8 +6,15 @@ var Trip = require('../types/Trip.js');
 var scoutingSeason = '2016-2017';
 var utils = require('../utils/common.js');
 
-function getTripDetails(id) {
-
+function convertBoolsToYesNo(boolsArray, next) {
+        let convertedBoolArray = [];
+        for (let i=0; i < boolsArray.length; i++) {
+                utils.convertBoolToYesNo(boolsArray[i], function(yesNoVal) {
+                        console.log('Value of converted bool is: ' + yesNoVal);
+                        convertedBoolArray.push(yesNoVal);
+                });          
+        }
+        next(convertedBoolArray);
 }
 
 router.get('/', function(req,res){
@@ -46,26 +53,35 @@ router.post('/', function(req, res) {
                 trip.description
         );
         newTrip.create(function() {
-                res.render('trip_details', {
-                        tripId: newTrip.tripid,
-                        name: newTrip.name,
-                        tripMaster: newTrip.tripmaster,
-                        destination: newTrip.destination,
-                        scoutSeason: newTrip.scoutseason,
-                        departureTime: newTrip.departuretime,
-                        musterTime: newTrip.mustertime,
-                        returnTime: newTrip.returntime,
-                        youthFee: newTrip.youthfee,
-                        adultFee: newTrip.adultfee,
-                        reqPermissionSlip: utils.convertBoolToYesNo(newTrip.reqpermissionslip),
-                        reqHealthForm: utils.convertBoolToYesNo(newTrip.reqhealthform),
-                        reqWaiver: utils.convertBoolToYesNo(newTrip.reqwaiver),
-                        grubMaster: newTrip.grubmaster,
-                        grubFee: newTrip.grubfee,
-                        description: newTrip.description
-                });
+                let self = newTrip;
+                //convert bool values before rendering
+                let boolArray = [
+                        self.reqpermissionslip,
+                        self.reqhealthform,
+                        self.reqwaiver
+                ];
+
+                convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
+                        res.render('trip_details', {
+                                tripId: self.tripid,
+                                name: self.name,
+                                tripMaster: self.tripmaster,
+                                destination: self.destination,
+                                scoutSeason: self.scoutseason,
+                                departureTime: self.departuretime,
+                                musterTime: self.mustertime,
+                                returnTime: self.returntime,
+                                youthFee: self.youthfee,
+                                adultFee: self.adultfee,
+                                reqPermissionSlip: convertedBoolArray[0],
+                                reqHealthForm:convertedBoolArray[1],
+                                reqWaiver: convertedBoolArray[2],
+                                grubMaster: self.grubmaster,
+                                grubFee: self.grubfee,
+                                description: self.description
+                        });
+                });               
         });
-        
 });
 
 module.exports = router;

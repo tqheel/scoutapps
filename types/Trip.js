@@ -78,7 +78,7 @@ class Trip {
                     }
                 }
                 trip = matchedRows[0];
-                next(matchedRows);
+                next(trip);
             });
         });
     }
