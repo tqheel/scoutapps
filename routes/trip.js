@@ -6,7 +6,9 @@ var Trip = require('../types/Trip.js');
 var scoutingSeason = '2016-2017';
 var utils = require('../utils/common.js');
 
+function getTripDetails(id) {
 
+}
 
 router.get('/', function(req,res){
 	res.render(viewName, { 
@@ -14,6 +16,13 @@ router.get('/', function(req,res){
         mode: 'Create a New Trip',
         scoutingSeason: scoutingSeason
      });
+});
+
+router.get('/:tripId', function (req, res) {
+        let trip = new Trip();
+        trip.getByTripId(req.params.tripId, function (tripDetails) {
+                console.log('Got trip with a name of ' + tripDetails.name);
+        });
 });
 
 router.post('/', function(req, res) {
@@ -42,13 +51,18 @@ router.post('/', function(req, res) {
                         name: newTrip.name,
                         tripMaster: newTrip.tripmaster,
                         destination: newTrip.destination,
+                        scoutSeason: newTrip.scoutseason,
                         departureTime: newTrip.departuretime,
                         musterTime: newTrip.mustertime,
                         returnTime: newTrip.returntime,
                         youthFee: newTrip.youthfee,
                         adultFee: newTrip.adultfee,
-                        reqPermissionSlip: utils.convertBoolToYesNo(newTrip),
-                        
+                        reqPermissionSlip: utils.convertBoolToYesNo(newTrip.reqpermissionslip),
+                        reqHealthForm: utils.convertBoolToYesNo(newTrip.reqhealthform),
+                        reqWaiver: utils.convertBoolToYesNo(newTrip.reqwaiver),
+                        grubMaster: newTrip.grubmaster,
+                        grubFee: newTrip.grubfee,
+                        description: newTrip.description
                 });
         });
         
