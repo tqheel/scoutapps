@@ -1,10 +1,13 @@
 <h1>{{mode}}</h1>
-<form >
+
+<form action="/trip/edit" method="post">
+    <button class="button-primary" type="submit" name="edit">Edit</button>
     <div class="row">
         <div class="six columns">
             <label for="trip_id">
                 Trip ID:
             </label>
+            <input type="hidden" name="tripId" value="{{tripId}}">
             <p>{{tripId}}</p>
             <label for="name">
                 Name of Trip:

@@ -28,7 +28,9 @@ function buildHtmlBlockFromStringArray(arrayOfStrings, next) {
 }
 
 function convertBoolToYesNo (value, next) {
-    let returnVal = (value === true || value === 'true') ? 'Yes' : 'No';
+    console.log('bool from sheet is ' + value);
+    console.log('bool value from sheet is of type ' + typeof value);
+    let returnVal = (value === true || value === 'true' || value === 'TRUE') ? 'Yes' : 'No';
     next(returnVal);
 }
 

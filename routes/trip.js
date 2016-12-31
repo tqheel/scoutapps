@@ -10,11 +10,33 @@ function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
         for (let i=0; i < boolsArray.length; i++) {
                 utils.convertBoolToYesNo(boolsArray[i], function(yesNoVal) {
-                        console.log('Value of converted bool is: ' + yesNoVal);
                         convertedBoolArray.push(yesNoVal);
                 });          
         }
         next(convertedBoolArray);
+}
+
+function renderTripDetails(trip, res, convertedBoolArray) {
+        let self = trip;
+        res.render('trip_details', {
+                mode: 'Trip Details',
+                tripId: self.tripid,
+                name: self.name,
+                tripMaster: self.tripmaster,
+                destination: self.destination,
+                scoutSeason: self.scoutseason,
+                departureTime: self.departuretime,
+                musterTime: self.mustertime,
+                returnTime: self.returntime,
+                youthFee: self.youthfee,
+                adultFee: self.adultfee,
+                reqPermissionSlip: convertedBoolArray[0],
+                reqHealthForm:convertedBoolArray[1],
+                reqWaiver: convertedBoolArray[2],
+                grubMaster: self.grubmaster,
+                grubFee: self.grubfee,
+                description: self.description
+        });
 }
 
 router.get('/', function(req,res){
@@ -29,6 +51,16 @@ router.get('/:tripId', function (req, res) {
         let trip = new Trip();
         trip.getByTripId(req.params.tripId, function (tripDetails) {
                 console.log('Got trip with a name of ' + tripDetails.name);
+                trip = tripDetails;
+                let boolArray = [
+                        trip.reqpermissionslip,
+                        trip.reqhealthform,
+                        trip.reqwaiver
+                ];
+
+                convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
+                        renderTripDetails(trip, res, convertedBoolArray);
+                }); 
         });
 });
 
@@ -62,26 +94,15 @@ router.post('/', function(req, res) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        res.render('trip_details', {
-                                tripId: self.tripid,
-                                name: self.name,
-                                tripMaster: self.tripmaster,
-                                destination: self.destination,
-                                scoutSeason: self.scoutseason,
-                                departureTime: self.departuretime,
-                                musterTime: self.mustertime,
-                                returnTime: self.returntime,
-                                youthFee: self.youthfee,
-                                adultFee: self.adultfee,
-                                reqPermissionSlip: convertedBoolArray[0],
-                                reqHealthForm:convertedBoolArray[1],
-                                reqWaiver: convertedBoolArray[2],
-                                grubMaster: self.grubmaster,
-                                grubFee: self.grubfee,
-                                description: self.description
-                        });
+                        renderTripDetails(self, res, convertedBoolArray);
                 });               
         });
+});
+
+router.post('/edit', function(req, res) {
+        let tripId = req.body.tripId;
+        console.log(tripId + ' was found in the body.');
+        res.send('It worked');
 });
 
 module.exports = router;
