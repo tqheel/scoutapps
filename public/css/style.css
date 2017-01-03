@@ -102,3 +102,8 @@ ul.surveySubBullets li input {
    cursor: default;
    color: grey;
 }
+/*Cause subsequent lines of list item to be alligned with first line */
+li {
+    padding-left: 1em;
+    text-indent: -1.25em;
+}
