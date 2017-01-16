@@ -102,8 +102,19 @@ ul.surveySubBullets li input {
    cursor: default;
    color: grey;
 }
-/*Cause subsequent lines of list item to be alligned with first line */
-li {
-    padding-left: 1em;
-    text-indent: -1.25em;
+
+
+ul {
+  padding: 20px 0 0 20px;
+  list-style-position: outside;
+}
+
+#tech-chip_card {
+  margin-left: 50px;
+  font-size: smaller;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  padding: 10px;
+  width: 300px;  
 }
