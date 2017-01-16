@@ -10,6 +10,7 @@ var exphbs  = require('express-handlebars');
 var balance = require('./routes/balance');
 var signup = require('./routes/signup');
 var survey = require('./routes/survey');
+var policy = require('./routes/policy');
 
 var routes = require('./routes/index');
 var users = require('./routes/user');
@@ -43,6 +44,7 @@ app.use('/users', users);
 app.use('/balance', balance);
 app.use('/signup', signup);
 app.use('/survey', survey);
+app.use('/policy', policy);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
