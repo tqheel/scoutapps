@@ -11,6 +11,8 @@ var balance = require('./routes/balance');
 var signup = require('./routes/signup');
 var survey = require('./routes/survey');
 var trip = require('./routes/trip');
+var policy = require('./routes/policy');
+
 var routes = require('./routes/index');
 var users = require('./routes/user');
 
@@ -44,6 +46,7 @@ app.use('/balance', balance);
 app.use('/signup', signup);
 app.use('/survey', survey);
 app.use('/trip', trip);
+app.use('/policy', policy);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
