@@ -104,7 +104,7 @@ router.post('/email', function(req, res) {
 						let su = new StringUtils();
 						let messageLines = [
 							'The account balance for ' + scoutName + ' is ' + account.balance + '.',
-							'Pleae keep in mind that all fees used for recent trips may not have been deducted from this balance.',
+							'Please keep in mind that all fees used for recent trips may not have been deducted from this balance.',
 							'To view details on fundraising contributions and fee deductions from this account, follow the URL included below.',
 							'<a href="' + accountUrl + '">' + accountUrl + '</a>',
 							'This is an automated message. Please do not reply.',
