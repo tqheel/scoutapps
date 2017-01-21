@@ -3,12 +3,9 @@ var sheetService = require('../services/spreadsheets.js');
 var utils = require('../utils/common.js');
 
 function lookupEmailAddress(email, next) {
-    sheetService.getSpreadsheet('user_data', 'scout_apps', function(sheet) {
-        getUserData(sheet, email, function(users){
-            var matchedUsers = [];
-            for(let i = 0; i < users.length; i++) {
-                let user = users[i];
-                if (email === user.scoutemail || email === user.parentemail1 || email === user.parentemail2) {
+                if (email === user.scoutemail.toLowerCase() || 
+                    email === user.parentemail1.toLowerCase() || 
+                    email === user.parentemail2.toLowerCase()) {
                     matchedUsers.push(user);
                 }
             }
