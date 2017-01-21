@@ -1,5 +1,5 @@
 <h1>{{title}}</h1>
-<form action="post">
+<form action="/policy/contract" method="POST">
     <section id="scout-promise">
         <p>
             As a scout with Troop 212, in return for the priveledge of using approved devices during designated times at Scouting
@@ -40,8 +40,10 @@
             </li>
         </ul>
         <p>
-            <label for="scoutName">Scout Name:</label> <input type="text" name="scoutName">
-            <label for="scoutEmail">Scout Email</label> <input type="text" name="scoutEmail">
+            <label for="scoutName">Scout Name:</label>
+            <input type="text" name="scoutName">
+            <label for="scoutEmail">Scout Email:</label>
+            <input type="text" name="scoutEmail">
         </p>
     </section>
     <section id="parent-agreement">
@@ -67,7 +69,11 @@
             </li>
         </ul>
         <p>
-            Parent Name: __________________&nbsp;&nbsp;Parent Signature: ___________________&nbsp;&nbsp;Date: _________
+            <label for="parentName">Parent Name:</label>
+            <input type="text" name="parentName">
+            <label for="parentEmail">Parent Email:</label>
+            <input type="text" name="parentEmail">
         </p>
     </section>
+    <button type="submit">Submit</button>
 </form>

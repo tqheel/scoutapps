@@ -17,4 +17,11 @@ router.get('/tech-card', function(req, res) {
   res.render('tech-card', { title: 'Troop 212 Technology Chip Honor Card' });
 });
 
+router.post('/contract', function(req, res) {
+  //TODO: create spreadsheet to store contract info and submit
+  res.render('tech-contract-success', {
+    title: 'Contract Submitted'
+  });
+});
+
 module.exports = router;
