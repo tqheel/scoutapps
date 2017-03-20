@@ -1,5 +1,13 @@
 var express = require('express');
 var router = express.Router();
+let Contract = require('../types/Contract');
+let contractService = require('../services/contract');
+
+function processContract(contract, next) {
+  //TODO: Create Tech Contract Service
+  console.log('here is where the contract will be processed by the service.');
+  contractService.logContractSubmission(contract, next);
+}
 
 router.get('/', function(req, res) {
   res.render('policy', { title: 'Troop 212 Policies and Procedures' });
@@ -19,9 +27,19 @@ router.get('/tech-card', function(req, res) {
 
 router.post('/contract', function(req, res) {
   //TODO: create spreadsheet to store contract info and submit
-  res.render('tech-contract-success', {
-    title: 'Contract Submitted'
+  let contract = new Contract(
+    req.body.scoutName,
+    req.body.scoutEmail,
+    req.body.parentName,
+    req.body.parentEmail
+  );
+  console.log(contract);
+  processContract(contract, function () {
+
+    res.render('tech-contract-success', {
+    title: 'Contract Submitted. Check your email for a link to '
   });
+ });
 });
 
 module.exports = router;
