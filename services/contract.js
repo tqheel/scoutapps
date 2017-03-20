@@ -1,11 +1,23 @@
 'use strict';
 
-var sheetService = require('../services/spreadsheets.js');
+let sheetService = require('../services/spreadsheets.js');
+let docName = 'scout_apps';
+let viewName = 'tech_contract';
+let mailer = require('../services/mailer');
 
 function logContractSubmission (contract, next) {
-    //log the contract in spreadsheet
-    console.log('contract will be logged by this function');
-    sendTechChipCardLink(contract, next);
+    sheetService.getSpreadsheet(viewName, docName, function (sheet) {
+        sheetService.writeGenericRows(sheet, contract, function(){
+            mailer.sendSystemEmail(
+                'New Tech Contract Submitted',
+                'Scout: ' + contract.scoutname + '<br>' +
+                'Parent: ' + contract.parentname
+
+            );
+            sendTechChipCardLink(contract, next);
+        });
+    });
+    
 }
 
 function sendTechChipCardLink(contract, next) {
@@ -14,5 +26,5 @@ function sendTechChipCardLink(contract, next) {
 }
 
 module.exports = {
-    logContractSubmission = logContractSubmission
+    logContractSubmission: logContractSubmission
 }
