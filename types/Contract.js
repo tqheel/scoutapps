@@ -13,7 +13,9 @@ class Contract {
             this.scoutemail = scoutemail,
             this.parentname = parentname,
             this.parentemail = parentemail,
-            this.timestamp = Date.now()
+            this.timestamp = Date.now(),
+            this.activated = false,
+            this.corners = 4
         }
 }
 
