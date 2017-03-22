@@ -20,11 +20,32 @@ function logContractSubmission (contract, next) {
     
 }
 
+function getContractById(contractId, next) {
+    sheetService.getSpreadsheet(sheetName, docName, function(sheet) {
+        let contracts = sheet.getRows( {
+            offset:1
+        },
+        function(err, rows){
+            console.log('Read ' + rows.length + 'contracts.');
+            let matchedContract = null;
+            for (let i = 0; i < rows.length; i++) {
+                let contract = rows[i];
+                matchedContract = (contract === contractId) ? contract : null;
+                if (matchedContract) {
+                    break;
+                }                
+            }
+            next(matchedContract);
+        });
+    });
+}
+
 function sendTechChipCardLink(contract, next) {
     console.log('emailing contract stuff');
     next();
 }
 
 module.exports = {
-    logContractSubmission: logContractSubmission
+    logContractSubmission: logContractSubmission,
+    getContractById = getContractById
 }
