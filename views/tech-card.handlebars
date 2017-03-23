@@ -1,17 +1,42 @@
 <h1>{{title}}</h1>
 <section>
-	<div>Print the card below, cut it out, sign it, and carry it with you during Troop 212 activities.
+	<div>Print the card below, cut it out, and present it to the Scoutmaster or ASM for activation and signature. 
+		Carry it with you during Troop 212 activities, when you want to use your device.
 	</div>
 	<br>
-	<div id="tech-chip_card">
-		I, _______________, promise that I:
+	<div id="tech-chip-card">
+		I, <b>{{ scoutName }}</b>, promise that I:
 		<ul>
 			<li>will use my device in accordance with the Scout Law and Scout Oath.</li>
 			<li>will follow the Troop 212 device usage policy.</li>
 			<li>will keep to the Tech Chip Contract that I agreed to with my parent. </li>
 		</ul>
+		<table>
+			<tr>
+				<td>
+					<center> ____________________ <br> Scout
+					</center>
+				</td>
+				<td>
+					<center> ____________________ <br> Scoutmaster or ASM
+					</center>
+				</td>
+			</tr>
+		</table>
+		<center>----------Fold Here----------</center>
 		<div>
-			<img alt="Barcoded value 1234567890" src="http://api-bwipjs.rhcloud.com/?bcid=azteccode&text=http%3A%2F%2Ftroop212-apps.azurewebsites.net%2Fpolicy%2Ftech-contract&format=full">
+			<table>
+				<tr>
+					<td><img alt="Barcoded value 1234567890" src="{{ barcodeUrl }}"></td>
+					<td>
+						<center>
+							_____________ <br> Date Acivated
+						</center>
+
+					</td>
+				</tr>
+			</table>
+
 		</div>
 	</div>
 </section>

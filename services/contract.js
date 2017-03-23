@@ -16,21 +16,20 @@ function logContractSubmission (contract, next) {
             );
             sendTechChipCardLink(contract, next);
         });
-    });
-    
+    });    
 }
 
 function getContractById(contractId, next) {
-    sheetService.getSpreadsheet(sheetName, docName, function(sheet) {
+    sheetService.getSpreadsheet(viewName, docName, function(sheet) {
         let contracts = sheet.getRows( {
             offset:1
         },
         function(err, rows){
-            console.log('Read ' + rows.length + 'contracts.');
+            console.log('Read ' + rows.length + ' contracts.');
             let matchedContract = null;
             for (let i = 0; i < rows.length; i++) {
                 let contract = rows[i];
-                matchedContract = (contract === contractId) ? contract : null;
+                matchedContract = (contract.contractid === contractId) ? contract : null;
                 if (matchedContract) {
                     break;
                 }                
@@ -47,5 +46,5 @@ function sendTechChipCardLink(contract, next) {
 
 module.exports = {
     logContractSubmission: logContractSubmission,
-    getContractById = getContractById
+    getContractById: getContractById
 }

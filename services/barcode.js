@@ -16,5 +16,5 @@ function createBarcodeUrl (contract, next) {
 }
 
 module.exports = {
-    createBarcodeUrl = createBarcodeUrl
+    createBarcodeUrl: createBarcodeUrl
 }
