@@ -15,7 +15,12 @@ router.get('/', function(req, res) {
 router.get('/admin/card:contractId', function (req, res) {
   if (req.params.contractId) {
     contractService.getContractById(contractId, function (contract) {
-      res.render('tech-card-admin');
+      res.render('tech-card-admin', { 
+        title: 'Tech Chip Honor Card Admin Area',
+        scoutName: contract.scoutname,
+        contractId: contract.contractid,
+        activated: contract.activated
+      });
     });
   }
 });
