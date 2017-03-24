@@ -3,6 +3,8 @@ var router = express.Router();
 let Contract = require('../types/Contract');
 let contractService = require('../services/contract');
 let barcodeService = require('../services/barcode');
+let cardAdminPageTitle = 'Tech Chip Honor Card Admin Area';
+
 
 function processContract(contract, next) {
   contractService.logContractSubmission(contract, next);
@@ -12,17 +14,25 @@ router.get('/', function(req, res) {
   res.render('policy', { title: 'Troop 212 Policies and Procedures' });
 });
 
-router.get('/admin/card:contractId', function (req, res) {
+router.get('/admin/card/:contractId', function (req, res) {
   if (req.params.contractId) {
+    let contractId = req.params.contractId    
     contractService.getContractById(contractId, function (contract) {
       res.render('tech-card-admin', { 
-        title: 'Tech Chip Honor Card Admin Area',
+        title: cardAdminPageTitle,
         scoutName: contract.scoutname,
         contractId: contract.contractid,
-        activated: contract.activated
+        activated: contract.activated,
+        corners: contract.corners
       });
     });
   }
+});
+
+router.get('/admin/card', function(req, res) {
+    res.render('tech-card-admin', { 
+        title: cardAdminPageTitle
+      });
 });
 
 router.get('/tech-policy', function(req, res) {
