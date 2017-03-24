@@ -12,6 +12,14 @@ router.get('/', function(req, res) {
   res.render('policy', { title: 'Troop 212 Policies and Procedures' });
 });
 
+router.get('/admin/card:contractId', function (req, res) {
+  if (req.params.contractId) {
+    contractService.getContractById(contractId, function (contract) {
+      res.render('tech-card-admin');
+    });
+  }
+});
+
 router.get('/tech-policy', function(req, res) {
   res.render('tech-policy', { title: 'Troop 212 Electronic Device Usage Policy' });
 });
