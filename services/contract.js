@@ -21,7 +21,7 @@ function logContractSubmission (contract, next) {
 
 function getContractById(contractId, next) {
     sheetService.getSpreadsheet(viewName, docName, function(sheet) {
-        let contracts = sheet.getRows( {
+        sheet.getRows( {
             offset:1
         },
         function(err, rows){
