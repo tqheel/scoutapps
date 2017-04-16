@@ -45,5 +45,5 @@ module.exports = {
     constructEmailRecipientsFromArrayOfStrings: constructEmailRecipientsFromArrayOfStrings,
     buildHtmlBlockFromStringArray: buildHtmlBlockFromStringArray,
     convertBoolToYesNo: convertBoolToYesNo,
-    evalBool: evalSpreadsheetBool
+    evalSpreadsheetBool: evalSpreadsheetBool
 };

@@ -1,14 +1,24 @@
 var express = require('express');
 var router = express.Router();
 let moment = require('moment'); 
+let utils = require('../utils/common');
 let Contract = require('../types/Contract');
 let contractService = require('../services/contract');
 let barcodeService = require('../services/barcode');
 let cardAdminPageTitle = 'Tech Chip Honor Card Admin Area';
 
-
 function processContract(contract, next) {
   contractService.logContractSubmission(contract, next);
+}
+
+function evaluateBoolsFromSpreadsheet(boolsArray, next) {
+        let convertedBoolArray = [];
+        for (let i=0; i < boolsArray.length; i++) {
+                utils.evalSpreadsheetBool(boolsArray[i], function(evaluatedBool) {
+                        convertedBoolArray.push(evaluatedBool);
+                });          
+        }
+        next(convertedBoolArray);
 }
 
 router.get('/', function(req, res) {
@@ -85,6 +95,8 @@ router.get('/tech-card-status/:contractId', function(req, res) {
         cardStatus: (contract.activated) ? 'Activated' : 'Not Activated',
         cornersRemaining: (contract.activated) ? contract.corners : 'N/A',
         dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
+        //TODO: use evaluateBoolsFromSpreadsheet function to set valid values for these funky bool fields
+        //from spreadsheet
         dateCardActivated: (contract.activated) ? moment(dateCardActivated).format("MMM Do, YYYY"): 'N/A'
     });
   });  
