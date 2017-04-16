@@ -15,7 +15,8 @@ class Contract {
             this.parentemail = parentemail,
             this.timestamp = Date.now(),
             this.activated = false,
-            this.corners = 4
+            this.corners = 4,
+            this.dateActivated = null
         }
 }
 

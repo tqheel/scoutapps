@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+let moment = require('moment'); 
 let Contract = require('../types/Contract');
 let contractService = require('../services/contract');
 let barcodeService = require('../services/barcode');
@@ -43,6 +44,24 @@ router.get('/tech-contract', function(req, res) {
   res.render('tech-contract', { title: 'Troop 212 Technology Chip Contract' });
 });
 
+router.get('/tech-card-sample', function(req, res) {
+  let contract = new Contract(
+    'Little Bobby White',
+    'tqualls@gmail.com',
+    'The Great Quail of Scouting Quality',
+    'tqualls@gmail.com'
+  );
+  contract.contractid = 'S7-421-16-1';
+  contract.activated = true;
+  barcodeService.createBarcodeUrl(contract, function(barcodeUrl) {
+      res.render('tech-card-sample', { 
+        title: 'Troop 212 Technology Chip Honor Card',
+        scoutName: contract.scoutname,
+        barcodeUrl: barcodeUrl
+       });
+    });
+});
+
 router.get('/tech-card/:contractId', function(req, res) {
   contractService.getContractById(req.params.contractId, function(contract) {
     barcodeService.createBarcodeUrl(contract, function(barcodeUrl) {
@@ -51,6 +70,22 @@ router.get('/tech-card/:contractId', function(req, res) {
         scoutName: contract.scoutname,
         barcodeUrl: barcodeUrl
        });
+    });
+  });  
+});
+
+router.get('/tech-card-status/:contractId', function(req, res) {
+  contractService.getContractById(req.params.contractId, function(contract) {
+    let dateContractSubmitted = new Date(parseInt(contract.timestamp));
+    let dateCardActivated = new Date(parseInt(contract.dateactivated));
+    console.log(contract.activated);
+    res.render('tech-card-status', { 
+        title: 'Troop 212 Technology Chip Honor Card Status Page',
+        scoutName: contract.scoutname,
+        cardStatus: (contract.activated) ? 'Activated' : 'Not Activated',
+        cornersRemaining: (contract.activated) ? contract.corners : 'N/A',
+        dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
+        dateCardActivated: (contract.activated) ? moment(dateCardActivated).format("MMM Do, YYYY"): 'N/A'
     });
   });  
 });
