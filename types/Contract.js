@@ -16,7 +16,7 @@ class Contract {
             this.timestamp = Date.now(),
             this.activated = false,
             this.corners = 4,
-            this.dateActivated = null
+            this.dateactivated = null
         }
 }
 
