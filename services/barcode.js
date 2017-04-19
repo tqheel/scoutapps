@@ -11,9 +11,10 @@ let troop212TechChipSegment = '=http%3A%2F%2Ftroop212-apps.azurewebsites.net%2Fp
 let finalSegment = '&format=full';
 
 function createBarcodeUrl (contract, next) {
-    //if Little Bobby White Easter Egg contract
+    //if Little Bobby Tables Easter Egg contract
     if (contract.contractid === 'S7-421-16-1') {
-        let url = 'http://api-bwipjs.rhcloud.com/?bcid=azteccode&text=http%3A%2F%2Fwww.classb.com%2Fwp-content%2Fuploads%2F2014%2F11%2Fbobwhite-tough-600h-8.png&format=full';
+        //let url = 'http://api-bwipjs.rhcloud.com/?bcid=azteccode&text=http%3A%2F%2Fwww.classb.com%2Fwp-content%2Fuploads%2F2014%2F11%2Fbobwhite-tough-600h-8.png&format=full';
+        let url = 'http://api-bwipjs.rhcloud.com/?bcid=azteccode&text=https%3A%2F%2Fxkcd.com%2F327%2F&format=full';
         next(url);
     }
     else {
