@@ -9,7 +9,7 @@ let barcodeService = require('../services/barcode');
 let cardAdminPageTitle = 'Tech Chip Honor Card Admin Area';
 
 function processContract(req, contract, next) {
-  contractService.logContractSubmission(contract, next);
+  contractService.logContractSubmission(req, contract, next);
 }
 
 function evaluateBoolsFromSpreadsheet(boolsArray, next) {

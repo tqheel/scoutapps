@@ -4,8 +4,10 @@ let sheetService = require('../services/spreadsheets.js');
 let docName = 'scout_apps';
 let viewName = 'tech_contract';
 let mailer = require('../services/mailer');
+const StringUtils = require('../helpers/StringUtils.js');
+let utils = require('../utils/common');
 
-function logContractSubmission(contract, next) {
+function logContractSubmission(req, contract, next) {
     sheetService.getSpreadsheet(viewName, docName, function (sheet) {
         sheetService.writeGenericRows(sheet, contract, function () {
             mailer.sendSystemEmail(
@@ -50,14 +52,10 @@ function sendTechChipCardLink(req, contract, next) {
     ];
     utils.buildHtmlBlockFromStringArray(messageLines, function (message) {
         let recipients = [ contract.scoutemail, contract.parentemail];
+        let su = new StringUtils();
         su.createCommaDelimitedStringFromArray(recipients, function (toEmailAddressStrings) {
-            let subject = 'Scout Account Balance for ' + scoutName;
-            loggerService.logBalanceRequest(
-                scouts[i].id, scoutName, req.body.email,
-                account.balance, toEmailAddressStrings, function () {
-                    console.log('Balance request logged.');
-                });
-            mailService.sendEmailToRecipients(toEmailAddressStrings, subject, message, false);
+            let subject = 'Tech Contract Submission Confirmation: ' + contract.scoutname;
+            mailer.sendEmailToRecipients(toEmailAddressStrings, subject, message, true);
         });
     });
     next();
