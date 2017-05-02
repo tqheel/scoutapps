@@ -50,7 +50,8 @@ router.get('/admin/card/:contractId', function (req, res) {
           title: cardAdminPageTitle + " - Error: Contract ID Not Found"
         });
   }
-}
+
+});
 
   router.get('/admin/card', function (req, res) {
     res.render('tech-card-admin', {
