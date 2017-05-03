@@ -34,10 +34,16 @@ function convertBoolToYesNo (value, next) {
     next(returnVal);
 }
 
+function evalSpreadsheetBool(value, next) {
+    let returnVal = (value === true || value === 'true' || value === 'TRUE') ? true: false;
+    next(returnVal);
+}
+
 module.exports = {
     isEmptyOrWhitespace: isEmptyOrWhitespace,
     deDuplicateArray: deDuplicateArray,
     constructEmailRecipientsFromArrayOfStrings: constructEmailRecipientsFromArrayOfStrings,
     buildHtmlBlockFromStringArray: buildHtmlBlockFromStringArray,
-    convertBoolToYesNo: convertBoolToYesNo
+    convertBoolToYesNo: convertBoolToYesNo,
+    evalSpreadsheetBool: evalSpreadsheetBool
 };

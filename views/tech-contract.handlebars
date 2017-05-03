@@ -1,70 +1,79 @@
 <h1>{{title}}</h1>
-<section id="scout-promise">
-    <p>
-        As a scout with Troop 212, in return for the priveledge of using approved devices during designated times at Scouting
-        activities, I promise that:
-    </p>
-    <ul>
-        <li>
-            I will prioritize people, outdoor activities, and my advancement in Scouting
-             over electronic devices.
-        </li>
-        <li>
-            I will put my devices away when another person, especially an adult,
-             is trying to have a conversation with me, or when it would be courteous to give another person my undivided
-            attention (examples: family meals, the classroom, Scouting presentations).
-        </li>
-        <li>
-            I will use all of my devices in a manner that is consistent with             
-            <a href="http://www.scouting.org/filestore/youthprotection/pdf/100-055_WB.pdf" target="_blank">
-             The Scout Law 
-            </a>,
-            as it applies to Cybersafety and Cyberbullying 
-            (you must read this before signing this document).
-        </li>
-        <li>
-            I will only use approved electronic devices during Scouting activities
-            at specific times designated by a Troop 212 adult leader. 
-        </li>
-        <li>
-            If I have health, safety, or other personal concerns during a Scouting activity, 
-            I will first consult my Patrol Leader, Senior Patrol Leader, or an adult leader,
-            before contacting a parent. 
-        </li>
-        <li>I will carry the <a href="tech-card">Troop 212 Technology Chip Honor Card</a>
-             with me any time I wish to use one of my devices during a troop activity.
-        </li>
-        <li>
-            I have read, understand, and have met the requirements stated in the <a href="tech-policy">Troop 212 Electronic Device Usage Policy</a>.
-        </li>
-    </ul>
-    <p>
-        Scout Name: __________________&nbsp;&nbsp;Scout Signature: ___________________&nbsp;&nbsp;Date: _________
-    </p>
-</section>
-<section id="parent-agreement">
-    <p>
-        As a parent of a scout of Troop 212, I:
-    </p>
-    <ul>
-        <li>
-            Authorize that my son may use approved devices at designated times during Scouting activities.
-        </li>
-        <li>
-            Agree that Troop 212 and its adult leaders assume no responsibility for damage, loss, or theft
-            of my son's devices.
-        </li>
-        <li>
-            Understand that I may still have little to no direct communication with my scout while he is 
-            away on a Troop outing, even though he may have periodic access to his phone. I agree that if I have health, safety,
-             or other personal concerns regarding my son, I will first discuss the issue with the Scoutmaster or another adult leader before attempting
-             to contact my son directly.
-        </li>
-        <li>
-            I have read and understand the <a href="tech-policy">Troop 212 Electronic Device Usage Policy</a>.
-        </li>
-    </ul>
-    <p>
-        Parent Name: __________________&nbsp;&nbsp;Parent Signature: ___________________&nbsp;&nbsp;Date: _________
-    </p>
-</section>
+<form action="/policy/contract" method="POST">
+    <section id="scout-promise">
+        <p>
+            As a scout with Troop 212, in return for the privilege of using approved devices during designated times at Scouting
+            activities, I promise that:
+        </p>
+        <ul>
+            <li>
+                I will prioritize people, outdoor activities, and my advancement in Scouting
+                over electronic devices.
+            </li>
+            <li>
+                I will put my devices away when another person, especially an adult,
+                is trying to have a conversation with me, or when it would be courteous to give another person my undivided
+                attention (examples: family meals, the classroom, Scouting presentations).
+            </li>
+            <li>
+                I will use all of my devices in a manner that is consistent with             
+                <a href="http://www.scouting.org/filestore/youthprotection/pdf/100-055_WB.pdf" target="_blank">
+                The Scout Law 
+                </a>,
+                as it applies to Cybersafety and Cyberbullying 
+                (you must read this before signing this document).
+            </li>
+            <li>
+                I will only use approved electronic devices during Scouting activities
+                at specific times designated by a Troop 212 adult leader. 
+            </li>
+            <li>
+                If I have health, safety, or other personal concerns during a Scouting activity, 
+                I will first consult my Patrol Leader, Senior Patrol Leader, or an adult leader,
+                before contacting a parent. 
+            </li>
+            <li>I will carry the <a href="tech-card-sample">Troop 212 Technology Chip Honor Card</a>
+                with me any time I wish to use one of my devices during a troop activity.
+            </li>
+            <li>
+                I have read, understand, and have met the requirements stated in the <a href="tech-policy">Troop 212 Electronic Device Usage Policy</a>.
+            </li>
+        </ul>
+        <p>
+            <label for="scoutName">Scout Name:</label>
+            <input type="text" name="scoutName">
+            <label for="scoutEmail">Scout Email:</label>
+            <input type="text" name="scoutEmail">
+        </p>
+    </section>
+    <section id="parent-agreement">
+        <p>
+            As a parent of a scout of Troop 212, I:
+        </p>
+        <ul>
+            <li>
+                Authorize that my son may use approved devices at designated times during Scouting activities.
+            </li>
+            <li>
+                Agree that Troop 212 and its adult leaders assume no responsibility for damage, loss, or theft
+                of my son's devices.
+            </li>
+            <li>
+                Understand that I may still have little to no direct communication with my scout while he is 
+                away on a Troop outing, even though he may have periodic access to his phone. I agree that if I have health, safety,
+                or other personal concerns regarding my son, I will first discuss the issue with the Scoutmaster or another adult leader before attempting
+                to contact my son directly.
+            </li>
+            <li>
+                I have read and understand the <a href="tech-policy">Troop 212 Electronic Device Usage Policy</a>.
+            </li>
+        </ul>
+        <p>
+            <label for="parentName">Parent Name:</label>
+            <input type="text" name="parentName">
+            <label for="parentEmail">Parent Email:</label>
+            <input type="text" name="parentEmail">
+        </p>
+    </section>
+    <button type="submit">Submit</button>
+</form>
