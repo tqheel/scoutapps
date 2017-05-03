@@ -15,8 +15,6 @@ function getAccountById (scoutId, next) {
 					console.log('=============');
 					message = matchedAccount.scoutname+"'s balance is "+ matchedAccount.balance +'.';
 					console.log(message);
-					//mailService.sendEmail(email, message);
-					//next(message);
 					break;
 				}
 
