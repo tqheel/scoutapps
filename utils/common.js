@@ -27,9 +27,23 @@ function buildHtmlBlockFromStringArray(arrayOfStrings, next) {
     next(htmlBlock);
 }
 
+function convertBoolToYesNo (value, next) {
+    console.log('bool from sheet is ' + value);
+    console.log('bool value from sheet is of type ' + typeof value);
+    let returnVal = (value === true || value === 'true' || value === 'TRUE') ? 'Yes' : 'No';
+    next(returnVal);
+}
+
+function evalSpreadsheetBool(value, next) {
+    let returnVal = (value === true || value === 'true' || value === 'TRUE') ? true: false;
+    next(returnVal);
+}
+
 module.exports = {
     isEmptyOrWhitespace: isEmptyOrWhitespace,
     deDuplicateArray: deDuplicateArray,
     constructEmailRecipientsFromArrayOfStrings: constructEmailRecipientsFromArrayOfStrings,
-    buildHtmlBlockFromStringArray: buildHtmlBlockFromStringArray
+    buildHtmlBlockFromStringArray: buildHtmlBlockFromStringArray,
+    convertBoolToYesNo: convertBoolToYesNo,
+    evalSpreadsheetBool: evalSpreadsheetBool
 };
