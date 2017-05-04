@@ -12,16 +12,6 @@ function processContract(req, contract, next) {
   contractService.logContractSubmission(req, contract, next);
 }
 
-// function evaluateBoolsFromSpreadsheet(boolsArray, next) {
-//   let convertedBoolArray = [];
-//   for (let i = 0; i < boolsArray.length; i++) {
-//     utils.evalSpreadsheetBool(boolsArray[i], function (evaluatedBool) {
-//       convertedBoolArray.push(evaluatedBool);
-//     });
-//   }
-//   next(convertedBoolArray);
-// }
-
 router.get('/', function (req, res) {
   res.render('policy', { title: 'Troop 212 Policies and Procedures' });
 });
@@ -89,6 +79,7 @@ router.get('/tech-card/:contractId', function (req, res) {
     barcodeService.createBarcodeUrl(req, contract, function (barcodeUrl) {
       res.render('tech-card', {
         title: 'Troop 212 Technology Chip Honor Card',
+        contractId: contract.contractid,
         scoutName: contract.scoutname,
         barcodeUrl: barcodeUrl
       });
