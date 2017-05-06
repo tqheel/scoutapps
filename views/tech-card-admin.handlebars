@@ -1,13 +1,24 @@
 <h2>{{title}}</h2>
-<section class="row">
-    <div class="twelve columns">
-        <label for="">Scout Name: </label>
-        <p>{{scoutName}}</p> 
-        <label for="">Tech Chip Honor Card Status:</label>
-        <p>{{cardStatus}}</p> 
-        <label for="">Date Card Activated:</label>
-        <p>{{dateCardActivated}}</p>
-        <label for="">Corners Remaining:</label>
-        <p>{{cornersRemaining}}</p>
-    </div>
-</section>
+<form action="/tech-card/{{contractId}}">
+    <section class="row">
+        <div class="twelve columns">
+            <label for="">Scout Name: </label>
+            <p>{{scoutName}}</p>
+            <label for="">Tech Chip Honor Card Status:</label>
+            <p>{{cardStatus}}</p>
+            <label for="">Date Card Activated:</label>
+            <p>{{dateCardActivated}}</p>
+            <label for="">Corners Remaining:</label>
+            <p>{{cornersRemaining}}</p>
+        </div>
+    </section>
+    <section class="row admin">
+        <div class="two columns">
+            <label for="adminId">Admin User ID:</label>
+            <input class="u-full-width" type="text" name="adminId">
+            <label for="password">Password:</label>
+            <input type="text" class="u-full-width" name="password">
+            <button type="submit"></button>
+        </div>
+    </section>
+</form>

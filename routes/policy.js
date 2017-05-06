@@ -12,6 +12,12 @@ function processContract(req, contract, next) {
   contractService.logContractSubmission(req, contract, next);
 }
 
+function getContract(req, next) {
+  contractService.getContractById(req.params.contractId, function (contract) {
+    next(contract);
+  });
+}
+
 router.get('/', function (req, res) {
   res.render('policy', { title: 'Troop 212 Policies and Procedures' });
 });
@@ -75,7 +81,7 @@ router.get('/tech-card-sample', function (req, res) {
 });
 
 router.get('/tech-card/:contractId', function (req, res) {
-  contractService.getContractById(req.params.contractId, function (contract) {
+  getContract(req, function(contract) {
     barcodeService.createBarcodeUrl(req, contract, function (barcodeUrl) {
       res.render('tech-card', {
         title: 'Troop 212 Technology Chip Honor Card',
@@ -117,6 +123,14 @@ router.post('/contract', function (req, res) {
       title: 'Contract Submitted.'
     });
   });
+});
+
+router.post('/admin/card/:contractId', function (req, res) {
+  getContract(req, function(contract) {
+    //TODO: update contract with posted data
+    //TODO: send confirmation email to contract holders
+    //TODO: redirect to card status page
+  }); 
 });
 
 module.exports = router;
