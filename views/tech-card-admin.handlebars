@@ -1,5 +1,5 @@
 <h2>{{title}}</h2>
-<form action="/tech-card/{{contractId}}">
+<form action="/admin" method="post">
     <section class="row">
         <div class="twelve columns">
             <label for="">Scout Name: </label>
@@ -18,6 +18,7 @@
             <input class="u-full-width" type="text" name="adminId">
             <label for="password">Password:</label>
             <input type="text" class="u-full-width" name="password">
+            <input type="hidden" name="contractId" value="{{contractId}}">
             <button type="submit"></button>
         </div>
     </section>

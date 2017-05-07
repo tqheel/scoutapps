@@ -125,11 +125,13 @@ router.post('/contract', function (req, res) {
   });
 });
 
-router.post('/admin/card/:contractId', function (req, res) {
+router.post('/admin/', function (req, res) {
   getContract(req, function(contract) {
     //TODO: update contract with posted data
     //TODO: send confirmation email to contract holders
     //TODO: redirect to card status page
+    console.log('post worked:userId == : ' + req.params.adminId);
+    res.send('post worked:userId == : ' + req.params.adminId);
   }); 
 });
 
