@@ -12,8 +12,8 @@ function processContract(req, contract, next) {
   contractService.logContractSubmission(req, contract, next);
 }
 
-function getContract(req, next) {
-  contractService.getContractById(req.params.contractId, function (contract) {
+function getContract(contractId, next) {
+  contractService.getContractById(contractId, function (contract) {
     next(contract);
   });
 }
@@ -33,6 +33,7 @@ router.get('/admin/card/:contractId', function (req, res) {
           title: cardAdminPageTitle,
           scoutName: contract.scoutname,
           cardStatus: (contractActivated) ? 'Activated' : 'Not Activated',
+          cardBoolStatus: contractActivated,
           cornersRemaining: (contractActivated) ? contract.corners : 'N/A',
           dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
           dateCardActivated: (contractActivated) ? moment(dateCardActivated).format("MMM Do, YYYY") : 'N/A',
@@ -81,7 +82,7 @@ router.get('/tech-card-sample', function (req, res) {
 });
 
 router.get('/tech-card/:contractId', function (req, res) {
-  getContract(req, function(contract) {
+  getContract(req.params.contractId, function(contract) {
     barcodeService.createBarcodeUrl(req, contract, function (barcodeUrl) {
       res.render('tech-card', {
         title: 'Troop 212 Technology Chip Honor Card',
@@ -125,7 +126,7 @@ router.post('/contract', function (req, res) {
   });
 });
 
-router.post('/admin/', function (req, res) {
+router.post('/admin/tech-card', function (req, res) {
   getContract(req, function(contract) {
     //TODO: update contract with posted data
     //TODO: send confirmation email to contract holders
