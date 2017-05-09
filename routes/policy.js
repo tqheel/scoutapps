@@ -141,10 +141,10 @@ router.post('/admin/tech-card', function (req, res) {
   contract.contractid = req.body.contractId;
   contractService.updateContract(contract, function(updatedContract) {
     let dateContractSubmitted = new Date(parseInt(contract.timestamp));
-      let dateCardActivated = new Date(parseInt(contract.dateactivated));
-      utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
-        renderCardStatusPage(updatedContract, contractActivated, dateContractSubmitted, dateCardActivated, res);
-      });
+    let dateCardActivated = new Date(parseInt(contract.dateactivated));
+    utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
+      renderCardStatusPage(updatedContract, contractActivated, dateContractSubmitted, dateCardActivated, res);
+    });
     
   });
 });
