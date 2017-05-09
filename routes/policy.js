@@ -18,6 +18,18 @@ function getContract(contractId, next) {
   });
 }
 
+function renderCardStatusPage(contract, contractActivated, dateContractSubmitted, dateCardActivated, res) {
+  res.render('tech-card-status', {
+        title: 'Troop 212 Technology Chip Honor Card Status Page',
+        scoutName: contract.scoutname,
+        cardStatus: (contractActivated) ? 'Activated' : 'Not Activated',
+        cornersRemaining: (contractActivated) ? contract.corners : 'N/A',
+        dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
+        dateCardActivated: (contractActivated) ? moment(dateCardActivated).format("MMM Do, YYYY") : 'N/A',
+        contractId: contract.contractid
+      });
+}
+
 router.get('/', function (req, res) {
   res.render('policy', { title: 'Troop 212 Policies and Procedures' });
 });
@@ -99,15 +111,7 @@ router.get('/tech-card-status/:contractId', function (req, res) {
     let dateContractSubmitted = new Date(parseInt(contract.timestamp));
     let dateCardActivated = new Date(parseInt(contract.dateactivated));
     utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
-      res.render('tech-card-status', {
-        title: 'Troop 212 Technology Chip Honor Card Status Page',
-        scoutName: contract.scoutname,
-        cardStatus: (contractActivated) ? 'Activated' : 'Not Activated',
-        cornersRemaining: (contractActivated) ? contract.corners : 'N/A',
-        dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
-        dateCardActivated: (contractActivated) ? moment(dateCardActivated).format("MMM Do, YYYY") : 'N/A',
-        contractId: contract.contractid
-      });
+      renderCardStatusPage(contract, contractActivated, dateContractSubmitted, dateCardActivated, res);
     });
   });
 });
@@ -127,13 +131,22 @@ router.post('/contract', function (req, res) {
 });
 
 router.post('/admin/tech-card', function (req, res) {
-  getContract(req, function(contract) {
-    //TODO: update contract with posted data
-    //TODO: send confirmation email to contract holders
-    //TODO: redirect to card status page
-    console.log('post worked:userId == : ' + req.params.adminId);
-    res.send('post worked:userId == : ' + req.params.adminId);
-  }); 
+  let contract = new Contract();
+  //TODO: Evaluate admin ID and password
+  //TOFIX: newCornersCount ends up being a string
+  let newCornersCount = contract.corners + req.body.cornersChange;
+  let activated = req.body.activation;
+  contract.activated = activated;
+  contract.corners = newCornersCount;
+  contract.contractid = req.body.contractId;
+  contractService.updateContract(contract, function(updatedContract) {
+    let dateContractSubmitted = new Date(parseInt(contract.timestamp));
+      let dateCardActivated = new Date(parseInt(contract.dateactivated));
+      utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
+        renderCardStatusPage(updatedContract, contractActivated, dateContractSubmitted, dateCardActivated, res);
+      });
+    
+  });
 });
 
 module.exports = router;

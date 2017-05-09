@@ -61,7 +61,22 @@ function sendTechChipCardLink(req, contract, next) {
     next();
 }
 
+function updateContract(contract, next) {
+    getContractById(contract.contractid, function(contractRow) {
+        contractRow.activated = contract.activated;
+        contractRow.corners = contract.corners;
+        //TOFIX: need to evaluate these spreadsheet bools b/c this is broken as written
+        // contractRow.dateactivated = (contract.activated && !contractRow.activated) 
+        //     ? Date.now() : contractRow.dateactivated;
+        contractRow.save(function(){
+            console.log("Contract for " + contractRow.scoutname + " updated.");
+            next(contractRow);
+        });
+    });
+}
+
 module.exports = {
     logContractSubmission: logContractSubmission,
-    getContractById: getContractById
+    getContractById: getContractById,
+    updateContract: updateContract
 }
