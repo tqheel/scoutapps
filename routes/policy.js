@@ -6,6 +6,7 @@ let utils = require('../utils/common');
 let Contract = require('../types/Contract');
 let contractService = require('../services/contract');
 let barcodeService = require('../services/barcode');
+let userService = require('../services/users');
 let cardAdminPageTitle = 'Tech Chip Honor Card Admin Area';
 
 function processContract(req, contract, next) {
@@ -20,14 +21,14 @@ function getContract(contractId, next) {
 
 function renderCardStatusPage(contract, contractActivated, dateContractSubmitted, dateCardActivated, res) {
   res.render('tech-card-status', {
-        title: 'Troop 212 Technology Chip Honor Card Status Page',
-        scoutName: contract.scoutname,
-        cardStatus: (contractActivated) ? 'Activated' : 'Not Activated',
-        cornersRemaining: (contractActivated) ? contract.corners : 'N/A',
-        dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
-        dateCardActivated: (contractActivated) ? moment(dateCardActivated).format("MMM Do, YYYY") : 'N/A',
-        contractId: contract.contractid
-      });
+    title: 'Troop 212 Technology Chip Honor Card Status Page',
+    scoutName: contract.scoutname,
+    cardStatus: (contractActivated) ? 'Activated' : 'Not Activated',
+    cornersRemaining: (contractActivated) ? contract.corners : 'N/A',
+    dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
+    dateCardActivated: (contractActivated) ? moment(dateCardActivated).format("MMM Do, YYYY") : 'N/A',
+    contractId: contract.contractid
+  });
 }
 
 router.get('/', function (req, res) {
@@ -94,7 +95,7 @@ router.get('/tech-card-sample', function (req, res) {
 });
 
 router.get('/tech-card/:contractId', function (req, res) {
-  getContract(req.params.contractId, function(contract) {
+  getContract(req.params.contractId, function (contract) {
     barcodeService.createBarcodeUrl(req, contract, function (barcodeUrl) {
       res.render('tech-card', {
         title: 'Troop 212 Technology Chip Honor Card',
@@ -133,20 +134,27 @@ router.post('/contract', function (req, res) {
 router.post('/admin/tech-card', function (req, res) {
   let contract = new Contract();
   //TODO: Evaluate admin ID and password
-  //TOFIX: newCornersCount ends up being a string
-  let newCornersCount = contract.corners + req.body.cornersChange;
-  let activated = req.body.activation;
-  contract.activated = activated;
-  contract.corners = newCornersCount;
-  contract.contractid = req.body.contractId;
-  contractService.updateContract(contract, function(updatedContract) {
-    let dateContractSubmitted = new Date(parseInt(contract.timestamp));
-    let dateCardActivated = new Date(parseInt(contract.dateactivated));
-    utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
-      renderCardStatusPage(updatedContract, contractActivated, dateContractSubmitted, dateCardActivated, res);
-    });
+  userService.isUserAuthorizedAsAdmin(req.body.adminId, req.body.password, function (isUserAuthAdmin) {
+    if (!isUserAuthAdmin) {
+      res.send('Sorry, the submitted credentials do not match a known administrator.');
+    }
     
+    //TOFIX: newCornersCount ends up being a string
+    let newCornersCount = contract.corners + req.body.cornersChange;
+    let activated = req.body.activation;
+    contract.activated = activated;
+    contract.corners = newCornersCount;
+    contract.contractid = req.body.contractId;
+    contractService.updateContract(contract, function (updatedContract) {
+      let dateContractSubmitted = new Date(parseInt(contract.timestamp));
+      let dateCardActivated = new Date(parseInt(contract.dateactivated));
+      utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
+        renderCardStatusPage(updatedContract, contractActivated, dateContractSubmitted, dateCardActivated, res);
+      });
+
+    });
   });
+
 });
 
 module.exports = router;
