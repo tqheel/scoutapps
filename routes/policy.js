@@ -133,28 +133,27 @@ router.post('/contract', function (req, res) {
 
 router.post('/admin/tech-card', function (req, res) {
   let contract = new Contract();
-  //TODO: Evaluate admin ID and password
   userService.isUserAuthorizedAsAdmin(req.body.adminId, req.body.password, function (isUserAuthAdmin) {
     if (!isUserAuthAdmin) {
       res.send('Sorry, the submitted credentials do not match a known administrator.');
     }
-    
-    //TOFIX: newCornersCount ends up being a string
-    let newCornersCount = contract.corners + req.body.cornersChange;
-    let activated = req.body.activation;
-    contract.activated = activated;
-    contract.corners = newCornersCount;
-    contract.contractid = req.body.contractId;
-    contractService.updateContract(contract, function (updatedContract) {
-      let dateContractSubmitted = new Date(parseInt(contract.timestamp));
-      let dateCardActivated = new Date(parseInt(contract.dateactivated));
-      utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
-        renderCardStatusPage(updatedContract, contractActivated, dateContractSubmitted, dateCardActivated, res);
+    else {
+      //TOFIX: newCornersCount ends up being a string
+      let newCornersCount = contract.corners + req.body.cornersChange;
+      let activated = req.body.activation;
+      contract.activated = activated;
+      contract.corners = newCornersCount;
+      contract.contractid = req.body.contractId;
+      contractService.updateContract(contract, function (updatedContract) {
+        let dateContractSubmitted = new Date(parseInt(contract.timestamp));
+        let dateCardActivated = new Date(parseInt(contract.dateactivated));
+        utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
+          renderCardStatusPage(updatedContract, contractActivated, dateContractSubmitted, dateCardActivated, res);
+        });
+
       });
-
-    });
+    }
   });
-
 });
 
 module.exports = router;

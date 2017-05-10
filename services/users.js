@@ -58,32 +58,41 @@ function getUserData(sheet, email, next) {
         });
 }
 
-function readAdminJson() {
+function readAdminJson(next) {
+    console.log('readAdminJson called...');
     fs.readFile(adminJson, 'utf8', function (err, data) {
         if (err) {
             throw err;
         }
-        return JSON.parse(data);
+        next(JSON.parse(data));
     });
 }
 
-function isUserValidAdmin(userId, password) {
+function isUserValidAdmin(userId, password, next) {
     //TODO: make this work with a spreadsheet instead of json file
     readAdminJson(function (admins) {
-        let admin = admins.filter(function (item) {
-            return item.adminUserId === userId;
-        });
-        //TOFIX: async problem here and password validation is crashing app
-        if (admin) {
-            return admin.adminPassword === password;
+        let admin = null;
+        for (let i = 0; i < admins.length; i++) {
+            if (admins[0].adminUserId === userId) {
+                admin = admins[0];
+                break;
+            }
         }
-        return false;
+        if (admin !== null) {
+            next(admin.adminPassword === password);
+        }
+        else {
+            next(false);
+        }
+        
     });
 
 }
 
 function isUserAuthorizedAsAdmin(userId, password, next) {
-    next(isUserValidAdmin(userId, password));
+    isUserValidAdmin(userId, password, function(isAuth) {
+        next(isAuth);
+    });
 }
 
 module.exports = {
