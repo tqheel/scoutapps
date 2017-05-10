@@ -51,7 +51,7 @@ function sendTechChipCardLink(req, contract, next) {
         'This is an automated message. Please do not reply.',
     ];
     utils.buildHtmlBlockFromStringArray(messageLines, function (message) {
-        let recipients = [ contract.scoutemail, contract.parentemail];
+        let recipients = [contract.scoutemail, contract.parentemail];
         let su = new StringUtils();
         su.createCommaDelimitedStringFromArray(recipients, function (toEmailAddressStrings) {
             let subject = 'Tech Contract Submission Confirmation: ' + contract.scoutname;
@@ -61,7 +61,28 @@ function sendTechChipCardLink(req, contract, next) {
     next();
 }
 
+function updateContract(contract, next) {
+    getContractById(contract.contractid, function (contractRow) {
+
+        //TOFIX: need to evaluate these spreadsheet bools b/c this is broken as written
+        utils.evalSpreadsheetBool(contractRow.activated, function (contractRowActivated) {
+            console.log('formActivated: ' + contract.activated);
+            console.log('rowActivated: ' + contractRowActivated);
+            contractRow.dateactivated = (contract.activated && !contractRowActivated)
+                ? Date.now() : contractRow.dateactivated;
+            contractRow.activated = contract.activated;
+            contractRow.corners = contract.corners;
+            contractRow.save(function () {
+                console.log("Contract for " + contractRow.scoutname + " updated.");
+                next(contractRow);
+            });
+        });
+
+    });
+}
+
 module.exports = {
     logContractSubmission: logContractSubmission,
-    getContractById: getContractById
+    getContractById: getContractById,
+    updateContract: updateContract
 }

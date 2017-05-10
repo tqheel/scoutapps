@@ -1,7 +1,7 @@
 <h1>{{title}}</h1>
 <section>
-	<div>Print the card below, cut it out, and present it to the Scoutmaster or ASM for activation and signature. 
-		Carry it with you during Troop 212 activities, when you want to use your device.
+	<div>Print the card below, cut it out, and present it to the Scoutmaster or ASM for activation and signature. Carry it with you
+		during Troop 212 activities, when you want to use your device.
 	</div>
 	<br>
 	<div id="tech-chip-card">
@@ -27,7 +27,9 @@
 		<div>
 			<table>
 				<tr>
-					<td><img src="{{ barcodeUrl }}"></td>
+					<td>
+						<a href="/policy/admin/card/{{contractId}}"><img src="{{ barcodeUrl }}"></a>
+					</td>
 					<td>
 						<center>
 							_____________ <br> Date Activated
@@ -36,7 +38,14 @@
 					</td>
 				</tr>
 			</table>
-
+		</div>
+	</div>
+	<div>
+		<div>
+			<br>
+			<p>
+				<a href="/policy/tech-card-status/{{contractId}}">View Card Status</a>
+			</p>
 		</div>
 	</div>
 </section>

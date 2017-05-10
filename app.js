@@ -25,7 +25,17 @@ app.locals.ENV_DEVELOPMENT = env == 'development';
 
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
-  partialsDir: ['views/partials/']
+  partialsDir: ['views/partials/'],
+  helpers: {
+        setChecked:  function(value, currentValue ){
+            if ( value == currentValue ) {
+                return "checked"
+            } 
+            else {
+                return "";
+            }
+       }
+    }
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
