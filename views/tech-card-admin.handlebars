@@ -1,13 +1,33 @@
 <h2>{{title}}</h2>
-<section class="row">
-    <div class="twelve columns">
-        <label for="">Scout Name: </label>
-        <p>{{scoutName}}</p> 
-        <label for="">Tech Chip Honor Card Status:</label>
-        <p>{{cardStatus}}</p> 
-        <label for="">Date Card Activated:</label>
-        <p>{{dateCardActivated}}</p>
-        <label for="">Corners Remaining:</label>
-        <p>{{cornersRemaining}}</p>
-    </div>
-</section>
+<form action="/policy/admin/tech-card" method="post">
+    <section class="row">
+        <div class="twelve columns">
+            <label for="">Scout Name: </label>
+            <p>{{scoutName}}</p>
+            <label for="">Tech Chip Honor Card Status:</label>
+            <p>{{cardStatus}}</p>
+            <label for="">Date Card Activated:</label>
+            <p>{{dateCardActivated}}</p>
+            <label for="">Corners Remaining:</label>
+            <p>{{cornersRemaining}}</p>
+        </div>
+    </section>
+    <section id="functions" class="row admin">
+        <div class="two columns">
+            <input type="radio" value="true" name="activation" {{{setChecked true cardBoolStatus}}}>Activated
+            <input type="radio" value="false" name="activation" {{{setChecked false cardBoolStatus}}}>Not Activated
+            <label for="cornersChange">Add/Deduct Corners:</label>
+            <p><input type="text" name="cornersChange"></p>            
+        </div>
+    </section>
+    <section id="submit" class="row admin">
+        <div class="two columns">
+            <label for="adminId">Admin User ID:</label>
+            <input class="u-full-width" type="text" name="adminId">
+            <label for="password">Password:</label>
+            <input type="password" class="u-full-width" name="password">
+            <input type="hidden" name="contractId" value="{{contractId}}">
+            <button type="submit">Submit</button>
+        </div>
+    </section>
+</form>
