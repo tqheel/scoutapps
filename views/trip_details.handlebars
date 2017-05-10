@@ -1,0 +1,74 @@
+<h1>{{mode}}</h1>
+
+<form action="/trip/edit" method="post">
+    <button class="button-primary" type="submit" name="edit">Edit</button>
+    <div class="row">
+        <div class="six columns">
+            <label for="trip_id">
+                Trip ID:
+            </label>
+            <input type="hidden" name="tripId" value="{{tripId}}">
+            <p>{{tripId}}</p>
+            <label for="name">
+                Name of Trip:
+            </label>
+            <p>{{name}}</p>
+            <label for="tripmaster">
+                Tripmaster:
+            </label>
+            <p>{{tripmaster}}</p>
+            <label for="destination">
+                Destination:
+            </label>
+            <p>{{destination}}</p>
+            <label for="scoutseason">
+                Scouting Season:
+            </label>
+            <p>{{scoutSeason}}</p>
+            <label for="departure_date">
+                Departure Time:
+            </label>
+            <p>{{departureTime}}</p>
+            <label for="muster_time">
+                Muster Time:
+            </label>
+            <p>{{musterTime}}</p>
+            <label for="return_time">
+                Return Time:
+            </label>
+            <p>{{returnTime}}</p>
+            <label for="youthfee">
+                Youth Fee:
+            </label>
+            <p>{{youthFee}}</p>
+            <label for="adultfee">
+                Adult Fee:
+            </label>
+            <p>{{adultFee}}</p>
+            <label for="reqpermissionslip">
+                Requires Permission Slip:
+            </label>
+            <p>{{reqPermissionSlip}}</p>
+            <label for="reqhealthform">
+                Requires Health Form:
+            </label>
+            <p>{{reqHealthForm}}</p>
+            <label for="reqwaiver">
+                Requires Trip Waiver:
+            </label>
+            <p>{{reqWaiver}}</p>
+             <label for="grubmaster">
+                Adult Grubmaster:
+            </label>
+            <p>{{grubMaster}}</p>
+            <label for="grubfee">
+                Adult Grub Fee:
+            </label>
+            <p>{{grubFee}}</p>
+             <label for="description">
+                Trip Description:
+            </label>
+            <p>{{description}}</p>
+        </div>
+    </div>
+</form>

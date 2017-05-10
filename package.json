@@ -16,11 +16,13 @@
     "google-spreadsheet": "^2.0.3",
     "moment": "^2.18.1",
     "morgan": "^1.6.1",
+    "node-stringify": "0.0.19",
     "nodemailer": "^2.4.2",
     "serve-favicon": "^2.3.0",
     "uid": "0.0.2"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
