@@ -9,6 +9,11 @@ const StringUtils = require('../helpers/StringUtils.js');
 var utils = require('../utils/common.js');
 var loggerService = require('../services/logger.js');
 
+//comment out the get operation below to reactivate this feature.
+router.get('/', function(req, res) {
+	res.render('unavailable', {title: 'Feature currently unavailable due to update of scout accounts.', featureName: 'Scout Account Balance'});
+});
+
 function getScoutAccountBalance(res, scoutId, deliverByEmail, next) {
 	accountService.getAccountById(scoutId, function(account) {
 		
