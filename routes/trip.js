@@ -101,8 +101,11 @@ router.post('/', function(req, res) {
 
 router.post('/edit', function(req, res) {
         let tripId = req.body.tripId;
-        console.log(tripId + ' was found in the body.');
-        res.send('It worked');
+        let trip = new Trip();
+        trip.getByTripId(tripId, (retreivedTrip) => {
+                res.send(retreivedTrip);
+        });
+        
 });
 
 module.exports = router;
