@@ -5,7 +5,7 @@ const EmailInfo = require('../types/EmailInfo');
 const StringUtils = require('../helpers/StringUtils.js');
 var fs = require('fs');
 
-var secretFile = 'secrets/email.json'
+var secretFile = '../secrets/email.json'
 
 var emailSecrets;
 

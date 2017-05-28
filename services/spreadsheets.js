@@ -1,8 +1,8 @@
 'use strict';
 
 var fs = require('fs');
-var secretFile = 'secrets/spreadsheets.json';
-var authFile = 'secrets/scout_balance-48af87a012b6.json'
+var secretFile = '../secrets/spreadsheets.json';
+var authFile = '../secrets/scout_balance-48af87a012b6.json'
 var Spreadsheet = require ('google-spreadsheet');
 var mailService = require('../services/mailer.js');
 var getUniqueId = require('uid');
