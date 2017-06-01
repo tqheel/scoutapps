@@ -1,7 +1,9 @@
 <h1>{{mode}}</h1>
 
-<form action="/trip/edit" method="post">
-    <button class="button-primary" type="submit" name="edit">Edit</button>
+    <a href="trip/edit/{{tripId}}">
+        <button class="button-primary" type="submit" name="edit">Edit</button>
+    </a>
+    
     <div class="row">
         <div class="six columns">
             <label for="trip_id">
@@ -71,4 +73,4 @@
             <p>{{description}}</p>
         </div>
     </div>
-</form>
+

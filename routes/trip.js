@@ -16,9 +16,9 @@ function convertBoolsToYesNo(boolsArray, next) {
         next(convertedBoolArray);
 }
 
-function renderTripDetails(trip, res, convertedBoolArray) {
+function renderTripDetails(trip, res, convertedBoolArray, detailsViewName) {
         let self = trip;
-        res.render('trip_details', {
+        res.render(detailsViewName, {
                 mode: 'Trip Details',
                 tripId: self.tripid,
                 name: self.name,
@@ -39,15 +39,7 @@ function renderTripDetails(trip, res, convertedBoolArray) {
         });
 }
 
-router.get('/', function(req,res){
-	res.render(viewName, { 
-        title: 'Troop Trips',
-        mode: 'Create a New Trip',
-        scoutingSeason: scoutingSeason
-     });
-});
-
-router.get('/:tripId', function (req, res) {
+function getTripById(req, res, detailsViewName) {
         let trip = new Trip();
         trip.getByTripId(req.params.tripId, function (tripDetails) {
                 console.log('Got trip with a name of ' + tripDetails.name);
@@ -59,9 +51,21 @@ router.get('/:tripId', function (req, res) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(trip, res, convertedBoolArray);
+                        renderTripDetails(trip, res, convertedBoolArray, detailsViewName);
                 }); 
         });
+}
+
+router.get('/', function(req,res){
+	res.render(viewName, { 
+        title: 'Troop Trips',
+        mode: 'Create a New Trip',
+        scoutingSeason: scoutingSeason
+     });
+});
+
+router.get('/:tripId', function (req, res) {
+        getTripById(req, res, 'trip_details');
 });
 
 router.post('/', function(req, res) {
@@ -94,18 +98,15 @@ router.post('/', function(req, res) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(self, res, convertedBoolArray);
+                        renderTripDetails(self, res, convertedBoolArray, 'trip_details');
                 });               
         });
 });
 
-router.post('/edit', function(req, res) {
-        let tripId = req.body.tripId;
-        let trip = new Trip();
-        trip.getByTripId(tripId, (retreivedTrip) => {
-                res.send(retreivedTrip);
-        });
-        
+router.get('/edit/:tripId', function(req,res){
+        getTripById(req, res, 'trip-edit');
 });
+
+
 
 module.exports = router;
