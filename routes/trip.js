@@ -1,25 +1,26 @@
 'use strict';
 var express = require('express');
 var router = express.Router();
-var viewName = 'trip';
+var crudViewname = 'trip';
+var detailsViewName = 'trip_details';
 var Trip = require('../types/Trip.js');
 var scoutingSeason = '2016-2017';
 var utils = require('../utils/common.js');
 
 function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
-        for (let i=0; i < boolsArray.length; i++) {
-                utils.convertBoolToYesNo(boolsArray[i], function(yesNoVal) {
+        for (let i = 0; i < boolsArray.length; i++) {
+                utils.convertBoolToYesNo(boolsArray[i], function (yesNoVal) {
                         convertedBoolArray.push(yesNoVal);
-                });          
+                });
         }
         next(convertedBoolArray);
 }
 
-function renderTripDetails(trip, res, convertedBoolArray, detailsViewName) {
+function renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode) {
         let self = trip;
-        res.render(detailsViewName, {
-                mode: 'Trip Details',
+        res.render(viewToRender, {
+                mode: (mode === 'edit' ? 'Edit Trip Details' : 'Create a New Trip'),
                 tripId: self.tripid,
                 name: self.name,
                 tripMaster: self.tripmaster,
@@ -31,7 +32,7 @@ function renderTripDetails(trip, res, convertedBoolArray, detailsViewName) {
                 youthFee: self.youthfee,
                 adultFee: self.adultfee,
                 reqPermissionSlip: convertedBoolArray[0],
-                reqHealthForm:convertedBoolArray[1],
+                reqHealthForm: convertedBoolArray[1],
                 reqWaiver: convertedBoolArray[2],
                 grubMaster: self.grubmaster,
                 grubFee: self.grubfee,
@@ -39,7 +40,7 @@ function renderTripDetails(trip, res, convertedBoolArray, detailsViewName) {
         });
 }
 
-function getTripById(req, res, detailsViewName) {
+function getTripById(req, res, viewToRender, mode) {
         let trip = new Trip();
         trip.getByTripId(req.params.tripId, function (tripDetails) {
                 console.log('Got trip with a name of ' + tripDetails.name);
@@ -51,24 +52,30 @@ function getTripById(req, res, detailsViewName) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(trip, res, convertedBoolArray, detailsViewName);
-                }); 
+                        renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode);
+                });
         });
 }
 
-router.get('/', function(req,res){
-	res.render(viewName, { 
-        title: 'Troop Trips',
-        mode: 'Create a New Trip',
-        scoutingSeason: scoutingSeason
-     });
+router.get('/', function (req, res) {
+        res.render(crudViewname, {
+                title: 'Troop Trips',
+                mode: 'Create a New Trip',
+                scoutingSeason: scoutingSeason
+        });
 });
 
+//show read-only view of trip
 router.get('/:tripId', function (req, res) {
-        getTripById(req, res, 'trip_details');
+        getTripById(req, res, detailsViewName, 'view');
 });
 
-router.post('/', function(req, res) {
+//edit an individual trip
+router.get('/edit/:tripId', function (req, res) {
+        getTripById(req, res, crudViewname, 'edit');
+});
+
+router.post('/', function (req, res) {
         let trip = req.body;
         let newTrip = new Trip(
                 trip.name,
@@ -88,7 +95,7 @@ router.post('/', function(req, res) {
                 [], [], [], [],
                 trip.description
         );
-        newTrip.create(function() {
+        newTrip.create(function () {
                 let self = newTrip;
                 //convert bool values before rendering
                 let boolArray = [
@@ -98,15 +105,9 @@ router.post('/', function(req, res) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(self, res, convertedBoolArray, 'trip_details');
-                });               
+                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, 'create');
+                });
         });
 });
-
-router.get('/edit/:tripId', function(req,res){
-        getTripById(req, res, 'trip-edit');
-});
-
-
 
 module.exports = router;
