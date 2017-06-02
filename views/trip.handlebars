@@ -2,43 +2,36 @@
 <form action="/trip" method="post">
     <div class="row">
         <div class="six columns">
+            <input type="hidden" name="tripId" value="{{tripId}}">
+            <p>{{tripId}}</p>
             <label for="name">
                 Name of Trip:
             </label>
-            <input type="text" class="u-full-width" name="name" value="">
+            <input type="text" class="u-full-width" name="name" value="{{name}}">
             <label for="tripmaster">
                 Tripmaster:
             </label>
-            <input type="text" class="u-full-width" name="tripmaster" value="">
+            <input type="text" class="u-full-width" name="tripmaster" value="{{tripmaster}}">
             <label for="destination">
                 Destination:
             </label>
-            <input type="text" class="u-full-width" name="destination" value="">
+            <input type="text" class="u-full-width" name="destination" value="{{destination}}">
             <label for="scoutseason">
                 Scouting Season:
             </label>
             <input type="text" class="u-full-width" name="scoutseason" value="{{scoutingSeason}}">
-            <label for="departure_date">
-                Departure Date:
-            </label>
-            <input type="text" class="u-full-width" name="departure_date" value="">
             <label for="muster_time">
                 Muster Time:
             </label>
-            <input type="text" class="u-full-width" name="muster_time" value="">
+            <input type="text" class="u-full-width" name="muster_time" value="{{musterTime}}">
             <label for="departure_time">
-                Departure Time:
+                Departure Date/Time:
             </label>
-            <input type="text" class="u-full-width" name="departure_time" value="">
-            
-            <label for="return_date">
-                Return Date:
-            </label>
-            <input type="text" class="u-full-width" name="return_date" value="">
+            <input type="text" class="u-full-width" name="departure_time" value="{{departureTime}}">
             <label for="return_time">
-                Return Time:
+                Return Date/Time:
             </label>
-            <input type="text" class="u-full-width" name="return_time" value="">
+            <input type="text" class="u-full-width" name="return_time" value="{{returnTime}}">
 
             <label for="youthfee">
                 Youth Fee:
