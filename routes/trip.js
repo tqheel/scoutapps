@@ -6,6 +6,8 @@ var detailsViewName = 'trip_details';
 var Trip = require('../types/Trip.js');
 var scoutingSeason = '2016-2017';
 var utils = require('../utils/common.js');
+const editMode = 'edit';
+const createMode = 'create';
 
 function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
@@ -20,7 +22,7 @@ function convertBoolsToYesNo(boolsArray, next) {
 function renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode) {
         let self = trip;
         res.render(viewToRender, {
-                mode: (mode === 'edit' ? 'Edit Trip Details' : 'Create a New Trip'),
+                mode: (mode === editMode ? 'Edit Trip Details' : 'Create a New Trip'),
                 tripId: self.tripid,
                 name: self.name,
                 tripMaster: self.tripmaster,
@@ -72,7 +74,7 @@ router.get('/:tripId', function (req, res) {
 
 //edit an individual trip
 router.get('/edit/:tripId', function (req, res) {
-        getTripById(req, res, crudViewname, 'edit');
+        getTripById(req, res, crudViewname, editMode);
 });
 
 router.post('/', function (req, res) {
@@ -105,7 +107,7 @@ router.post('/', function (req, res) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, 'create');
+                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, createMode);
                 });
         });
 });
