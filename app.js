@@ -35,6 +35,17 @@ app.engine('handlebars', exphbs({
             else {
                 return "";
             }
+       },
+       setSelected: function(optionBool, value) {
+            if (optionBool && value==='Yes') {
+                return "selected";
+            }
+            if (!optionBool && value==='No') {
+                return "selected";
+            }
+            else {
+                return "";
+            }
        }
     }
 }));

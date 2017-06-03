@@ -11,7 +11,7 @@
             <label for="tripmaster">
                 Tripmaster:
             </label>
-            <input type="text" class="u-full-width" name="tripmaster" value="{{tripmaster}}">
+            <input type="text" class="u-full-width" name="tripmaster" value="{{tripMaster}}">
             <label for="destination">
                 Destination:
             </label>
@@ -36,27 +36,27 @@
             <label for="youthfee">
                 Youth Fee:
             </label>
-            <input type="text" class="u-full-width" name="youthfee" value="">
+            <input type="text" class="u-full-width" name="youthfee" value="{{youthFee}}">
 
             <label for="adultfee">
                 Adult Fee:
             </label>
-            <input type="text" class="u-full-width" name="adultfee" value="">
+            <input type="text" class="u-full-width" name="adultfee" value="{{adultFee}}">
 
             <label for="reqpermissionslip">
                 Requires Permission Slip:
             </label>
-            {{> yes-no-select-list name="reqpermissionslip"}}
+            {{> yes-no-select-list name="reqpermissionslip" value=reqPermissionSlip}}
 
             <label for="reqhealthform">
                 Requires Health Form:
             </label>
-            {{> yes-no-select-list name="reqhealthform"}}
+            {{> yes-no-select-list name="reqhealthform" value=reqHealthForm}}
 
             <label for="reqwaiver">
                 Requires Trip Waiver:
             </label>
-            {{> yes-no-select-list name="reqwaiver"}}
+            {{> yes-no-select-list name="reqwaiver" value=reqWaiver}}
 
              <label for="grubmaster">
                 Adult Grubmaster:
