@@ -38,7 +38,8 @@ function renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode) {
                 reqWaiver: convertedBoolArray[2],
                 grubMaster: self.grubmaster,
                 grubFee: self.grubfee,
-                description: self.description
+                description: self.description,
+                buttonLabel: (mode === editMode) ? 'Update' : 'Create'
         });
 }
 

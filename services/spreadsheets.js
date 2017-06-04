@@ -52,12 +52,28 @@ function deleteRow(sheet, id, next) {
 	  for (let i = 0; i < rows.length; i++) {
 		  if (rows[i][0] === id) {
 			  matchedRows.push(rows[i]);
+			  break;
 		  }
 	  }
 	  for (let i =0; i < rows.length; i++) {
 		  rows[i].del(function() {});
 	  }
 	  next();
+    });
+}
+
+function getRowById(sheet, id, next) {
+	sheet.getRows({
+      offset: 1
+    }, function( err, rows ){
+	  let matchedRows = [];
+	  for (let i = 0; i < rows.length; i++) {
+		  if (rows[i][0] === id) {
+			  matchedRows.push(rows[i]);
+			  break;
+		  }
+	  }
+	  next(matchedRows[0]);
     });
 }
 
@@ -204,5 +220,6 @@ module.exports = {
 		writeSurvey: writeSurvey,
 		writeGenericRows: writeGenericRows,
 		BalanceLog: BalanceLog,
-		deleteRow: deleteRow
+		deleteRow: deleteRow,
+		getRowById: getRowById
 };
