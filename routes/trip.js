@@ -60,11 +60,18 @@ function getTripById(req, res, viewToRender, mode) {
         });
 }
 
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
+        res.send('This should show a list of trip details links.')
+});
+router.get('/create', function (req, res) {
         res.render(crudViewname, {
                 title: 'Troop Trips',
                 mode: 'Create a New Trip',
-                scoutingSeason: scoutingSeason
+                scoutingSeason: scoutingSeason,
+                reqPermissionSlip: 'Yes',
+                reqHealthForm: 'No',
+                reqWaiver: 'No',
+                buttonLabel: 'Create'
         });
 });
 

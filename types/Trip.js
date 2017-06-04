@@ -82,6 +82,7 @@ class Trip {
                 tripRow.links = JSON.stringify(trip.links);
                 tripRow.description = trip.description;
                 tripRow.save(function() {
+                    console.log('Trip ' + trip.name + ' changes saved');
                     next();
                 });
             });
