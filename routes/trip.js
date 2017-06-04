@@ -8,6 +8,7 @@ var scoutingSeason = '2016-2017';
 var utils = require('../utils/common.js');
 const editMode = 'edit';
 const createMode = 'create';
+const editActionUrl = './';
 
 function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
@@ -22,7 +23,8 @@ function convertBoolsToYesNo(boolsArray, next) {
 function renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode) {
         let self = trip;
         res.render(viewToRender, {
-                mode: (mode === editMode ? 'Edit Trip Details' : 'Create a New Trip'),
+                mode: mode,
+                modeLabel: (mode === editMode ? 'Edit Trip Details' : 'Create a New Trip'),
                 tripId: self.tripid,
                 name: self.name,
                 tripMaster: self.tripmaster,
@@ -65,8 +67,9 @@ router.get('/', function(req, res) {
 });
 router.get('/create', function (req, res) {
         res.render(crudViewname, {
+                mode: createMode,
                 title: 'Troop Trips',
-                mode: 'Create a New Trip',
+                modeLabel: 'Create a New Trip',
                 scoutingSeason: scoutingSeason,
                 reqPermissionSlip: 'Yes',
                 reqHealthForm: 'No',
@@ -85,7 +88,7 @@ router.get('/edit/:tripId', function (req, res) {
         getTripById(req, res, crudViewname, editMode);
 });
 
-router.post('/', function (req, res) {
+router.post('/create', function (req, res) {
         let trip = req.body;
         let newTrip = new Trip(
                 trip.name,
@@ -93,8 +96,8 @@ router.post('/', function (req, res) {
                 trip.destination,
                 trip.scoutseason,
                 trip.muster_time,
-                trip.departure_time + ' ' + trip.departure_date,
-                trip.return_time + ' ' + trip.return_date,
+                trip.departure_time,
+                trip.return_time,
                 trip.youthfee,
                 trip.adultfee,
                 trip.reqpermissionslip,
