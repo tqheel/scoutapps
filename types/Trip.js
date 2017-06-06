@@ -64,7 +64,7 @@ class Trip {
             sheetService.getRowById(sheet, trip.tripid, function (tripRow) {
                 tripRow.name = trip.name;
                 tripRow.tripmaster = trip.tripmaster;
-                tripRow.destination = trip.destination;trip.
+                tripRow.destination = trip.destination;
                 tripRow.scoutseason = trip.scoutseason;
                 tripRow.mustertime = trip.mustertime;
                 tripRow.departuretime = trip.departuretime;

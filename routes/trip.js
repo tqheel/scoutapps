@@ -9,6 +9,7 @@ var utils = require('../utils/common.js');
 const editMode = 'edit';
 const createMode = 'create';
 const editActionUrl = './';
+const createActionUrl = './create';
 
 function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
@@ -23,6 +24,7 @@ function convertBoolsToYesNo(boolsArray, next) {
 function renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode) {
         let self = trip;
         res.render(viewToRender, {
+                url: (mode === editMode) ? editActionUrl : createActionUrl,
                 mode: mode,
                 modeLabel: (mode === editMode ? 'Edit Trip Details' : 'Create a New Trip'),
                 tripId: self.tripid,
@@ -67,6 +69,7 @@ router.get('/', function(req, res) {
 });
 router.get('/create', function (req, res) {
         res.render(crudViewname, {
+                url: createActionUrl,
                 mode: createMode,
                 title: 'Troop Trips',
                 modeLabel: 'Create a New Trip',
@@ -86,6 +89,43 @@ router.get('/:tripId', function (req, res) {
 //edit an individual trip
 router.get('/edit/:tripId', function (req, res) {
         getTripById(req, res, crudViewname, editMode);
+});
+
+router.post('/edit', function (req, res) {
+        let pageTrip = req.body;
+        let trip = new Trip(
+                pageTrip.name,
+                pageTrip.tripmaster,
+                pageTrip.destination,
+                pageTrip.scoutseason,
+                pageTrip.muster_time,
+                pageTrip.departure_time,
+                pageTrip.return_time,
+                pageTrip.youthfee,
+                pageTrip.adultfee,
+                pageTrip.reqpermissionslip,
+                pageTrip.reqhealthform,
+                pageTrip.reqwaiver,
+                pageTrip.grubmaster,
+                pageTrip.grubfee,
+                [], [], [], [],
+                pageTrip.description
+        );
+        //overide the trip ID with the one from the req body
+        trip.tripid = pageTrip.tripId;
+        trip.create(function() {
+                let self = trip;
+                //convert bool values before rendering
+                let boolArray = [
+                        self.reqpermissionslip,
+                        self.reqhealthform,
+                        self.reqwaiver
+                ];
+
+                convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
+                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, createMode);
+                });
+        });
 });
 
 router.post('/create', function (req, res) {
