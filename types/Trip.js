@@ -3,28 +3,6 @@ const _docName = 'scout_apps', _sheetName = 'trips';
 var sheetService = require('../services/spreadsheets');
 var uid = require('uid');
 
-function getTripDetails(sheet, tripId, next) {
-    sheet.getRows(1, function (err, rowData) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            var matchedRow = null;
-            console.log('Got: ' + rowData.length + ' rows.');
-            for (var i = 0; i < rowData.length; i++) {
-                var row = rowData[i];
-                matchedRow = (row.tripid === tripId) ? row : null;
-                if (matchedRow) {
-                    next(matchedRow);
-                    break;
-                }
-            }
-            //If trip is not found, then send null back to caller
-            next(null);
-        }
-    });
-}
-
 class Trip {
     constructor(name, tripmaster, destination, scoutseason,
         mustertime, departuretime, returntime, youthfee, adultfee, reqpermissionslip,
@@ -58,35 +36,33 @@ class Trip {
             next();
         });
     }
-    update(trip, next) {
-        console.log(trip);
-        sheetService.getSpreadsheet(_sheetName, _docName, function (sheet) {
-            sheetService.getRowById(sheet, trip.tripid, function (tripRow) {
-                tripRow.name = trip.name;
-                tripRow.tripmaster = trip.tripmaster;
-                tripRow.destination = trip.destination;
-                tripRow.scoutseason = trip.scoutseason;
-                tripRow.mustertime = trip.mustertime;
-                tripRow.departuretime = trip.departuretime;
-                tripRow.returntime = trip.returntime;
-                tripRow.youthfee = trip.youthfee;
-                tripRow.adultfee = trip.adultfee;
-                tripRow.reqpermissionslip = trip.reqpermissionslip;
-                tripRow.reqhealthform = trip.reqhealthform;
-                tripRow.reqwaiver = trip.reqwaiver;
-                tripRow.grubmaster = trip.grubmaster;
-                tripRow.grubfee = trip.grubfee;
-                tripRow.patrols = trip.patrols;
-                tripRow.scouts = JSON.stringify(trip.scouts);
-                tripRow.adults = JSON.stringify(trip.adults);
-                tripRow.links = JSON.stringify(trip.links);
-                tripRow.description = trip.description;
-                tripRow.save(function() {
-                    console.log('Trip ' + trip.name + ' changes saved');
-                    next();
-                });
+    update(next) {
+        let trip = this;
+        trip.getByTripId(trip.tripid, function(tripRow) {
+            tripRow.name = trip.name;
+            tripRow.tripmaster = trip.tripmaster;
+            tripRow.destination = trip.destination;
+            tripRow.scoutseason = trip.scoutseason;
+            tripRow.mustertime = trip.mustertime;
+            tripRow.departuretime = trip.departuretime;
+            tripRow.returntime = trip.returntime;
+            tripRow.youthfee = trip.youthfee;
+            tripRow.adultfee = trip.adultfee;
+            tripRow.reqpermissionslip = trip.reqpermissionslip;
+            tripRow.reqhealthform = trip.reqhealthform;
+            tripRow.reqwaiver = trip.reqwaiver;
+            tripRow.grubmaster = trip.grubmaster;
+            tripRow.grubfee = trip.grubfee;
+            tripRow.patrols = trip.patrols;
+            tripRow.scouts = JSON.stringify(trip.scouts);
+            tripRow.adults = JSON.stringify(trip.adults);
+            tripRow.links = JSON.stringify(trip.links);
+            tripRow.description = trip.description;
+            tripRow.save(function() {
+                console.log('Trip ' + trip.name + ' changes saved');
+                next();
             });
-        });
+        });                
     }
     delete(next) {
         let trip = this;

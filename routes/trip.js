@@ -10,8 +10,8 @@ const editMode = 'edit';
 const createMode = 'create';
 const viewMode = 'view';
 const editActionUrl = './';
-const createActionUrl = './create';
-const viewActionUrl = './edit';
+const createActionUrl = './edit/';
+const viewActionUrl = './';
 
 
 function convertBoolsToYesNo(boolsArray, next) {
@@ -100,7 +100,7 @@ router.get('/create', function (req, res) {
 
 //show read-only view of trip
 router.get('/:tripId', function (req, res) {
-        getTripById(req, res, detailsViewName, editMode);
+        getTripById(req, res, detailsViewName, viewMode);
 });
 
 //edit an individual trip
@@ -140,7 +140,7 @@ router.post('/edit', function (req, res) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, createMode);
+                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, viewMode);
                 });
         });
 });
@@ -175,7 +175,7 @@ router.post('/create', function (req, res) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, editMode);
+                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, viewMode);
                 });
         });
 });
