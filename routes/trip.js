@@ -8,8 +8,11 @@ var scoutingSeason = '2016-2017';
 var utils = require('../utils/common.js');
 const editMode = 'edit';
 const createMode = 'create';
+const viewMode = 'view';
 const editActionUrl = './';
 const createActionUrl = './create';
+const viewActionUrl = './edit';
+
 
 function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
@@ -23,10 +26,24 @@ function convertBoolsToYesNo(boolsArray, next) {
 
 function renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode) {
         let self = trip;
+        let url = '';
+        switch (mode) {
+                case editMode:
+                        url = editActionUrl;
+                        break;
+                case viewMode:
+                        url = viewActionUrl;
+                        break;
+                case createMode:
+                        url = createActionUrl;
+                        break;
+                default:
+                        throw('Mode is missing. Action URL cannot be set.');
+        }
         res.render(viewToRender, {
-                url: (mode === editMode) ? editActionUrl : createActionUrl,
+                url: url,
                 mode: mode,
-                modeLabel: (mode === editMode ? 'Edit Trip Details' : 'Create a New Trip'),
+                modeLabel: (mode === editMode) ? 'Edit Trip Details' : 'Create a New Trip',
                 tripId: self.tripid,
                 name: self.name,
                 tripMaster: self.tripmaster,
@@ -83,7 +100,7 @@ router.get('/create', function (req, res) {
 
 //show read-only view of trip
 router.get('/:tripId', function (req, res) {
-        getTripById(req, res, detailsViewName, 'view');
+        getTripById(req, res, detailsViewName, editMode);
 });
 
 //edit an individual trip
@@ -113,7 +130,7 @@ router.post('/edit', function (req, res) {
         );
         //overide the trip ID with the one from the req body
         trip.tripid = pageTrip.tripId;
-        trip.create(function() {
+        trip.update(function() {
                 let self = trip;
                 //convert bool values before rendering
                 let boolArray = [
@@ -158,7 +175,7 @@ router.post('/create', function (req, res) {
                 ];
 
                 convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, createMode);
+                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, editMode);
                 });
         });
 });

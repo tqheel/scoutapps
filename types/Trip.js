@@ -58,8 +58,8 @@ class Trip {
             next();
         });
     }
-    update(next) {
-        let trip = this;
+    update(trip, next) {
+        console.log(trip);
         sheetService.getSpreadsheet(_sheetName, _docName, function (sheet) {
             sheetService.getRowById(sheet, trip.tripid, function (tripRow) {
                 tripRow.name = trip.name;
