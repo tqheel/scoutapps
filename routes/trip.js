@@ -139,9 +139,10 @@ router.post('/edit', function (req, res) {
                         self.reqwaiver
                 ];
 
-                convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, viewMode);
-                });
+                // convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
+                //         renderTripDetails(self, res, convertedBoolArray, detailsViewName, viewMode);
+                // });
+                res.redirect('/trip/' + self.tripid);
         });
 });
 
