@@ -10,7 +10,7 @@ const editMode = 'edit';
 const createMode = 'create';
 const viewMode = 'view';
 const editActionUrl = './';
-const createActionUrl = './edit/';
+const createActionUrl = './create';
 const viewActionUrl = './';
 
 
@@ -38,7 +38,7 @@ function renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode) {
                         url = createActionUrl;
                         break;
                 default:
-                        throw('Mode is missing. Action URL cannot be set.');
+                        throw ('Mode is missing. Action URL cannot be set.');
         }
         res.render(viewToRender, {
                 url: url,
@@ -81,7 +81,7 @@ function getTripById(req, res, viewToRender, mode) {
         });
 }
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
         res.send('This should show a list of trip details links.')
 });
 router.get('/create', function (req, res) {
@@ -130,18 +130,8 @@ router.post('/edit', function (req, res) {
         );
         //overide the trip ID with the one from the req body
         trip.tripid = pageTrip.tripId;
-        trip.update(function() {
+        trip.update(function () {
                 let self = trip;
-                //convert bool values before rendering
-                let boolArray = [
-                        self.reqpermissionslip,
-                        self.reqhealthform,
-                        self.reqwaiver
-                ];
-
-                // convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                //         renderTripDetails(self, res, convertedBoolArray, detailsViewName, viewMode);
-                // });
                 res.redirect('/trip/' + self.tripid);
         });
 });
@@ -168,16 +158,7 @@ router.post('/create', function (req, res) {
         );
         newTrip.create(function () {
                 let self = newTrip;
-                //convert bool values before rendering
-                let boolArray = [
-                        self.reqpermissionslip,
-                        self.reqhealthform,
-                        self.reqwaiver
-                ];
-
-                convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(self, res, convertedBoolArray, detailsViewName, viewMode);
-                });
+                res.redirect('/trip/' + self.tripid);
         });
 });
 
