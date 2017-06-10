@@ -90,7 +90,7 @@ router.get('/create', function (req, res) {
                 mode: createMode,
                 title: 'Troop Trips',
                 modeLabel: 'Create a New Trip',
-                scoutingSeason: scoutingSeason,
+                scoutSeason: scoutingSeason,
                 reqPermissionSlip: 'Yes',
                 reqHealthForm: 'No',
                 reqWaiver: 'No',
