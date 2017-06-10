@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "npm run build:live",
+    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./bin/www"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -22,6 +23,7 @@
     "uid": "0.0.2"
   },
   "devDependencies": {
+    "@types/node": "^7.0.29",
     "chai": "^3.5.0",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
@@ -29,8 +31,12 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-develop": "^0.4.0",
+    "install": "^0.10.1",
     "load-grunt-tasks": "^3.2.0",
+    "nodemon": "^1.11.0",
     "request": "^2.60.0",
-    "time-grunt": "^1.2.1"
+    "time-grunt": "^1.2.1",
+    "ts-node": "^3.0.6",
+    "typescript": "^2.3.4"
   }
 }

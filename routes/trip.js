@@ -1,11 +1,12 @@
 'use strict';
-var express = require('express');
-var router = express.Router();
-var crudViewname = 'trip';
-var detailsViewName = 'trip_details';
-var Trip = require('../types/Trip.js');
-var scoutingSeason = '2016-2017';
-var utils = require('../utils/common.js');
+const express = require('express');
+const router = express.Router();
+const crudViewname = 'trip';
+const detailsViewName = 'trip_details';
+const Trip = require('../types/Trip.js');
+const ConstantLoaderService = require('../services/ConstantLoader');
+const scoutingSeason = '2016-2017';
+const utils = require('../utils/common.js');
 const editMode = 'edit';
 const createMode = 'create';
 const viewMode = 'view';
@@ -13,6 +14,10 @@ const editActionUrl = './';
 const createActionUrl = './create';
 const viewActionUrl = './';
 
+const constantService = new ConstantLoaderService();
+
+const _globalConstants = constantService.load();
+console.log(_globalConstants);
 
 function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
