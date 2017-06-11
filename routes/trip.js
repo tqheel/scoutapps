@@ -1,11 +1,14 @@
 'use strict';
+const fs = require('fs');
+const globalConstantsFilePath = './config/constants.json';
+const displayName = 'Global Constants File';
+const ConstantLoader = require('../services/ConfigLoader');
 const express = require('express');
 const router = express.Router();
 const crudViewname = 'trip';
 const detailsViewName = 'trip_details';
 const Trip = require('../types/Trip.js');
-const ConstantLoaderService = require('../services/ConstantLoader');
-const scoutingSeason = '2016-2017';
+let scoutingSeason = '';
 const utils = require('../utils/common.js');
 const editMode = 'edit';
 const createMode = 'create';
@@ -14,10 +17,21 @@ const editActionUrl = './';
 const createActionUrl = './create';
 const viewActionUrl = './';
 
-const constantService = new ConstantLoaderService();
+const constantService = new ConstantLoader(globalConstantsFilePath, displayName);
 
-const _globalConstants = constantService.load();
-console.log(_globalConstants);
+// let _globalConstants = {};
+// constantService.load(function(data) {
+//         _globalConstants = data;
+//         scoutingSeason = _globalConstants.scoutSeason
+// });
+fs.readFile('./config/constants.json', 'utf8', function (err, data) {
+            if (err) {
+                throw err;
+            }
+            console.log(data);
+            scoutingSeason = JSON.parse(data).scoutSeason;
+        });
+
 
 function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
