@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run build:live",
-    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./bin/www"
+    "start": "npm run ./bin/www"
   },
   "dependencies": {
     "async": "^2.0.1",

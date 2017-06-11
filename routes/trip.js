@@ -1,8 +1,6 @@
 'use strict';
 const fs = require('fs');
 const globalConstantsFilePath = './config/constants.json';
-const displayName = 'Global Constants File';
-const ConstantLoader = require('../services/ConfigLoader');
 const express = require('express');
 const router = express.Router();
 const crudViewname = 'trip';
@@ -17,20 +15,12 @@ const editActionUrl = './';
 const createActionUrl = './create';
 const viewActionUrl = './';
 
-const constantService = new ConstantLoader(globalConstantsFilePath, displayName);
-
-// let _globalConstants = {};
-// constantService.load(function(data) {
-//         _globalConstants = data;
-//         scoutingSeason = _globalConstants.scoutSeason
-// });
-fs.readFile('./config/constants.json', 'utf8', function (err, data) {
-            if (err) {
+fs.readFile(globalConstantsFilePath, 'utf8', function (err, data) {
+        if (err) {
                 throw err;
-            }
-            console.log(data);
-            scoutingSeason = JSON.parse(data).scoutSeason;
-        });
+        }
+        scoutingSeason = JSON.parse(data).scoutSeason;
+});
 
 
 function convertBoolsToYesNo(boolsArray, next) {
@@ -133,7 +123,7 @@ router.post('/edit', function (req, res) {
                 pageTrip.name,
                 pageTrip.tripmaster,
                 pageTrip.destination,
-                pageTrip.scoutseason,
+                scoutingSeason,
                 pageTrip.muster_time,
                 pageTrip.departure_time,
                 pageTrip.return_time,
@@ -161,7 +151,7 @@ router.post('/create', function (req, res) {
                 trip.name,
                 trip.tripmaster,
                 trip.destination,
-                trip.scoutseason,
+                scoutingSeason,
                 trip.muster_time,
                 trip.departure_time,
                 trip.return_time,
