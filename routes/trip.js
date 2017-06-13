@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const crudViewname = 'trip';
 const detailsViewName = 'trip_details';
+const tripListViewName = 'trip-list';
 const Trip = require('../types/Trip.js');
 let scoutingSeason = '';
 const utils = require('../utils/common.js');
@@ -91,7 +92,13 @@ function getTripById(req, res, viewToRender, mode) {
 }
 
 router.get('/', function (req, res) {
-        res.send('This should show a list of trip details links.')
+        res.render(tripListViewName, {
+                scoutSeason: scoutingSeason,
+                tripId1: 'a4o068j9',
+                trip1Name: 'THis is the first trip',
+                tripId2: '3vx7c9y9',
+                trip2Name: 'This is the 2nd trip name.'
+        });
 });
 router.get('/create', function (req, res) {
         res.render(crudViewname, {
