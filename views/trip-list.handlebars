@@ -1,16 +1,8 @@
 <h1>Troop 212 Trips: {{scoutSeason}}</h1>
+{{#each trips}}
 <div class="row">
     <div class="twelve columns">
-        <a href="./{{ tripId1 }}">{{ trip1Name }}</a> 
+        <a href="../trip/{{ tripid }}">{{ name }}</a> 
     </div>
 </div>
-<div class="row">
-    <div class="twelve columns">
-        <a href="./{{ tripId2 }}">{{ trip2Name }}</a> 
-    </div>
-</div>
-<div class="row">
-    <div class="twelve columns">
-        {{ trips }}
-    </div>
-</div>
+{{/each}}
