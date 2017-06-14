@@ -88,5 +88,21 @@ class Trip {
             });
         });
     }
+    getTripsBySeason(scoutingSeason, next) {
+        let trips = [];
+        sheetService.getSpreadsheet(_sheetName, _docName, function (sheet) {
+            sheet.getRows({
+                offset: 1
+            }, function (err, rows) {
+                let matchedRows = [];
+                for (let i = 0; i < rows.length; i++) {
+                    if (rows[i].scoutseason === scoutingSeason) {
+                        matchedRows.push(rows[i]);
+                    }
+                }
+                next(matchedRows);
+            });
+        });
+    }
 }
 module.exports = Trip;

@@ -92,13 +92,20 @@ function getTripById(req, res, viewToRender, mode) {
 }
 
 router.get('/', function (req, res) {
-        res.render(tripListViewName, {
-                scoutSeason: scoutingSeason,
-                tripId1: 'a4o068j9',
-                trip1Name: 'THis is the first trip',
-                tripId2: '3vx7c9y9',
-                trip2Name: 'This is the 2nd trip name.'
+        let newTrip = new Trip();
+        newTrip.getTripsBySeason(scoutingSeason, function (trips) {
+                console.log(trips);
+                res.render(tripListViewName, {
+                        scoutSeason: scoutingSeason,
+                        tripId1: 'a4o068j9',
+                        trip1Name: 'THis is the first trip',
+                        tripId2: '3vx7c9y9',
+                        trip2Name: 'This is the 2nd trip name.',
+                        trips: trips
+
+                });
         });
+
 });
 router.get('/create', function (req, res) {
         res.render(crudViewname, {
