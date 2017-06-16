@@ -4,3 +4,4 @@ public/components
 dist/
 secrets/
 azure_remote_debug.cmd
+.vscode/

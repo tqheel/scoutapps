@@ -1,11 +1,13 @@
 'use strict';
 const fs = require('fs');
 const globalConstantsFilePath = './config/constants.json';
+const adminFilePath = './secrets/admins.json';
 const express = require('express');
 const router = express.Router();
 const crudViewname = 'trip';
 const detailsViewName = 'trip_details';
 const tripListViewName = 'trip-list';
+const adminUnauth = 'admin-unauthorized';
 const Trip = require('../types/Trip.js');
 let scoutingSeason = '';
 const utils = require('../utils/common.js');
@@ -15,6 +17,7 @@ const viewMode = 'view';
 const editActionUrl = './';
 const createActionUrl = './create';
 const viewActionUrl = './';
+const userService = require('../services/users');
 
 fs.readFile(globalConstantsFilePath, 'utf8', function (err, data) {
         if (err) {
@@ -22,7 +25,6 @@ fs.readFile(globalConstantsFilePath, 'utf8', function (err, data) {
         }
         scoutingSeason = JSON.parse(data).scoutSeason;
 });
-
 
 function convertBoolsToYesNo(boolsArray, next) {
         let convertedBoolArray = [];
@@ -127,56 +129,73 @@ router.get('/edit/:tripId', function (req, res) {
 
 router.post('/edit', function (req, res) {
         let pageTrip = req.body;
-        let trip = new Trip(
-                pageTrip.name,
-                pageTrip.tripmaster,
-                pageTrip.destination,
-                scoutingSeason,
-                pageTrip.muster_time,
-                pageTrip.departure_time,
-                pageTrip.return_time,
-                pageTrip.youthfee,
-                pageTrip.adultfee,
-                pageTrip.reqpermissionslip,
-                pageTrip.reqhealthform,
-                pageTrip.reqwaiver,
-                pageTrip.grubmaster,
-                pageTrip.grubfee,
-                [], [], [], [],
-                pageTrip.description
-        );
-        //overide the trip ID with the one from the req body
-        trip.tripid = pageTrip.tripId;
-        trip.update(function () {
-                let self = trip;
-                res.redirect('/trip/' + self.tripid);
+        userService.isUserAuthorizedAsAdmin(req.body.adminId, req.body.password, function (isUserAuthAdmin) {
+                if (!isUserAuthAdmin) {
+                        res.redirect('/users/nah');
+                }
+                else {
+                        let trip = new Trip(
+                                pageTrip.name,
+                                pageTrip.tripmaster,
+                                pageTrip.destination,
+                                scoutingSeason,
+                                pageTrip.muster_time,
+                                pageTrip.departure_time,
+                                pageTrip.return_time,
+                                pageTrip.youthfee,
+                                pageTrip.adultfee,
+                                pageTrip.reqpermissionslip,
+                                pageTrip.reqhealthform,
+                                pageTrip.reqwaiver,
+                                pageTrip.grubmaster,
+                                pageTrip.grubfee,
+                                [], [], [], [],
+                                pageTrip.description
+                        );
+                        //overide the trip ID with the one from the req body
+                        trip.tripid = pageTrip.tripId;
+                        trip.update(function () {
+                                let self = trip;
+                                res.redirect('/trip/' + self.tripid);
+                        });
+                }
         });
+
 });
 
 router.post('/create', function (req, res) {
         let trip = req.body;
-        let newTrip = new Trip(
-                trip.name,
-                trip.tripmaster,
-                trip.destination,
-                scoutingSeason,
-                trip.muster_time,
-                trip.departure_time,
-                trip.return_time,
-                trip.youthfee,
-                trip.adultfee,
-                trip.reqpermissionslip,
-                trip.reqhealthform,
-                trip.reqwaiver,
-                trip.grubmaster,
-                trip.grubfee,
-                [], [], [], [],
-                trip.description
-        );
-        newTrip.create(function () {
-                let self = newTrip;
-                res.redirect('/trip/' + self.tripid);
+        userService.isUserAuthorizedAsAdmin(req.body.adminId, req.body.password, function (isUserAuthAdmin) {
+                if (!isUserAuthAdmin) {
+                        res.redirect('/users/nah');
+                }
+                else {
+                        let newTrip = new Trip(
+                                trip.name,
+                                trip.tripmaster,
+                                trip.destination,
+                                scoutingSeason,
+                                trip.muster_time,
+                                trip.departure_time,
+                                trip.return_time,
+                                trip.youthfee,
+                                trip.adultfee,
+                                trip.reqpermissionslip,
+                                trip.reqhealthform,
+                                trip.reqwaiver,
+                                trip.grubmaster,
+                                trip.grubfee,
+                                [], [], [], [],
+                                trip.description
+                        );
+                        newTrip.create(function () {
+                                let self = newTrip;
+                                res.redirect('/trip/' + self.tripid);
+                        });
+                }
+
         });
+
 });
 
 module.exports = router;

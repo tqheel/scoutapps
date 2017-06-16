@@ -46,20 +46,17 @@
 
             <label for="reqpermissionslip">
                 Requires Permission Slip:
-            </label>
-            {{> yes-no-select-list name="reqpermissionslip" value=reqPermissionSlip}}
+            </label> {{> yes-no-select-list name="reqpermissionslip" value=reqPermissionSlip}}
 
             <label for="reqhealthform">
                 Requires Health Form:
-            </label>
-            {{> yes-no-select-list name="reqhealthform" value=reqHealthForm}}
+            </label> {{> yes-no-select-list name="reqhealthform" value=reqHealthForm}}
 
             <label for="reqwaiver">
                 Requires Trip Waiver:
-            </label>
-            {{> yes-no-select-list name="reqwaiver" value=reqWaiver}}
+            </label> {{> yes-no-select-list name="reqwaiver" value=reqWaiver}}
 
-             <label for="grubmaster">
+            <label for="grubmaster">
                 Adult Grubmaster:
             </label>
             <input type="text" class="u-full-width" name="grubmaster" value="">
@@ -69,11 +66,21 @@
             </label>
             <input type="text" class="u-full-width" name="grubfee" value="">
 
-             <label for="description">
+            <label for="description">
                 Trip Description:
             </label>
-            <textarea class="u-full-width" name="description" id="" ></textarea>
-            <button class="button-primary" type="submit" name="new_trip">{{buttonLabel}}</button>
+            <textarea class="u-full-width" name="description" id=""></textarea>
+            <section id="submit" class="admin">
+                <div class="four columns">
+                    <label for="adminId">Admin User ID:</label>
+                    <input class="u-full-width" type="text" name="adminId">
+                    <label for="password">Password:</label>
+                    <input type="password" class="u-full-width" name="password">
+                    <button class="button-primary" type="submit" name="new_trip">{{buttonLabel}}</button>
+                </div>
+            </section>
+                
+
         </div>
     </div>
 </form>

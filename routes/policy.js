@@ -39,20 +39,26 @@ router.get('/admin/card/:contractId', function (req, res) {
   if (req.params.contractId) {
     let contractId = req.params.contractId
     contractService.getContractById(contractId, function (contract) {
-      let dateContractSubmitted = new Date(parseInt(contract.timestamp));
-      let dateCardActivated = new Date(parseInt(contract.dateactivated));
-      utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
-        res.render('tech-card-admin', {
-          title: cardAdminPageTitle,
-          scoutName: contract.scoutname,
-          cardStatus: (contractActivated) ? 'Activated' : 'Not Activated',
-          cardBoolStatus: contractActivated,
-          cornersRemaining: (contractActivated) ? contract.corners : 'N/A',
-          dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
-          dateCardActivated: (contractActivated) ? moment(dateCardActivated).format("MMM Do, YYYY") : 'N/A',
-          contractId: contract.contractid
+      if (!contract) {
+        res.send('Contract ID not valid.');
+      }
+      else {
+        let dateContractSubmitted = new Date(parseInt(contract.timestamp));
+        let dateCardActivated = new Date(parseInt(contract.dateactivated));
+        utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
+          res.render('tech-card-admin', {
+            title: cardAdminPageTitle,
+            scoutName: contract.scoutname,
+            cardStatus: (contractActivated) ? 'Activated' : 'Not Activated',
+            cardBoolStatus: contractActivated,
+            cornersRemaining: (contractActivated) ? contract.corners : 'N/A',
+            dateContractSubmitted: moment(dateContractSubmitted).format("MMM Do, YYYY"),
+            dateCardActivated: (contractActivated) ? moment(dateCardActivated).format("MMM Do, YYYY") : 'N/A',
+            contractId: contract.contractid
+          });
         });
-      });
+      }
+
     });
   }
   else {
@@ -96,24 +102,36 @@ router.get('/tech-card-sample', function (req, res) {
 
 router.get('/tech-card/:contractId', function (req, res) {
   getContract(req.params.contractId, function (contract) {
-    barcodeService.createBarcodeUrl(req, contract, function (barcodeUrl) {
-      res.render('tech-card', {
-        title: 'Troop 212 Technology Chip Honor Card',
-        contractId: contract.contractid,
-        scoutName: contract.scoutname,
-        barcodeUrl: barcodeUrl
+    if (!contract) {
+      res.send('Contract ID not valid.');
+    }
+    else {
+      barcodeService.createBarcodeUrl(req, contract, function (barcodeUrl) {
+        res.render('tech-card', {
+          title: 'Troop 212 Technology Chip Honor Card',
+          contractId: contract.contractid,
+          scoutName: contract.scoutname,
+          barcodeUrl: barcodeUrl
+        });
       });
-    });
+    }
+
   });
 });
 
 router.get('/tech-card-status/:contractId', function (req, res) {
   contractService.getContractById(req.params.contractId, function (contract) {
-    let dateContractSubmitted = new Date(parseInt(contract.timestamp));
-    let dateCardActivated = new Date(parseInt(contract.dateactivated));
-    utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
-      renderCardStatusPage(contract, contractActivated, dateContractSubmitted, dateCardActivated, res);
-    });
+    if (!contract) {
+      res.send('Contract ID not valid.');
+    }
+    else {
+      let dateContractSubmitted = new Date(parseInt(contract.timestamp));
+      let dateCardActivated = new Date(parseInt(contract.dateactivated));
+      utils.evalSpreadsheetBool(contract.activated, function (contractActivated) {
+        renderCardStatusPage(contract, contractActivated, dateContractSubmitted, dateCardActivated, res);
+      });
+    }
+
   });
 });
 
@@ -135,7 +153,7 @@ router.post('/admin/tech-card', function (req, res) {
   let contract = new Contract();
   userService.isUserAuthorizedAsAdmin(req.body.adminId, req.body.password, function (isUserAuthAdmin) {
     if (!isUserAuthAdmin) {
-      res.send('Sorry, the submitted credentials do not match a known administrator.');
+      res.redirect('/users/nah');
     }
     else {
       //TOFIX: newCornersCount ends up being a string
