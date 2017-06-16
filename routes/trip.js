@@ -109,7 +109,7 @@ router.get('/', function (req, res) {
 });
 router.get('/create', function (req, res) {
         res.render(crudViewname, {
-                url: createActionUrl,
+                url: '/trip/create',
                 mode: createMode,
                 title: 'Troop Trips',
                 modeLabel: 'Create a New Trip',
