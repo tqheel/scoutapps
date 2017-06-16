@@ -1,13 +1,11 @@
 'use strict';
 const fs = require('fs');
 const globalConstantsFilePath = './config/constants.json';
-const adminFilePath = './secrets/admins.json';
 const express = require('express');
 const router = express.Router();
 const crudViewname = 'trip';
 const detailsViewName = 'trip_details';
 const tripListViewName = 'trip-list';
-const adminUnauth = 'admin-unauthorized';
 const Trip = require('../types/Trip.js');
 let scoutingSeason = '';
 const utils = require('../utils/common.js');
@@ -79,17 +77,23 @@ function renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode) {
 function getTripById(req, res, viewToRender, mode) {
         let trip = new Trip();
         trip.getByTripId(req.params.tripId, function (tripDetails) {
-                console.log('Got trip with a name of ' + tripDetails.name);
-                trip = tripDetails;
-                let boolArray = [
-                        trip.reqpermissionslip,
-                        trip.reqhealthform,
-                        trip.reqwaiver
-                ];
+                if (!tripDetails) {
+                        res.send('Sorry, Trip ID is not valid.');
+                }
+                else {
+                        console.log('Got trip with a name of ' + tripDetails.name);
+                        trip = tripDetails;
+                        let boolArray = [
+                                trip.reqpermissionslip,
+                                trip.reqhealthform,
+                                trip.reqwaiver
+                        ];
 
-                convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
-                        renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode);
-                });
+                        convertBoolsToYesNo(boolArray, function (convertedBoolArray) {
+                                renderTripDetails(trip, res, convertedBoolArray, viewToRender, mode);
+                        });
+                }
+
         });
 }
 
