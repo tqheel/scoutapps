@@ -1,0 +1,86 @@
+<h1>{{modeLabel}}</h1>
+<form action="{{url}}" method="post">
+    <div class="row">
+        <div class="six columns">
+            <input type="hidden" name="tripId" value="{{tripId}}">
+            <p>{{tripId}}</p>
+            <label for="name">
+                Name of Trip:
+            </label>
+            <input type="text" class="u-full-width" name="name" value="{{name}}">
+            <label for="tripmaster">
+                Tripmaster:
+            </label>
+            <input type="text" class="u-full-width" name="tripmaster" value="{{tripMaster}}">
+            <label for="destination">
+                Destination:
+            </label>
+            <input type="text" class="u-full-width" name="destination" value="{{destination}}">
+            <label for="scoutseason">
+                Scouting Season:
+            </label>
+            <p>{{scoutSeason}}</p>
+            {{!--<input type="text" class="u-full-width" name="scoutseason" value="{{scoutSeason}}">--}}
+            <label for="muster_time">
+                Muster Time:
+            </label>
+            <input type="text" class="u-full-width" name="muster_time" value="{{musterTime}}">
+            <label for="departure_time">
+                Departure Date/Time:
+            </label>
+            <input type="text" class="u-full-width" name="departure_time" value="{{departureTime}}">
+            <label for="return_time">
+                Return Date/Time:
+            </label>
+            <input type="text" class="u-full-width" name="return_time" value="{{returnTime}}">
+
+            <label for="youthfee">
+                Youth Fee:
+            </label>
+            <input type="text" class="u-full-width" name="youthfee" value="{{youthFee}}">
+
+            <label for="adultfee">
+                Adult Fee:
+            </label>
+            <input type="text" class="u-full-width" name="adultfee" value="{{adultFee}}">
+
+            <label for="reqpermissionslip">
+                Requires Permission Slip:
+            </label> {{> yes-no-select-list name="reqpermissionslip" value=reqPermissionSlip}}
+
+            <label for="reqhealthform">
+                Requires Health Form:
+            </label> {{> yes-no-select-list name="reqhealthform" value=reqHealthForm}}
+
+            <label for="reqwaiver">
+                Requires Trip Waiver:
+            </label> {{> yes-no-select-list name="reqwaiver" value=reqWaiver}}
+
+            <label for="grubmaster">
+                Adult Grubmaster:
+            </label>
+            <input type="text" class="u-full-width" name="grubmaster" value="">
+
+            <label for="grubfee">
+                Adult Grub Fee:
+            </label>
+            <input type="text" class="u-full-width" name="grubfee" value="">
+
+            <label for="description">
+                Trip Description:
+            </label>
+            <textarea class="u-full-width" name="description" id=""></textarea>
+            <section id="submit" class="admin">
+                <div class="four columns">
+                    <label for="adminId">Admin User ID:</label>
+                    <input class="u-full-width" type="text" name="adminId">
+                    <label for="password">Password:</label>
+                    <input type="password" class="u-full-width" name="password">
+                    <button class="button-primary" type="submit" name="new_trip">{{buttonLabel}}</button>
+                </div>
+            </section>
+                
+
+        </div>
+    </div>
+</form>
