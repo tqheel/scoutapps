@@ -77,6 +77,10 @@ router.get('/', function(req,res){
 	res.render(viewName, { title: 'Request Scout Account Balance' });
 });
 
+router.get('/admin212', function (req, res) {
+	res.render(viewName, { title: 'Request Scout Account Balance' });
+});
+
 router.get('/:scoutId', function (req,res) {
 	getScoutAccountBalance(res, req.params.scoutId);
 });
