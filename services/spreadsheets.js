@@ -1,6 +1,8 @@
+'use strict';
+
 var fs = require('fs');
-var secretFile = 'secrets/spreadsheets.json';
-var authFile = 'secrets/scout_balance-48af87a012b6.json'
+var secretFile = './secrets/spreadsheets.json';
+var authFile = './secrets/scout_balance-48af87a012b6.json'
 var Spreadsheet = require ('google-spreadsheet');
 var mailService = require('../services/mailer.js');
 var getUniqueId = require('uid');
@@ -36,18 +38,42 @@ function writeSignUp(sheet, signupData, next){
 }
 
 function writeGenericRows(sheet, data, next) {
-	
+    sheet.addRow(
+    	data, function(){
+    	next();
+    });
+}
+
+function deleteRow(sheet, id, next) {
 	sheet.getRows({
       offset: 1
     }, function( err, rows ){
-      console.log('Read '+rows.length+' rows');
- 
+	  let matchedRows = [];
+	  for (let i = 0; i < rows.length; i++) {
+		  if (rows[i][0] === id) {
+			  matchedRows.push(rows[i]);
+			  break;
+		  }
+	  }
+	  for (let i =0; i < rows.length; i++) {
+		  rows[i].del(function() {});
+	  }
+	  next();
     });
+}
 
-    sheet.addRow(
-    	data, function(){
-		console.log('New row added to spreadsheet ' + sheet.title);
-    	next();
+function getRowById(sheet, id, next) {
+	sheet.getRows({
+      offset: 1
+    }, function( err, rows ){
+	  let matchedRows = [];
+	  for (let i = 0; i < rows.length; i++) {
+		  if (rows[i][0] === id) {
+			  matchedRows.push(rows[i]);
+			  break;
+		  }
+	  }
+	  next(matchedRows[0]);
     });
 }
 
@@ -70,7 +96,7 @@ function processBalanceRequest(email, sheet, next){
 					console.log(message);
 					mailService.sendEmail(email, message);
 					next(message);
-					break;
+					break; 
 				}
 
 			}
@@ -111,14 +137,15 @@ function getSpreadsheet(sheetName, docName, next){
 		case 'balance_log':
 			sheetNum = 5;
 			break;
+		case 'trips':
+			sheetNum = 6;
+			break;
 	}
 
 	var spreadsheetDoc = new Spreadsheet(spreadsheetObject[0].key);
 
 	if(spreadsheetObject[0].accessMode!=='public'){
-		spreadsheetDoc.useServiceAccountAuth(auth, function(){
-			
-			console.log('Successfully authenticated to target spreadsheet doc.');
+		spreadsheetDoc.useServiceAccountAuth(auth, function(){			
 			getTargetSheet(spreadsheetDoc, sheetNum, next);
 		});
 	}
@@ -132,16 +159,13 @@ function getSpreadsheet(sheetName, docName, next){
 function getTargetSheet(spreadsheetDoc, sheetNum, next){
 	
 	var sheet;
-	console.log(spreadsheetDoc);
 	spreadsheetDoc.getInfo(function(err, info){
 		
 		if(err){
 			console.log(err);
 		}
 		else{
-			console.log('Loaded doc ' + info.title + ', by ' + info.author.email);
 			sheet = info.worksheets[sheetNum];
-			console.log('Got sheet "' + sheet.title + '".');
 
 			next(sheet);
 		}		
@@ -195,5 +219,7 @@ module.exports = {
 		processBalanceRequest: processBalanceRequest,
 		writeSurvey: writeSurvey,
 		writeGenericRows: writeGenericRows,
-		BalanceLog: BalanceLog
+		BalanceLog: BalanceLog,
+		deleteRow: deleteRow,
+		getRowById: getRowById
 };

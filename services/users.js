@@ -6,7 +6,6 @@ var fs = require('fs');
 let adminJson = 'secrets/admins.json';
 
 function lookupEmailAddress(email, next) {
-<<<<<<< HEAD
     email = email.toLowerCase();
     sheetService.getSpreadsheet('user_data', 'scout_apps', function (sheet) {
         getUserData(sheet, email, function (users) {
@@ -15,10 +14,6 @@ function lookupEmailAddress(email, next) {
                 let user = users[i];
                 if (email === user.scoutemail.toLowerCase() ||
                     email === user.parentemail1.toLowerCase() ||
-=======
-                if (email === user.scoutemail.toLowerCase() || 
-                    email === user.parentemail1.toLowerCase() || 
->>>>>>> master
                     email === user.parentemail2.toLowerCase()) {
                     matchedUsers.push(user);
                 }

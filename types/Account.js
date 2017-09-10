@@ -1,11 +1,7 @@
 'use strict';
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Account = (function () {
-    function Account(scoutId, scoutName, balance) {
+Object.defineProperty(exports, "__esModule", { value: true });
+class Account {
+    constructor(scoutId, scoutName, balance) {
         this.scoutId = scoutId;
         this.scoutName = scoutName;
         this.balance = balance;
@@ -13,12 +9,10 @@ var Account = (function () {
         this._scoutName = scoutName;
         this._endBalance = balance;
     }
-    return Account;
-}());
-var Account1617 = (function (_super) {
-    __extends(Account1617, _super);
-    function Account1617(scoutid, scoutname, balance, rafting, backpacking, climbing, manatees, shooting, wwcenter, bootcamp, camporee, fortfisher, aquatics, durant, knob, recharter, fees, eagleprojects, northerntier, jambo) {
-        _super.call(this, scoutid, scoutname, balance);
+}
+class Account1617 extends Account {
+    constructor(scoutid, scoutname, balance, rafting, backpacking, climbing, manatees, shooting, wwcenter, bootcamp, camporee, fortfisher, aquatics, durant, knob, recharter, fees, eagleprojects, northerntier, jambo) {
+        super(scoutid, scoutname, balance);
         this.scoutid = scoutid;
         this.scoutname = scoutname;
         this.balance = balance;
@@ -40,6 +34,5 @@ var Account1617 = (function (_super) {
         this.northerntier = northerntier;
         this.jambo = jambo;
     }
-    return Account1617;
-}(Account));
+}
 exports.Account = Account1617;
