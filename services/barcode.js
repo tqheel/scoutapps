@@ -8,7 +8,7 @@
 function createBarcodeUrl(req, contract, next) {
     let host = req.get('host');
     let hostProtocol = req.protocol;
-    let barCodeBaseUrl = 'http://api-bwipjs.rhcloud.com/?bcid=';
+    let barCodeBaseUrl = 'http://bwipjs-api.metafloor.com/?bcid=';
     let barCodeType = 'azteccode&text=';
     let troop212TechChipSegment = '=' + hostProtocol + '://' + host + '/policy/admin/card/';
     troop212TechChipSegment = encodeURIComponent(troop212TechChipSegment);
@@ -16,7 +16,7 @@ function createBarcodeUrl(req, contract, next) {
     //if Little Bobby Tables Easter Egg contract
     if (contract.contractid === 'S7-421-16-1') {
         //let url = 'http://api-bwipjs.rhcloud.com/?bcid=azteccode&text=http%3A%2F%2Fwww.classb.com%2Fwp-content%2Fuploads%2F2014%2F11%2Fbobwhite-tough-600h-8.png&format=full';
-        let url = 'http://api-bwipjs.rhcloud.com/?bcid=azteccode&text=https%3A%2F%2Fxkcd.com%2F327%2F&format=full';
+        let url = 'http://bwipjs-api.metafloor.com/?bcid=azteccode&text=https%3A%2F%2Fxkcd.com%2F327%2F&format=full';
         next(url);
     }
     else {
