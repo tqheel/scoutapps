@@ -10,11 +10,11 @@
   {{#if ENV_DEVELOPMENT}}
     <script src="http://localhost:35729/livereload.js"></script>
   {{/if}}
-  <script src="/components/jquery/dist/jquery.min.js"></script>
+  <script src="/components/jquery/dist/jquery.min.js" type="application/javascript"></script>
 </head>
 <body>
 <a href="/"><img id="logo" src="/img/t212-header.jpg" alt="BSA Troop 212, Cary, NC" /></a>  
-<!-- <div class="header-nav">
+<div class="header-nav">
   <ul>
     <li>
       <a class="menuItem" href="/" onclick="makeActive(this)">Home</a>
@@ -26,7 +26,7 @@
       <a class="menuItem" href="/balance" onclick="makeActive(this)">Request Scout Account Balance</a>
     </li>
   </ul>
-</div> -->
+</div>
   {{{body}}}
     
   <script type="text/javascript">
